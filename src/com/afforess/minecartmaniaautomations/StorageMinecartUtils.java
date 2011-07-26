@@ -196,7 +196,7 @@ public class StorageMinecartUtils {
 						if (baseId == Material.DIRT.getId() || baseId == Material.GRASS.getId()|| baseId == Item.LEAVES.getId()) {
 							Item base = Item.getItem(w.getBlockAt(x, y - down + 1, z));
 							//Attempt to replant the tree
-							if (removeLogs(x, y - down + 1, z, w, minecart) && minecart.getDataValue("AutoForest") != null) {
+							if (removeLogs(x, y - down + 1, z, w, minecart, false) && minecart.getDataValue("AutoForest") != null) {
 								Item sapling = Item.SAPLING;
 								if (base.getData() == 0x1) sapling = Item.SPRUCE_SAPLING;
 								if (base.getData() == 0x2) sapling = Item.BIRCH_SAPLING;
@@ -286,7 +286,7 @@ public class StorageMinecartUtils {
 	}
 
 
-	private static boolean removeLogs(int posx, int posy, int posz, World w, MinecartManiaInventory inventory) {
+	private static boolean removeLogs(int posx, int posy, int posz, World w, MinecartManiaInventory inventory, boolean recursing) {
 		boolean action = false;
 		int range = 1;
 		for (int dx = -(range); dx <= range; dx++){
@@ -302,10 +302,12 @@ public class StorageMinecartUtils {
 					    ItemStack logstack = Item.getItem(id, data).toItemStack();
 					    if(!inventory.addItem(logstack)) {
 					        MinecartManiaWorld.spawnDrop(w,x,y,z,logstack);
+					        action = recursing;
+					    } else {
+					        action = true;
 					    }
-						action = true;
 						MinecartManiaWorld.setBlockAt(w, 0, x, y, z);
-						removeLogs(x, y, z, w, inventory);
+						removeLogs(x, y, z, w, inventory,true);
 					}
 				}
 			}
