@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.inventory.ItemStack;
 
 import com.afforess.minecartmaniacore.world.Item;
 import com.afforess.minecartmaniacore.inventory.MinecartManiaInventory;
@@ -297,7 +298,11 @@ public class StorageMinecartUtils {
 					int z = posz + dz;
 					int id = MinecartManiaWorld.getBlockIdAt(w, x, y, z);
 					int data = MinecartManiaWorld.getBlockData(w, x, y, z);
-					if (id  == Item.LOG.getId() && inventory.addItem(Item.getItem(id, data).toItemStack())) {
+					if (id  == Item.LOG.getId()) {
+					    ItemStack logstack = Item.getItem(id, data).toItemStack();
+					    if(!inventory.addItem(logstack)) {
+					        MinecartManiaWorld.spawnDrop(w,x,y,z,logstack);
+					    }
 						action = true;
 						MinecartManiaWorld.setBlockAt(w, 0, x, y, z);
 						removeLogs(x, y, z, w, inventory);
