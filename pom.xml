@@ -11,7 +11,7 @@
     <!-- Project information -->
     <groupId>com.afforess</groupId>
     <artifactId>minecartmaniaautomations</artifactId>
-    <version>dev-SNAPSHOT</version>
+    <version>1.2.9-SNAPSHOT</version>
     <name>Minecart Mania Automations</name>
     <url>http://afforess.com</url>
     <description>The newest member to the fold, Automations relies on Sign Commands, Chest Control and Core to operate. It uses newly discovered industrial-strength technology to automate Crop, Sugar Cane, and Tree Farming.</description>
