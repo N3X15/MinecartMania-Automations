@@ -45,7 +45,7 @@ public class StorageMinecartSmartForest {
                     if(minecart.getDataValue("SmartForest")!=null) {
                         if((id == Material.DIRT.getId() || id == Material.GRASS.getId())&&aboveId==0) {
                             Material mat = Material.getMaterial(belowId);
-                            Item sapling = Item.SAPLING;
+                            Item sapling = null;
                             switch(mat) {
                                 case WOOL:
                                     sapling = Item.SPRUCE_SAPLING;
@@ -53,9 +53,11 @@ public class StorageMinecartSmartForest {
                                 case WOOD:
                                     sapling = Item.BIRCH_SAPLING;
                                     break;
-                                    default: break;
+                                case STONE:
+                                    sapling = Item.SAPLING;
+                                    break;
                             }
-                            if (minecart.contains(sapling)) {
+                            if (minecart.contains(sapling) && sapling != null) {
                                 minecart.removeItem(sapling.getId(), sapling.getData());
                                 w.getBlockAt(x, y+1, z).setTypeIdAndData(sapling.getId(), (byte) sapling.getData(), true);
                             }
