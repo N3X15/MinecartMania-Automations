@@ -56,6 +56,12 @@ public class StorageMinecartSmartForest {
                                 case STONE:
                                     sapling = Item.SAPLING;
                                     break;
+                                case COBBLESTONE:
+                                    sapling = Item.RED_ROSE;
+                                    break;
+                                case SANDSTONE:
+                                    sapling = Item.YELLOW_FLOWER;
+                                    break;
                             }
                             if(sapling != null) {
                                 if (minecart.contains(sapling)) {
