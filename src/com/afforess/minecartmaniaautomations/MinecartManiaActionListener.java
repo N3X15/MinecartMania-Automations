@@ -20,7 +20,8 @@ public class MinecartManiaActionListener extends MinecartManiaListener{
 					StorageMinecartUtils.doAutoFarm((MinecartManiaStorageCart)minecart);
 					StorageMinecartUtils.doAutoTimber((MinecartManiaStorageCart)minecart);
 					StorageMinecartUtils.doAutoCactusFarm((MinecartManiaStorageCart)minecart);
-					StorageMinecartSugar.doAutoSugarFarm((MinecartManiaStorageCart)minecart);
+                    StorageMinecartSugar.doAutoSugarFarm((MinecartManiaStorageCart)minecart);
+                    StorageMinecartSmartForest.doSmartForest((MinecartManiaStorageCart)minecart);
 				}
 			}
 		}
