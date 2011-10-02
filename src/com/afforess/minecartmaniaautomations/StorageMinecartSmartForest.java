@@ -65,7 +65,7 @@ public class StorageMinecartSmartForest {
                             }
                             if(sapling != null) {
                                 if (minecart.contains(sapling.getId(),(short)sapling.getData())) {
-                                    minecart.removeItem(sapling.getId(), sapling.getData());
+                                    minecart.removeItem(sapling.getId(), 1, (short)sapling.getData());
                                     w.getBlockAt(x, y+1, z).setTypeIdAndData(sapling.getId(), (byte)sapling.getData(), true);
                                 }
                             }
