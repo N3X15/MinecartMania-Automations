@@ -43,35 +43,47 @@ public class StorageMinecartSmartForest {
                     int belowId = MinecartManiaWorld.getBlockIdAt(w, x, y-1, z); 
                     
                     if(minecart.getDataValue("SmartForest")!=null) {
-                        if((id == Material.DIRT.getId() || id == Material.GRASS.getId())&&aboveId==0) {
-                            Material mat = Material.getMaterial(belowId);
-                            WoolColors data = WoolColors.getWoolColor((byte)MinecartManiaWorld.getBlockData(w, x, y-1, z));
-                            Item sapling = null;
-                            switch(mat) {
-                                case WOOL:
-                                    switch(data) {
-                                        case GREEN: sapling = Item.CACTUS; break;
-                                        default:    sapling = Item.SPRUCE_SAPLING; break;
-                                    }
-                                    break;
-                                case WOOD:
-                                    sapling = Item.BIRCH_SAPLING;
-                                    break;
-                                case STONE:
-                                    sapling = Item.SAPLING;
-                                    break;
-                                case COBBLESTONE:
-                                    sapling = Item.RED_ROSE;
-                                    break;
-                                case SANDSTONE:
-                                    sapling = Item.YELLOW_FLOWER;
-                                    break;
-                            }
-                            if(sapling != null) {
-                                if (minecart.contains(sapling.getId(),(short)sapling.getData())) {
-                                    minecart.removeItem(sapling.getId(), 1, (short)sapling.getData());
-                                    w.getBlockAt(x, y+1, z).setTypeIdAndData(sapling.getId(), (byte)sapling.getData(), true);
+                        Material mat = Material.getMaterial(belowId);
+                        Item sapling = null;
+                        if(aboveId==0) {
+                            if(id == Material.DIRT.getId() || id == Material.GRASS.getId()) {
+                                switch(mat) {
+                                    case WOOL:
+                                        WoolColors data = WoolColors.getWoolColor((byte)MinecartManiaWorld.getBlockData(w, x, y-1, z));
+                                        switch(data) {
+                                            case GREEN: sapling = Item.CACTUS; break;
+                                            default:    sapling = Item.SPRUCE_SAPLING; break;
+                                        }
+                                        break;
+                                    case WOOD:
+                                        sapling = Item.BIRCH_SAPLING;
+                                        break;
+                                    case STONE:
+                                        sapling = Item.SAPLING;
+                                        break;
+                                    case COBBLESTONE:
+                                        sapling = Item.RED_ROSE;
+                                        break;
+                                    case SANDSTONE:
+                                        sapling = Item.YELLOW_FLOWER;
+                                        break;
                                 }
+                            }
+                            if(id == Material.SAND.getId()) {
+                                switch(mat) {
+                                    case WOOL:
+                                        WoolColors data = WoolColors.getWoolColor((byte)MinecartManiaWorld.getBlockData(w, x, y-1, z));
+                                        switch(data) {
+                                            case GREEN: sapling = Item.CACTUS; break;
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+                        if(sapling != null) {
+                            if (minecart.contains(sapling.getId(),(short)sapling.getData())) {
+                                minecart.removeItem(sapling.getId(), 1, (short)sapling.getData());
+                                w.getBlockAt(x, y+1, z).setTypeIdAndData(sapling.getId(), (byte)sapling.getData(), true);
                             }
                         }
                     }
