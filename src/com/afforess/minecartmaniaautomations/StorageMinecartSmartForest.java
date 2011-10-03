@@ -45,10 +45,14 @@ public class StorageMinecartSmartForest {
                     if(minecart.getDataValue("SmartForest")!=null) {
                         if((id == Material.DIRT.getId() || id == Material.GRASS.getId())&&aboveId==0) {
                             Material mat = Material.getMaterial(belowId);
+                            WoolColors data = WoolColors.getWoolColor((byte)MinecartManiaWorld.getBlockData(w, x, y-1, z));
                             Item sapling = null;
                             switch(mat) {
                                 case WOOL:
-                                    sapling = Item.SPRUCE_SAPLING;
+                                    switch(data) {
+                                        case GREEN: sapling = Item.CACTUS; break;
+                                        default:    sapling = Item.SPRUCE_SAPLING; break;
+                                    }
                                     break;
                                 case WOOD:
                                     sapling = Item.BIRCH_SAPLING;
