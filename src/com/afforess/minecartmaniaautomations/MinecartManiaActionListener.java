@@ -17,7 +17,9 @@ public class MinecartManiaActionListener extends MinecartManiaListener{
 				}
 				else {
 					minecart.setDataValue("Farm Interval", minecart.getRange()/2);
-					StorageMinecartUtils.doAutoFarm((MinecartManiaStorageCart)minecart);
+                    StorageMinecartUtils.doAutoFarm((MinecartManiaStorageCart)minecart);
+                    StorageMinecartUtils.doAutoMelon((MinecartManiaStorageCart)minecart);
+                    StorageMinecartUtils.doAutoPumpkin((MinecartManiaStorageCart)minecart);
 					StorageMinecartUtils.doAutoTimber((MinecartManiaStorageCart)minecart);
 					StorageMinecartUtils.doAutoCactusFarm((MinecartManiaStorageCart)minecart);
                     StorageMinecartSugar.doAutoSugarFarm((MinecartManiaStorageCart)minecart);

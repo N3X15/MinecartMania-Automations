@@ -52,6 +52,8 @@ public class StorageMinecartSmartForest {
                                         WoolColors data = WoolColors.getWoolColor((byte)MinecartManiaWorld.getBlockData(w, x, y-1, z));
                                         switch(data) {
                                             case GREEN: sapling = Item.CACTUS; break;
+                                            case LIME: sapling = Item.MELON_SEED; break;
+                                            case ORANGE: sapling = Item.PUMPKIN_SEED; break;
                                             default:    sapling = Item.SPRUCE_SAPLING; break;
                                         }
                                         break;
@@ -83,6 +85,11 @@ public class StorageMinecartSmartForest {
                         if(sapling != null) {
                             if (minecart.contains(sapling.getId(),(short)sapling.getData())) {
                                 minecart.removeItem(sapling.getId(), 1, (short)sapling.getData());
+                                // Switch to sapling version, if needed
+                                switch(sapling) {
+                                    case MELON_SEED:    sapling=Item.MELON_STEM; break;
+                                    case PUMPKIN_SEED:  sapling=Item.PUMPKIN_STEM; break;
+                                }
                                 w.getBlockAt(x, y+1, z).setTypeIdAndData(sapling.getId(), (byte)sapling.getData(), true);
                             }
                         }
