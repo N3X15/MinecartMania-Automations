@@ -33,30 +33,38 @@ public class StorageMinecartUtils {
                     int z = loc.getBlockZ() + dz;
                     int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
                     int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y+1, z);
+                    int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-1, z);
                     boolean dirty = false; //set when the data gets changed
                     //Harvest fully grown crops first
                     int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
                     if (id == Item.MELON.getId()) {
-                        //fully grown
-                        //if (data == 0x7) {
                         minecart.addItem(Item.MELON.getId());
                         MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
                         dirty = true;
-                        //}
                     }
-                    if(minecart.getDataValue("Stems Too")!=null) {
+                    if(minecart.getDataValue("Stems Too")!=null || minecart.getDataValue("SmartForest")!=null) {
                         //update data
                         if (dirty) {
                             id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
                             aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y+1, z);
+                            belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-1, z);
                             dirty = false;
                         }
                         if (id == Item.MELON_STEM.getId()) {
-                            //fully grown
-                            if (data == 0x7) {
-                                minecart.addItem(Item.MELON_SEED.getId());
-                                minecart.addItem(Item.MELON_SEED.getId());
-                                minecart.addItem(Item.MELON_SEED.getId());
+                            boolean removeStem = false;
+                            if(minecart.getDataValue("Stems Too")!=null) {
+                                removeStem=(data==0x7); // Fully Grown
+                            }
+                            if(minecart.getDataValue("SmartForest")!=null && !removeStem) {
+                                int belowData = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y-1, z);
+                                removeStem=!(belowId==Material.WOOL.getId() && belowData==WoolColors.LIME.ordinal());
+                            }
+                            if (removeStem) {
+                                if(data==0x7) {
+                                    minecart.addItem(Item.MELON_SEED.getId());
+                                    minecart.addItem(Item.MELON_SEED.getId());
+                                    minecart.addItem(Item.MELON_SEED.getId());
+                                }
                                 MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
                                 dirty = true;
                             }
@@ -85,30 +93,38 @@ public class StorageMinecartUtils {
                     int z = loc.getBlockZ() + dz;
                     int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
                     int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y+1, z);
+                    int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-1, z);
                     boolean dirty = false; //set when the data gets changed
                     //Harvest fully grown crops first
                     int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
                     if (id == Material.PUMPKIN.getId()) {
-                        //fully grown
-                        //if (data == 0x7) {
                         minecart.addItem(Material.PUMPKIN.getId());
                         MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
                         dirty = true;
-                        //}
                     }
-                    if(minecart.getDataValue("Stems Too")!=null) {
+                    if(minecart.getDataValue("Stems Too")!=null || minecart.getDataValue("SmartForest")!=null) {
                         //update data
                         if (dirty) {
                             id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
                             aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y+1, z);
+                            belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-1, z);
                             dirty = false;
                         }
                         if (id == Item.PUMPKIN_STEM.getId()) {
-                            //fully grown
-                            if (data == 0x7) {
-                                minecart.addItem(Item.PUMPKIN_SEED.getId());
-                                minecart.addItem(Item.PUMPKIN_SEED.getId());
-                                minecart.addItem(Item.PUMPKIN_SEED.getId());
+                            boolean removeStem = false;
+                            if(minecart.getDataValue("Stems Too")!=null) {
+                                removeStem=(data==0x7); // Fully Grown
+                            }
+                            if(minecart.getDataValue("SmartForest")!=null && !removeStem) {
+                                int belowData = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y-1, z);
+                                removeStem=!(belowId==Material.WOOL.getId() && belowData==WoolColors.ORANGE.ordinal());
+                            }
+                            if (removeStem) {
+                                if(data==0x7) {
+                                    minecart.addItem(Item.PUMPKIN_SEED.getId());
+                                    minecart.addItem(Item.PUMPKIN_SEED.getId());
+                                    minecart.addItem(Item.PUMPKIN_SEED.getId());
+                                }
                                 MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
                                 dirty = true;
                             }
