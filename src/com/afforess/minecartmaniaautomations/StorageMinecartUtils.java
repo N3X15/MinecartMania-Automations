@@ -56,7 +56,7 @@ public class StorageMinecartUtils {
                                 removeStem=(data==0x7); // Fully Grown
                             }
                             if(minecart.getDataValue("SmartForest")!=null && !removeStem) {
-                                int belowData = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y-1, z);
+                                int belowData = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y-2, z);
                                 removeStem=!(belowId==Material.WOOL.getId() && belowData==WoolColors.LIME.ordinal());
                             }
                             if (removeStem) {
@@ -116,7 +116,7 @@ public class StorageMinecartUtils {
                                 removeStem=(data==0x7); // Fully Grown
                             }
                             if(minecart.getDataValue("SmartForest")!=null && !removeStem) {
-                                int belowData = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y-1, z);
+                                int belowData = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y-2, z);
                                 removeStem=!(belowId==Material.WOOL.getId() && belowData==WoolColors.ORANGE.ordinal());
                             }
                             if (removeStem) {
