@@ -33,7 +33,7 @@ public class StorageMinecartUtils {
                     int z = loc.getBlockZ() + dz;
                     int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
                     int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y+1, z);
-                    int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-1, z);
+                    int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-2, z);
                     boolean dirty = false; //set when the data gets changed
                     //Harvest fully grown crops first
                     int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
@@ -47,7 +47,7 @@ public class StorageMinecartUtils {
                         if (dirty) {
                             id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
                             aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y+1, z);
-                            belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-1, z);
+                            belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-2, z);
                             dirty = false;
                         }
                         if (id == Item.MELON_STEM.getId()) {
@@ -93,7 +93,7 @@ public class StorageMinecartUtils {
                     int z = loc.getBlockZ() + dz;
                     int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
                     int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y+1, z);
-                    int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-1, z);
+                    int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-2, z);
                     boolean dirty = false; //set when the data gets changed
                     //Harvest fully grown crops first
                     int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
@@ -107,7 +107,7 @@ public class StorageMinecartUtils {
                         if (dirty) {
                             id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
                             aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y+1, z);
-                            belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-1, z);
+                            belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-2, z);
                             dirty = false;
                         }
                         if (id == Item.PUMPKIN_STEM.getId()) {
