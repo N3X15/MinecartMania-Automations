@@ -4,12 +4,13 @@ import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
-import com.afforess.minecartmaniacore.world.Item;
 import com.afforess.minecartmaniacore.inventory.MinecartManiaInventory;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
+import com.afforess.minecartmaniacore.world.Item;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 
 public class StorageMinecartUtils {
@@ -34,9 +35,38 @@ public class StorageMinecartUtils {
                     int y = loc.getBlockY() + dy;
                     int z = loc.getBlockZ() + dz;
                     int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-                    int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
                     int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
                     boolean dirty = false; //set when the data gets changed
+                    
+                    ////////////////////////////////////////////////////////
+                    // AUTOMAGIC FERTILIZATION
+                    ////////////////////////////////////////////////////////
+                    {
+                        // Grow stems via bonemeal, if the materials are present
+                        if (minecart.getDataValue("AutoFertilize") != null) {
+                            int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
+                            if (id == Item.MELON_STEM.getId()) {
+                                // NOT fully grown
+                                if (data != 0x7) {
+                                    // Do we even HAVE bonemeal?
+                                    if (minecart.amount(Item.BONEMEAL) > 0) {
+                                        // Remove one bonemeal, use it on crop
+                                        if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
+                                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Item.MELON_STEM.getId(), x, y, z);
+                                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), 0x7, x, y, z);
+                                            dirty = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //update data
+                        if (dirty) {
+                            id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
+                            belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
+                            dirty = false;
+                        }
+                    }
                     //Harvest fully grown crops first
                     int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
                     if (id == Item.MELON.getId()) {
@@ -48,7 +78,6 @@ public class StorageMinecartUtils {
                         //update data
                         if (dirty) {
                             id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-                            aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
                             belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
                             dirty = false;
                         }
@@ -95,9 +124,37 @@ public class StorageMinecartUtils {
                     int y = loc.getBlockY() + dy;
                     int z = loc.getBlockZ() + dz;
                     int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-                    int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
                     int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
                     boolean dirty = false; //set when the data gets changed
+                    ////////////////////////////////////////////////////////
+                    // AUTOMAGIC FERTILIZATION
+                    ////////////////////////////////////////////////////////
+                    {
+                        // Grow stems via bonemeal, if the materials are present
+                        if (minecart.getDataValue("AutoFertilize") != null) {
+                            int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
+                            if (id == Item.PUMPKIN_STEM.getId()) {
+                                // NOT fully grown
+                                if (data != 0x7) {
+                                    // Do we even HAVE bonemeal?
+                                    if (minecart.amount(Item.BONEMEAL) > 0) {
+                                        // Remove one bonemeal, use it on crop
+                                        if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
+                                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Item.PUMPKIN_STEM.getId(), x, y, z);
+                                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), 0x7, x, y, z);
+                                            dirty = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //update data
+                        if (dirty) {
+                            id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
+                            belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
+                            dirty = false;
+                        }
+                    }
                     //Harvest fully grown crops first
                     int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
                     if (id == Material.PUMPKIN.getId()) {
@@ -109,7 +166,6 @@ public class StorageMinecartUtils {
                         //update data
                         if (dirty) {
                             id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-                            aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
                             belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
                             dirty = false;
                         }
@@ -158,6 +214,35 @@ public class StorageMinecartUtils {
                     int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
                     int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
                     boolean dirty = false; //set when the data gets changed
+                    ////////////////////////////////////////////////////////
+                    // AUTOMAGIC FERTILIZATION
+                    ////////////////////////////////////////////////////////
+                    {
+                        // Grow crops via bonemeal, if the materials are present
+                        if (minecart.getDataValue("AutoFertilize") != null) {
+                            int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
+                            if (id == Material.CROPS.getId()) {
+                                // NOT fully grown
+                                if (data != 0x7) {
+                                    // Do we even HAVE bonemeal?
+                                    if (minecart.amount(Item.BONEMEAL) > 0) {
+                                        // Remove one bonemeal, use it on crop
+                                        if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
+                                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.CROPS.getId(), x, y, z);
+                                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), 0x7, x, y, z);
+                                            dirty = true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //update data
+                        if (dirty) {
+                            id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
+                            aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
+                            dirty = false;
+                        }
+                    }
                     //Harvest fully grown crops first
                     if (minecart.getDataValue("AutoHarvest") != null) {
                         int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
@@ -316,6 +401,59 @@ public class StorageMinecartUtils {
                     int z = loc.getBlockZ() + dz;
                     World w = minecart.minecart.getWorld();
                     int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
+                    
+                    ////////////////////////////////////////////////////////
+                    // AUTOMAGIC FERTILIZATION
+                    ////////////////////////////////////////////////////////
+                    {
+                        boolean dirty = false;
+                        // Grow stems via bonemeal, if the materials are present
+                        if (minecart.getDataValue("AutoFertilize") != null) {
+                            int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
+                            if (id == Item.SAPLING.getId()) {
+                                // Do we even HAVE bonemeal?
+                                if (minecart.amount(Item.BONEMEAL) > 0) {
+                                    // Remove one bonemeal, use it on crop
+                                    if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
+                                        int treeSubtype = data & 3;
+                                        // Remove 1 unit of bonemeal and try to dump a tree
+                                        int rand = ((new Random()).nextInt(10));
+                                        TreeType t = null;
+                                        switch (treeSubtype) {
+                                            case 1:
+                                                if (rand == 0) {
+                                                    t = TreeType.TALL_REDWOOD;
+                                                } else {
+                                                    t = TreeType.REDWOOD;
+                                                }
+                                                break;
+                                            case 2:
+                                                t = TreeType.BIRCH;
+                                                break;
+                                            default:
+                                                if (rand == 0) {
+                                                    t = TreeType.BIG_TREE;
+                                                } else {
+                                                    t = TreeType.TREE;
+                                                }
+                                                break;
+                                        }
+                                        MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), 0, x, y, z);
+                                        if (!w.generateTree(new Location(w, x, y, z), t)) {
+                                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Item.SAPLING.getId(), x, y, z);
+                                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), data, x, y, z);
+                                        }
+                                        dirty = true;
+                                    }
+                                }
+                            }
+                        }
+                        //update data
+                        if (dirty) {
+                            id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
+                            dirty = false;
+                        }
+                    }
                     if (id == Item.LOG.getId()) {
                         int down = 1;
                         while (MinecartManiaWorld.getBlockIdAt(w, x, y - down, z) == Item.LOG.getId()) {
@@ -345,33 +483,6 @@ public class StorageMinecartUtils {
         }
     }
     
-    public static void doAutoFertilize(MinecartManiaStorageCart minecart) {
-        return; // Todo: Make this work right without flashing trees/crops.
-        /*
-         * if (minecart.getDataValue("AutoFertilize") == null) { return; }
-         * 
-         * if (minecart.getEntityDetectionRange() < 1) { return; }
-         * 
-         * Location loc = minecart.minecart.getLocation().clone(); int range = minecart.getEntityDetectionRange();
-         * 
-         * int allowcycle = (range * 2) + 1;
-         * 
-         * // In theory if we only run a refertilize cycle at range * 2 we should not overlap // refertilizing which should block the flashing tree/crops effect. Assuming we only increase the // count by 1 per each block.
-         * 
-         * if(blockcycle == allowcycle) { blockcycle = 0; for (int dx = -(range); dx <= range; dx++){ for (int dy = -(range); dy <= range; dy++){ for (int dz = -(range); dz <= range; dz++){ //Setup data int x = loc.getBlockX() + dx; int y = loc.getBlockY() + dy; int z = loc.getBlockZ() + dz; World w = minecart.minecart.getWorld();
-         * 
-         * int id = MinecartManiaWorld.getBlockIdAt(w, x, y, z);
-         * 
-         * if (minecart.getDataValue("AutoFertilize") != null) { int data = MinecartManiaWorld.getBlockData(w, x, y, z);
-         * 
-         * if(id == Material.SAPLING.getId()) { if (minecart.removeItem(Material.INK_SACK.getId(), 1, (short)15)) { // Remove 1 unit of bonemeal and try to dump a tree
-         * 
-         * int rand = ((new Random()).nextInt(5)); TreeType t = null; switch (rand) { case 0: t = TreeType.BIG_TREE; break; case 1: t = TreeType.BIRCH; break; case 2: t = TreeType.REDWOOD; break; case 3: t = TreeType.TALL_REDWOOD; break; case 4: t = TreeType.TREE; break; //default: t = TreeType.TREE; } MinecartManiaWorld.setBlockAt(w, 0, x, y, z); w.generateTree(new Location(w, x, y, z), t); } } else if (id == Material.CROPS.getId()) { if (data != 0x7) { if (minecart.removeItem(Material.INK_SACK.getId(), 1, (short) 15)) { MinecartManiaWorld.setBlockData(w, 0x7, x, y, z); } } } } } } }
-         * 
-         * } else { blockcycle++; log.info("Blockcycle: " + blockcycle); }
-         */
-    }
-    
     private static boolean removeLogs(int posx, int posy, int posz, World w,
             MinecartManiaInventory inventory, boolean recursing) {
         boolean action = false;
@@ -388,10 +499,10 @@ public class StorageMinecartUtils {
                     if (id == Item.LOG.getId()) {
                         ItemStack logstack = Item.getItem(id, data).toItemStack();
                         if (!inventory.addItem(logstack)) {
-                            MinecartManiaWorld.spawnDrop(w, x, y, z, logstack);
-                            action = recursing;
-                        } else {
-                            action = true;
+                            if (recursing)
+                                MinecartManiaWorld.spawnDrop(w, x, y, z, logstack);
+                            else
+                                return false;
                         }
                         MinecartManiaWorld.setBlockAt(w, 0, x, y, z);
                         removeLogs(x, y, z, w, inventory, true);
