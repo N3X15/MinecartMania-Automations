@@ -55,7 +55,11 @@ public class StorageMinecartUtils {
                                             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Item.MELON_STEM.getId(), x, y, z);
                                             MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), x, y, z, 0x7);
                                             dirty = true;
+                                        } else {
+                                           // System.out.println("Can't remove bonemeal");
                                         }
+                                    } else {
+                                       // System.out.println("Can't find enough bonemeal");
                                     }
                                 }
                             }
@@ -227,9 +231,13 @@ public class StorageMinecartUtils {
                                     // Remove one bonemeal, use it on crop
                                     if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
                                         MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.CROPS.getId(), x, y, z);
-                                        MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), x, y, z, data);
+                                        MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), x, y, z, 0x7);
                                         dirty = true;
+                                    } else {
+                                        //System.out.println("Can't remove bonemeal");
                                     }
+                                } else {
+                                    //System.out.println("Can't find enough bonemeal");
                                 }
                             }
                         }
