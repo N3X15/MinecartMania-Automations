@@ -53,7 +53,7 @@ public class StorageMinecartUtils {
                                         // Remove one bonemeal, use it on crop
                                         if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
                                             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Item.MELON_STEM.getId(), x, y, z);
-                                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), 0x7, x, y, z);
+                                            MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), 0x7, x, y, z);
                                             dirty = true;
                                         }
                                     }
@@ -141,7 +141,7 @@ public class StorageMinecartUtils {
                                         // Remove one bonemeal, use it on crop
                                         if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
                                             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Item.PUMPKIN_STEM.getId(), x, y, z);
-                                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), 0x7, x, y, z);
+                                            MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), 0x7, x, y, z);
                                             dirty = true;
                                         }
                                     }
@@ -229,7 +229,7 @@ public class StorageMinecartUtils {
                                         // Remove one bonemeal, use it on crop
                                         if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
                                             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.CROPS.getId(), x, y, z);
-                                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), 0x7, x, y, z);
+                                            MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), 0x7, x, y, z);
                                             dirty = true;
                                         }
                                     }
@@ -441,7 +441,7 @@ public class StorageMinecartUtils {
                                         MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), 0, x, y, z);
                                         if (!w.generateTree(new Location(w, x, y, z), t)) {
                                             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Item.SAPLING.getId(), x, y, z);
-                                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), data, x, y, z);
+                                            MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), data, x, y, z);
                                         }
                                         dirty = true;
                                     }
