@@ -56,10 +56,10 @@ public class StorageMinecartUtils {
                                             MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), x, y, z, 0x7);
                                             dirty = true;
                                         } else {
-                                           // System.out.println("Can't remove bonemeal");
+                                            // System.out.println("Can't remove bonemeal");
                                         }
                                     } else {
-                                       // System.out.println("Can't find enough bonemeal");
+                                        // System.out.println("Can't find enough bonemeal");
                                     }
                                 }
                             }
@@ -196,6 +196,11 @@ public class StorageMinecartUtils {
                 }
             }
         }
+    }
+    
+    public static void debug(MinecartManiaStorageCart minecart, String msg) {
+        if (minecart.getDataValue("MMDebug") != null)
+            System.out.println(msg);
     }
     
     public static void doAutoFarm(MinecartManiaStorageCart minecart) {
