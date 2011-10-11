@@ -106,8 +106,7 @@ public class SmartForestObserver extends BlockObserver {
                             sapling = Item.PUMPKIN_STEM;
                             break;
                     }
-                    MinecartManiaWorld.setBlockAt(w, sapling.getId(), x, y+1, z);
-                    MinecartManiaWorld.setBlockData(w, sapling.getData(), x, y+1, z);
+                    w.getBlockAt(x, y + 1, z).setTypeIdAndData(sapling.getId(), (byte) sapling.getData(), true);
                     dirty = true;
                 }
             }
