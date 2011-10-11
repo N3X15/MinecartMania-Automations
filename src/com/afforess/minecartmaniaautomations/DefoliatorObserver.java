@@ -46,7 +46,7 @@ public class DefoliatorObserver extends BlockObserver {
         int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
 
         boolean remove = true;
-        switch (Item.getItem(id, data)) {
+        switch (Material.getMaterial(id)) {
             case RED_ROSE:
             case YELLOW_FLOWER:
                 if (minecart.getDataValue("SmartForest") != null) {
