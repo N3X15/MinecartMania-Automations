@@ -1,0 +1,117 @@
+package com.afforess.minecartmaniaautomations;
+
+import org.bukkit.Material;
+import org.bukkit.World;
+
+import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
+import com.afforess.minecartmaniacore.world.Item;
+import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
+
+/**
+ * SmartForest functionality
+ * 
+ * @author Rob "N3X15" Nelson <nexis@7chan.org>
+ * 
+ */
+public class SmartForestObserver extends BlockObserver {
+    public SmartForestObserver() {
+        super("SmartForest");
+    }
+    
+    public static String SMARTFOREST_ON = "SmartForest";
+    public static String SMARTFOREST_OFF = "Forest Off";
+    
+    public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,
+            int z) {
+        if ((minecart.getDataValue("SmartForest") == null)) {
+            return false;
+        }
+        
+        boolean dirty = false;
+        
+        World w = minecart.minecart.getWorld();
+        
+        int id = MinecartManiaWorld.getBlockIdAt(w, x, y, z);
+        int aboveId = MinecartManiaWorld.getBlockIdAt(w, x, y + 1, z);
+        int belowId = MinecartManiaWorld.getBlockIdAt(w, x, y - 1, z);
+        
+        if (minecart.getDataValue("SmartForest") != null) {
+            Material mat = Material.getMaterial(belowId);
+            Item sapling = null;
+            if (aboveId == 0) {
+                if (id == Material.DIRT.getId() || id == Material.GRASS.getId()) {
+                    switch (mat) {
+                        case WOOL:
+                            WoolColors data = WoolColors.getWoolColor((byte) MinecartManiaWorld.getBlockData(w, x, y - 1, z));
+                            switch (data) {
+                                case GREEN:
+                                    sapling = Item.CACTUS;
+                                    break;
+                                default:
+                                    sapling = Item.SPRUCE_SAPLING;
+                                    break;
+                            }
+                            break;
+                        case WOOD:
+                            sapling = Item.BIRCH_SAPLING;
+                            break;
+                        case STONE:
+                            sapling = Item.SAPLING;
+                            break;
+                        case COBBLESTONE:
+                            sapling = Item.RED_ROSE;
+                            break;
+                        case SANDSTONE:
+                            sapling = Item.YELLOW_FLOWER;
+                            break;
+                    }
+                }
+                if (id == Material.SOIL.getId()) {
+                    switch (mat) {
+                        case WOOL:
+                            WoolColors data = WoolColors.getWoolColor((byte) MinecartManiaWorld.getBlockData(w, x, y - 1, z));
+                            switch (data) {
+                                case LIME:
+                                    sapling = Item.MELON_SEED;
+                                    break;
+                                case ORANGE:
+                                    sapling = Item.PUMPKIN_SEED;
+                                    break;
+                            }
+                            break;
+                    }
+                }
+                if (id == Material.SAND.getId()) {
+                    switch (mat) {
+                        case WOOL:
+                            WoolColors data = WoolColors.getWoolColor((byte) MinecartManiaWorld.getBlockData(w, x, y - 1, z));
+                            switch (data) {
+                                case GREEN:
+                                    sapling = Item.CACTUS;
+                                    break;
+                            }
+                            break;
+                    }
+                }
+            }
+            if (sapling != null) {
+                if (minecart.contains(sapling.getId(), (short) sapling.getData())) {
+                    minecart.removeItem(sapling.getId(), 1, (short) sapling.getData());
+                    // Switch to sapling version, if needed
+                    switch (sapling) {
+                        case MELON_SEED:
+                            sapling = Item.MELON_STEM;
+                            break;
+                        case PUMPKIN_SEED:
+                            sapling = Item.PUMPKIN_STEM;
+                            break;
+                    }
+                    MinecartManiaWorld.setBlockAt(w, sapling.getId(), x, y, z);
+                    MinecartManiaWorld.setBlockData(w, sapling.getData(), x, y, z);
+                    dirty = true;
+                }
+            }
+        }
+        return dirty;
+    }
+}

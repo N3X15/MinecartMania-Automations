@@ -18,9 +18,16 @@ public class MinecartManiaAutomations extends JavaPlugin{
 		description = this.getDescription();
 		getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, listener, Priority.Normal, this);
 		log.info( description.getName() + " version " + description.getVersion() + " is enabled!" );
+		
+		listener.blockObservers.clear();
+        listener.blockObservers.add((new SmartForestObserver()));
+        listener.blockObservers.add((new AutoMelonObserver()));
+        listener.blockObservers.add((new AutoPumpkinObserver()));
+        listener.blockObservers.add((new DefoliatorObserver()));
 	}
 
 	public void onDisable() {
+        listener.blockObservers.clear();
 	}
 
 
