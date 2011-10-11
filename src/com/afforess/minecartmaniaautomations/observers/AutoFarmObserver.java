@@ -1,4 +1,4 @@
-package com.afforess.minecartmaniaautomations;
+package com.afforess.minecartmaniaautomations.observers;
 
 import java.util.Random;
 

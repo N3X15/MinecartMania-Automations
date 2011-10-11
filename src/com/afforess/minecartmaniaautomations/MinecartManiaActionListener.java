@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.Location;
 
+import com.afforess.minecartmaniaautomations.observers.BlockObserver;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.world.Item;
@@ -54,13 +55,6 @@ public class MinecartManiaActionListener extends MinecartManiaListener {
                             }
                         }
                     }
-                    //StorageMinecartUtils.doAutoFarm((MinecartManiaStorageCart) minecart);
-                    //StorageMinecartUtils.doAutoMelon((MinecartManiaStorageCart) minecart);
-                    //StorageMinecartUtils.doAutoPumpkin((MinecartManiaStorageCart) minecart);
-                    //StorageMinecartUtils.doAutoTimber((MinecartManiaStorageCart) minecart);
-                    //StorageMinecartUtils.doAutoCactusFarm((MinecartManiaStorageCart) minecart);
-                    //StorageMinecartSugar.doAutoSugarFarm((MinecartManiaStorageCart) minecart);
-                    //StorageMinecartSmartForest.doSmartForest((MinecartManiaStorageCart) minecart);
                 }
             }
         }

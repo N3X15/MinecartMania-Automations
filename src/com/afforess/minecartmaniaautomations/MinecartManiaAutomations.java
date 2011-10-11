@@ -6,6 +6,14 @@ import org.bukkit.event.Event.Priority;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.afforess.minecartmaniaautomations.observers.AutoCactusObserver;
+import com.afforess.minecartmaniaautomations.observers.AutoFarmObserver;
+import com.afforess.minecartmaniaautomations.observers.AutoMelonObserver;
+import com.afforess.minecartmaniaautomations.observers.AutoPumpkinObserver;
+import com.afforess.minecartmaniaautomations.observers.AutoSugarObserver;
+import com.afforess.minecartmaniaautomations.observers.AutoTimberObserver;
+import com.afforess.minecartmaniaautomations.observers.DefoliatorObserver;
+import com.afforess.minecartmaniaautomations.observers.SmartForestObserver;
 import com.afforess.minecartmaniacore.debug.MinecartManiaLogger;
 
 public class MinecartManiaAutomations extends JavaPlugin {

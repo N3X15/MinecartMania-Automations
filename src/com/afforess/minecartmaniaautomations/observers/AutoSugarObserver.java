@@ -1,6 +1,5 @@
-package com.afforess.minecartmaniaautomations;
+package com.afforess.minecartmaniaautomations.observers;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
 
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
@@ -79,7 +78,7 @@ public class AutoSugarObserver extends BlockObserver {
                         
                         if (minecart.removeItem(Material.SUGAR_CANE.getId())) {
                             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.SUGAR_CANE_BLOCK.getId(), x, y + 1, z);
-                            gdirty=true;
+                            gdirty = true;
                         }
                     }
                 }

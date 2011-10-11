@@ -1,4 +1,4 @@
-package com.afforess.minecartmaniaautomations;
+package com.afforess.minecartmaniaautomations.observers;
 
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.world.Item;

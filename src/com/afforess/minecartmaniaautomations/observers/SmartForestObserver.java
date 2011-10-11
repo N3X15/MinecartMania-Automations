@@ -1,8 +1,9 @@
-package com.afforess.minecartmaniaautomations;
+package com.afforess.minecartmaniaautomations.observers;
 
 import org.bukkit.Material;
 import org.bukkit.World;
 
+import com.afforess.minecartmaniaautomations.WoolColors;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.world.Item;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
