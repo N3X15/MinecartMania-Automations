@@ -42,7 +42,6 @@ public class DefoliatorObserver extends BlockObserver {
         boolean dirty = false;
         //update data
         int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-        int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
         int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
         
         boolean remove = true;
