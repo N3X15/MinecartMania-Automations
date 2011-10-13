@@ -20,7 +20,8 @@ public class MinecartManiaActionListener extends MinecartManiaListener {
     public void onMinecartActionEvent(MinecartActionEvent event) {
         if (!event.isActionTaken()) {
             MinecartManiaMinecart minecart = event.getMinecart();
-            if (minecart.isStorageMinecart()) {
+            if (minecart.isStorageMinecart() && minecart.isMoving()) {
+                MinecartManiaStorageCart cart = (MinecartManiaStorageCart) minecart;
                 //Efficiency. Don't farm overlapping tiles repeatedly, waste of time
                 int interval = minecart.getDataValue("Farm Interval") == null ? -1 : (Integer) minecart.getDataValue("Farm Interval");
                 if (interval > 0) {
@@ -48,7 +49,7 @@ public class MinecartManiaActionListener extends MinecartManiaListener {
                                             continue;
                                         }
                                     }
-                                    if (bo.onBlockSeen((MinecartManiaStorageCart) minecart, x, y, z)) {
+                                    if (bo.onBlockSeen(cart, x, y, z)) {
                                         type = MinecartManiaWorld.getBlockIdAt(minecart.getWorld(), x, y, z);
                                     }
                                 }

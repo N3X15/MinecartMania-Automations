@@ -11,14 +11,17 @@ import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 
 public class AutoMelonObserver extends BlockObserver {
     Random random = null;
+    
     public AutoMelonObserver() {
         super("AutoMelon");
     }
     
-    public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y, int z) {
-        if(random==null) {
-            random = new Random(x*y);
+    public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,
+            int z) {
+        if (random == null) {
+            random = new Random(x * y);
         }
+        if(!minecart.isMoving()) return false;
         int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
         int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
         boolean dirty = false; //set when the data gets changed
@@ -58,7 +61,7 @@ public class AutoMelonObserver extends BlockObserver {
         }
         //Harvest fully grown crops first
         int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
-        if (id == Item.MELON.getId()) {
+        if (id == Item.MELON.getId() && belowId == Material.DIRT.getId()) {
             minecart.addItem(Item.MELON.getId());
             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
             dirty = true;

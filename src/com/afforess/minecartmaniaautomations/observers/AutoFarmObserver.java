@@ -24,6 +24,7 @@ public class AutoFarmObserver extends BlockObserver {
         int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
         int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
         boolean dirty = false; //set when the data gets changed
+        boolean gdirty = false;
         ////////////////////////////////////////////////////////
         // AUTOMAGIC FERTILIZATION
         ////////////////////////////////////////////////////////
@@ -37,7 +38,7 @@ public class AutoFarmObserver extends BlockObserver {
                         if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
                             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.CROPS.getId(), x, y, z);
                             MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), x, y, z, 0x7);
-                            dirty = true;
+                            gdirty = dirty = true;
                         } else {
                             //System.out.println("Can't remove bonemeal");
                         }
@@ -65,7 +66,7 @@ public class AutoFarmObserver extends BlockObserver {
                         minecart.addItem(Material.SEEDS.getId());
                     }
                     MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
-                    dirty = true;
+                    gdirty = dirty = true;
                 }
             }
         }
@@ -80,7 +81,7 @@ public class AutoFarmObserver extends BlockObserver {
             if (id == Material.GRASS.getId() || id == Material.DIRT.getId()) {
                 if (aboveId == Material.AIR.getId()) {
                     MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.SOIL.getId(), x, y, z);
-                    dirty = true;
+                    gdirty = dirty = true;
                 }
             }
         }
@@ -97,13 +98,13 @@ public class AutoFarmObserver extends BlockObserver {
                 if (aboveId == Material.AIR.getId()) {
                     if (minecart.removeItem(Material.SEEDS.getId())) {
                         MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.CROPS.getId(), x, y + 1, z);
-                        dirty = true;
+                        gdirty = dirty = true;
                     }
                 }
             }
         }
         
-        return dirty;
+        return gdirty;
     }
     
 }

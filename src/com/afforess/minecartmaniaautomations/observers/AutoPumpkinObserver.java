@@ -55,9 +55,8 @@ public class AutoPumpkinObserver extends BlockObserver {
                 dirty = false;
             }
         }
-        //Harvest fully grown crops first
         int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
-        if (id == Material.PUMPKIN.getId()) {
+        if (id == Material.PUMPKIN.getId() && belowId == Material.DIRT.getId()) {
             minecart.addItem(Material.PUMPKIN.getId());
             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
             dirty = true;
