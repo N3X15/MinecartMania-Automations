@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.bukkit.Material;
 
+import com.afforess.minecartmaniaautomations.BlockObserver;
 import com.afforess.minecartmaniaautomations.WoolColors;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.world.Item;
@@ -14,6 +15,11 @@ public class AutoMelonObserver extends BlockObserver {
     
     public AutoMelonObserver() {
         super("AutoMelon");
+    }
+    
+    @Override
+    public boolean lookingForBlock(int type, int data) {
+        return (type == Material.MELON.getId() || type == Material.MELON_STEM.getId());
     }
     
     public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,

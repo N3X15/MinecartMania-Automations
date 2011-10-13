@@ -8,6 +8,7 @@ import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
+import com.afforess.minecartmaniaautomations.BlockObserver;
 import com.afforess.minecartmaniacore.inventory.MinecartManiaInventory;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.world.Item;

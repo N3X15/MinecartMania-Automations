@@ -1,4 +1,4 @@
-package com.afforess.minecartmaniaautomations.observers;
+package com.afforess.minecartmaniaautomations;
 
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.world.Item;
@@ -11,15 +11,13 @@ import com.afforess.minecartmaniacore.world.Item;
  */
 public abstract class BlockObserver {
     public final String name;
-    public Item blockType = Item.AIR; // AIR == any
     
     public BlockObserver(final String name) {
         this.name = name;
     }
     
-    public BlockObserver byBlockType(Item type) {
-        this.blockType = type;
-        return this;
+    public boolean lookingForBlock(int type, int data) {
+        return true;
     }
     
     /**

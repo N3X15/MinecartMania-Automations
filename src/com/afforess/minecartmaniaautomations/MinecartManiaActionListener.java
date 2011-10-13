@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.Location;
 
-import com.afforess.minecartmaniaautomations.observers.BlockObserver;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.world.Item;
@@ -43,14 +42,12 @@ public class MinecartManiaActionListener extends MinecartManiaListener {
                                 int y = loc.getBlockY() + dy;
                                 int z = loc.getBlockZ() + dz;
                                 int type = MinecartManiaWorld.getBlockIdAt(minecart.getWorld(), x, y, z);
+                                int data = MinecartManiaWorld.getBlockData(minecart.getWorld(), x, y, z);
                                 for (BlockObserver bo : blockObservers) {
-                                    if (bo.blockType != Item.AIR) {
-                                        if (bo.blockType.getId() != type) {
-                                            continue;
+                                    if (bo.lookingForBlock(type, data)) {
+                                        if (bo.onBlockSeen(cart, x, y, z)) {
+                                            type = MinecartManiaWorld.getBlockIdAt(minecart.getWorld(), x, y, z);
                                         }
-                                    }
-                                    if (bo.onBlockSeen(cart, x, y, z)) {
-                                        type = MinecartManiaWorld.getBlockIdAt(minecart.getWorld(), x, y, z);
                                     }
                                 }
                             }

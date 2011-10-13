@@ -2,6 +2,7 @@ package com.afforess.minecartmaniaautomations.observers;
 
 import org.bukkit.Material;
 
+import com.afforess.minecartmaniaautomations.BlockObserver;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 

@@ -7,6 +7,7 @@ import java.util.Random;
 
 import org.bukkit.Material;
 
+import com.afforess.minecartmaniaautomations.BlockObserver;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.world.Item;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
