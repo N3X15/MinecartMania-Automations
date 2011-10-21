@@ -24,6 +24,7 @@ public class AutoMelonObserver extends BlockObserver {
         }
         //if(!minecart.isMoving()) return false;
         int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
+        int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
         int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 1, z);
         int controlBlock = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
         boolean dirty = false; //set when the data gets changed
@@ -35,7 +36,6 @@ public class AutoMelonObserver extends BlockObserver {
         {
             // Grow stems via bonemeal, if the materials are present
             if (minecart.getDataValue("AutoFertilize") != null) {
-                int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
                 if (id == Item.MELON_STEM.getId()) {
                     // NOT fully grown
                     if (data != 0x7) {
@@ -58,12 +58,12 @@ public class AutoMelonObserver extends BlockObserver {
             //update data
             if (dirty) {
                 id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-                belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
+                data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
+                belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 1, z);
                 dirty = false;
             }
         }
         //Harvest fully grown crops first
-        int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
         if (id == Material.MELON.getId() && belowId == Material.DIRT.getId()) {
             minecart.addItem(Material.MELON.getId());
             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
@@ -73,7 +73,8 @@ public class AutoMelonObserver extends BlockObserver {
             //update data
             if (dirty) {
                 id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-                belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
+                data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
+                belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 1, z);
                 dirty = false;
             }
             if (id == Item.MELON_STEM.getId()) {
