@@ -1,7 +1,8 @@
 package com.afforess.minecartmaniaautomations;
 
+import java.util.logging.Logger;
+
 import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import com.afforess.minecartmaniacore.minecart.MinecartManiaMinecart;
@@ -34,13 +35,10 @@ public class AutoMineSignAction implements SignAction {
         if (sign.getLine(0).toLowerCase().contains("mine blocks")) {
             Protection p = LWC.getInstance().findProtection(sign.getBlock());
             if (p != null) {
-                String owner = p.getOwner();
-                if (!owner.isEmpty()) {
-                    for (Player pl : sign.getBlock().getWorld().getPlayers()) {
-                        if (pl.getName() == owner) {
-                            player = pl;
-                        }
-                    }
+                Player pl = p.getBukkitOwner();
+                if (pl != null) {
+                    player = pl;
+                    Logger.getLogger("Minecraft").info("Located owner of sign "+sign.toString()+": "+player.getName());
                 }
             }
             if (player != null) {
