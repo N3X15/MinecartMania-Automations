@@ -17,11 +17,6 @@ public class AutoMelonObserver extends BlockObserver {
         super("AutoMelon");
     }
     
-    @Override
-    public boolean lookingForBlock(int type, int data) {
-        return true;
-    }
-    
     public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,
             int z) {
         if (random == null) {

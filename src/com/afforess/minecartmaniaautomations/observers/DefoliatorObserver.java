@@ -76,7 +76,14 @@ public class DefoliatorObserver extends BlockObserver {
                     }
                 }
                 break;
-            
+            case SNOW:
+                if (remove) {
+                    if (minecart.addItem(Item.SNOW_BALL.getId())) {
+                        MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
+                        dirty = true;
+                    }
+                }
+                break;
         }
         return dirty;
     }
