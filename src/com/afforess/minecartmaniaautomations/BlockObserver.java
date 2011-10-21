@@ -1,7 +1,6 @@
 package com.afforess.minecartmaniaautomations;
 
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
-import com.afforess.minecartmaniacore.world.Item;
 
 /**
  * Register with Minecart Mania to observe blocks seen by carts
@@ -14,6 +13,7 @@ public abstract class BlockObserver {
     
     public BlockObserver(final String name) {
         this.name = name;
+        System.out.println("INIT BlockListener "+name);
     }
     
     public boolean lookingForBlock(int type, int data) {

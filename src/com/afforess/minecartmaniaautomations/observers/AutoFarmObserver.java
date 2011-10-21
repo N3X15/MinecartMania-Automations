@@ -16,16 +16,23 @@ public class AutoFarmObserver extends BlockObserver {
     }
     
     @Override
+    public boolean lookingForBlock(int type, int data) {
+        return (type == Material.CROPS.getId());
+    }
+    
+    @Override
     public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,
             int z) {
         if (minecart.getDataValue("AutoHarvest") == null && minecart.getDataValue("AutoTill") == null && minecart.getDataValue("AutoSeed") == null) {
             return false;
         }
         int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-        int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
+        //int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
+        int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 1, z);
         int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
         boolean dirty = false; //set when the data gets changed
         boolean gdirty = false;
+        
         ////////////////////////////////////////////////////////
         // AUTOMAGIC FERTILIZATION
         ////////////////////////////////////////////////////////
@@ -52,7 +59,7 @@ public class AutoFarmObserver extends BlockObserver {
             if (dirty) {
                 id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
                 data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
-                aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
+                //aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
                 dirty = false;
             }
         }
@@ -74,14 +81,14 @@ public class AutoFarmObserver extends BlockObserver {
         //update data
         if (dirty) {
             id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-            aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
+            //aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
             dirty = false;
         }
         //till soil
         if (minecart.getDataValue("AutoTill") != null) {
-            if (id == Material.GRASS.getId() || id == Material.DIRT.getId()) {
-                if (aboveId == Material.AIR.getId()) {
-                    MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.SOIL.getId(), x, y, z);
+            if (belowId == Material.GRASS.getId() || belowId == Material.DIRT.getId()) {
+                if (id == Material.AIR.getId()) {
+                    MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.SOIL.getId(), x, y-1, z);
                     gdirty = dirty = true;
                 }
             }
@@ -90,15 +97,16 @@ public class AutoFarmObserver extends BlockObserver {
         //update data
         if (dirty) {
             id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-            aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
+            //aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
+            belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 1, z);
             dirty = false;
         }
         //Seed tilled land 
         if (minecart.getDataValue("AutoSeed") != null) {
-            if (id == Material.SOIL.getId()) {
-                if (aboveId == Material.AIR.getId()) {
+            if (belowId == Material.SOIL.getId()) {
+                if (id == Material.AIR.getId()) {
                     if (minecart.removeItem(Material.SEEDS.getId())) {
-                        MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.CROPS.getId(), x, y + 1, z);
+                        MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.CROPS.getId(), x, y, z);
                         gdirty = dirty = true;
                     }
                 }

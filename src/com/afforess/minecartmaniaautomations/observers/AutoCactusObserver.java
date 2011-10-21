@@ -14,7 +14,7 @@ public class AutoCactusObserver extends BlockObserver {
     
     @Override
     public boolean lookingForBlock(int type, int data) {
-        return (type == Material.CACTUS.getId() || type == Material.SAND.getId());
+        return (type == Material.CACTUS.getId());
     }
     
     @Override
@@ -33,7 +33,6 @@ public class AutoCactusObserver extends BlockObserver {
         if (minecart.getDataValue("AutoCactus") != null) {
             
             // Like sugar, we need to break this from the top first. 
-            
             if (id == Material.CACTUS.getId() && aboveId != Material.CACTUS.getId()) {
                 if (belowId == Material.SAND.getId()) {
                     if (minecart.getDataValue("AutoReCactus") == null) {
