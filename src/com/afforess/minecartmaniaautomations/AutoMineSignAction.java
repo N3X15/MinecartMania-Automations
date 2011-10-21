@@ -51,7 +51,7 @@ public class AutoMineSignAction implements SignAction {
                 Player pl = p.getBukkitOwner();
                 if (pl != null) {
                     player = pl;
-                    Logger.getLogger("Minecraft").info("Located owner of sign "+sign.toString()+": "+player.getName());
+                    //Logger.getLogger("Minecraft").info("Located owner of sign "+sign.toString()+": "+player.getName());
                 }
             }
             if (player != null) {
