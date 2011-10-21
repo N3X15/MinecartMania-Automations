@@ -7,8 +7,10 @@ import org.bukkit.Location;
 
 import com.afforess.minecartmaniacore.event.MinecartActionEvent;
 import com.afforess.minecartmaniacore.event.MinecartManiaListener;
+import com.afforess.minecartmaniacore.event.MinecartManiaSignFoundEvent;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
+import com.afforess.minecartmaniacore.signs.Sign;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 
 public class MinecartManiaActionListener extends MinecartManiaListener {
@@ -30,6 +32,7 @@ public class MinecartManiaActionListener extends MinecartManiaListener {
                     if (minecart.getRange() < 1) {
                         return;
                     }
+                    
                     Location loc = minecart.minecart.getLocation().clone();
                     int range = minecart.getRange();
                     int rangeY = minecart.getRangeY();
@@ -54,6 +57,15 @@ public class MinecartManiaActionListener extends MinecartManiaListener {
                     }
                 }
             }
+        }
+    }
+    
+    @Override
+    public void onMinecartManiaSignFoundEvent(MinecartManiaSignFoundEvent event) {
+        Sign sign = event.getSign();
+        AutoMineSignAction autoMine = new AutoMineSignAction(sign,event.getPlayer());
+        if(autoMine.valid(sign)) {
+            sign.addSignAction(autoMine);
         }
     }
 }
