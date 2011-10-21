@@ -21,6 +21,7 @@ public class AutoMineSignAction implements SignAction {
     public boolean execute(MinecartManiaMinecart minecart) {
         if(items==null) return false;
         for (AbstractItem item : items) {
+            if(item==null) continue;
             if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item) || player.hasPermission("minecartmania.automine.everything")) {
                 if (player != null)
                     player.sendMessage(ChatColor.RED + "You don't have permission to automine " + item.toMaterial().name() + "!");
