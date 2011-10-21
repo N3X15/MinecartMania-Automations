@@ -23,18 +23,18 @@ public class AutoMineSignAction implements SignAction {
     }
     
     public boolean execute(MinecartManiaMinecart minecart) {
-        if(minecart.getDataValue("AutoMine")==null) {
-            String stuff="";
-            boolean first=true;
-            for(AbstractItem i : items) {
-                if(first) {
-                    first=false;
+        if (minecart.getDataValue("AutoMine") == null) {
+            String stuff = "";
+            boolean first = true;
+            for (AbstractItem i : items) {
+                if (first) {
+                    first = false;
                 } else {
-                    stuff+=", ";
+                    stuff += ", ";
                 }
-                stuff+=i.toMaterial().name();
+                stuff += i.toMaterial().name();
             }
-            player.sendMessage(ChatColor.GREEN+"Now mining for "+stuff);
+            player.sendMessage(ChatColor.GREEN + "Now mining for " + stuff);
             minecart.setDataValue("AutoMine", items);
         }
         return true;
@@ -57,8 +57,8 @@ public class AutoMineSignAction implements SignAction {
             if (player != null) {
                 sign.setLine(0, "[Mine Blocks]");
                 this.items = ItemUtils.getItemStringListToMaterial(sign.getLines());
-                if(!checkItems()) {
-                    items=null;
+                if (!checkItems()) {
+                    items = null;
                 }
                 return true;
             }
@@ -67,11 +67,15 @@ public class AutoMineSignAction implements SignAction {
     }
     
     private boolean checkItems() {
+        
+        if (player != null)
+            if (player.hasPermission("minecartmania.automine.everything"))
+                return true;
         for (AbstractItem item : items) {
             if (item == null)
                 continue;
             if (player != null) {
-                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item) || !player.hasPermission("minecartmania.automine.everything")) {
+                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item)) {
                     if (player != null)
                         player.sendMessage(ChatColor.RED + "You don't have permission to automine " + item.toMaterial().name() + "!");
                     return false;
@@ -84,7 +88,7 @@ public class AutoMineSignAction implements SignAction {
         }
         return true;
     }
-
+    
     public String getName() {
         // TODO Auto-generated method stub
         return "autominesign";
