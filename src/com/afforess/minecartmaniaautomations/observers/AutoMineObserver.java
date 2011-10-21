@@ -55,7 +55,9 @@ public class AutoMineObserver extends BlockObserver {
         
         for (AbstractItem stack : mineMats) {
             if (stack.getId() == id && (stack.getData() == data || stack.getData() == -1)) {
-                ItemStack in = new ItemStack(id, 1, (short) data);
+                int numDrops = net.minecraft.server.Block.byId[id].a(random);
+                int dropId = net.minecraft.server.Block.byId[id].a(id,random);
+                ItemStack in = new ItemStack(dropId, numDrops, (short) data);
                 minecart.addItem(in);
                 MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
                 dirty = true;
