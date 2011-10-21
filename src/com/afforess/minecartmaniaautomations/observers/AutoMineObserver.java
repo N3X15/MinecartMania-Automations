@@ -62,6 +62,9 @@ public class AutoMineObserver extends BlockObserver {
                         MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
                         dirty = true;
                     }
+                } else {
+                    MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
+                    dirty = true;
                 }
             }
         }
