@@ -27,10 +27,11 @@ public class AutoMelonObserver extends BlockObserver {
         if (random == null) {
             random = new Random(x * y);
         }
-        if(!minecart.isMoving()) return false;
+        //if(!minecart.isMoving()) return false;
         int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
         int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
         boolean dirty = false; //set when the data gets changed
+        boolean gdirty = false;
         
         ////////////////////////////////////////////////////////
         // AUTOMAGIC FERTILIZATION
@@ -48,7 +49,7 @@ public class AutoMelonObserver extends BlockObserver {
                             if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
                                 MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Item.MELON_STEM.getId(), x, y, z);
                                 MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), x, y, z, 0x7);
-                                dirty = true;
+                                gdirty = dirty = true;
                             } else {
                                 // System.out.println("Can't remove bonemeal");
                             }
@@ -67,10 +68,10 @@ public class AutoMelonObserver extends BlockObserver {
         }
         //Harvest fully grown crops first
         int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
-        if (id == Item.MELON.getId() && belowId == Material.DIRT.getId()) {
-            minecart.addItem(Item.MELON.getId());
+        if (id == Material.MELON.getId() && belowId == Material.DIRT.getId()) {
+            minecart.addItem(Material.MELON.getId());
             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
-            dirty = true;
+            gdirty = dirty = true;
         }
         if (minecart.getDataValue("Stems Too") != null || minecart.getDataValue("SmartForest") != null) {
             //update data
@@ -95,10 +96,10 @@ public class AutoMelonObserver extends BlockObserver {
                         }
                     }
                     MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
-                    dirty = true;
+                    gdirty = dirty = true;
                 }
             }
         }
-        return dirty;
+        return gdirty;
     }
 }
