@@ -60,7 +60,7 @@ public class AutoMineObserver extends BlockObserver {
         }
         
         for (AbstractItem stack : mineMats) {
-            if (stack.getId() == id && stack.getData() == data) {
+            if (stack.getId() == id && (stack.getData() == data||stack.getData() == -1)) {
                 ItemStack in = new ItemStack(id, 1, (short) data);
                 if (minecart.addItem(in)) {
                     MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
