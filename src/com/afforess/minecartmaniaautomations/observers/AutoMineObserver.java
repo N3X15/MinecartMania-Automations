@@ -51,21 +51,14 @@ public class AutoMineObserver extends BlockObserver {
         }
         
         // Otherwise, if it's in the list, mine it.
-        ArrayList<AbstractItem> mineMats = new ArrayList<AbstractItem>();
-        for(AbstractItem ai : (AbstractItem[]) minecart.getDataValue("AutoMine")) {
-            mineMats.add(ai);
-        }
-        if (!mineMats.contains(id)) {
-            return false;
-        }
+        AbstractItem[] mineMats = (AbstractItem[]) minecart.getDataValue("AutoMine");
         
         for (AbstractItem stack : mineMats) {
-            if (stack.getId() == id && (stack.getData() == data||stack.getData() == -1)) {
+            if (stack.getId() == id && (stack.getData() == data || stack.getData() == -1)) {
                 ItemStack in = new ItemStack(id, 1, (short) data);
-                if (minecart.addItem(in)) {
-                    MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
-                    dirty = true;
-                }
+                minecart.addItem(in);
+                MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
+                dirty = true;
             }
         }
         

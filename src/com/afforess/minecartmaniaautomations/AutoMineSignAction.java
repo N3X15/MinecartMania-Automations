@@ -23,7 +23,20 @@ public class AutoMineSignAction implements SignAction {
     }
     
     public boolean execute(MinecartManiaMinecart minecart) {
-        minecart.setDataValue("AutoMine", items);
+        if(minecart.getDataValue("AutoMine")==null) {
+            String stuff="";
+            boolean first=true;
+            for(AbstractItem i : items) {
+                if(first) {
+                    first=false;
+                } else {
+                    stuff+=", ";
+                }
+                stuff+=i.toMaterial().name();
+            }
+            player.sendMessage(ChatColor.GREEN+"Now mining for "+stuff);
+            minecart.setDataValue("AutoMine", items);
+        }
         return true;
     }
     
@@ -46,18 +59,6 @@ public class AutoMineSignAction implements SignAction {
                 this.items = ItemUtils.getItemStringListToMaterial(sign.getLines());
                 if(!checkItems()) {
                     items=null;
-                } else {
-                    String stuff="";
-                    boolean first=true;
-                    for(AbstractItem i : items) {
-                        if(first) {
-                            first=false;
-                        } else {
-                            stuff+=", ";
-                        }
-                        stuff+=i.toMaterial().name();
-                    }
-                    player.sendMessage(ChatColor.GREEN+"Now mining for "+stuff);
                 }
                 return true;
             }
