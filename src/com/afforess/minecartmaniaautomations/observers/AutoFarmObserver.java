@@ -17,7 +17,7 @@ public class AutoFarmObserver extends BlockObserver {
     
     @Override
     public boolean lookingForBlock(int type, int data) {
-        return (type == Material.CROPS.getId());
+        return (type == Material.CROPS.getId() || type == Material.AIR.getId());
     }
     
     @Override
@@ -88,7 +88,7 @@ public class AutoFarmObserver extends BlockObserver {
         if (minecart.getDataValue("AutoTill") != null) {
             if (belowId == Material.GRASS.getId() || belowId == Material.DIRT.getId()) {
                 if (id == Material.AIR.getId()) {
-                    MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.SOIL.getId(), x, y-1, z);
+                    MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.SOIL.getId(), x, y - 1, z);
                     gdirty = dirty = true;
                 }
             }
