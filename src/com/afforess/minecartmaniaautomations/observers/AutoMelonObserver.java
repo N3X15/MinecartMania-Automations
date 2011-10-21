@@ -19,7 +19,7 @@ public class AutoMelonObserver extends BlockObserver {
     
     @Override
     public boolean lookingForBlock(int type, int data) {
-        return (type == Material.MELON.getId() || type == Material.MELON_STEM.getId());
+        return true;
     }
     
     public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,
