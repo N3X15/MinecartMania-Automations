@@ -19,6 +19,7 @@ public class AutoMineSignAction implements SignAction {
     }
     
     public boolean execute(MinecartManiaMinecart minecart) {
+        if(player==null) return false;
         if(items==null) return false;
         for (AbstractItem item : items) {
             if(item==null) continue;
