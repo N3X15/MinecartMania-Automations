@@ -1,6 +1,5 @@
 package com.afforess.minecartmaniaautomations.observers;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import org.bukkit.Material;

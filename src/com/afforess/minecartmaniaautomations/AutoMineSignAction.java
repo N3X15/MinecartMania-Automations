@@ -1,7 +1,5 @@
 package com.afforess.minecartmaniaautomations;
 
-import java.util.logging.Logger;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
