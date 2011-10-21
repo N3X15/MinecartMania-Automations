@@ -29,7 +29,8 @@ public class AutoMelonObserver extends BlockObserver {
         }
         //if(!minecart.isMoving()) return false;
         int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-        int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
+        int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 1, z);
+        int controlBlock = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
         boolean dirty = false; //set when the data gets changed
         boolean gdirty = false;
         
@@ -86,8 +87,8 @@ public class AutoMelonObserver extends BlockObserver {
                     removeStem = (data == 0x7); // Fully Grown
                 }
                 if (minecart.getDataValue("SmartForest") != null && !removeStem) {
-                    int belowData = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y - 2, z);
-                    removeStem = !(belowId == Material.WOOL.getId() && belowData == WoolColors.LIME.ordinal());
+                    int controlBlockData = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y - 2, z);
+                    removeStem = !(controlBlock == Material.WOOL.getId() && controlBlockData == WoolColors.LIME.ordinal());
                 }
                 if (removeStem) {
                     for (int i = 0; i < 3; i++) {
