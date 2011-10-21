@@ -27,7 +27,7 @@ public class MinecartManiaAutomations extends JavaPlugin {
     public static Server server;
     public static PluginDescriptionFile description;
     public static MinecartManiaActionListener listener = new MinecartManiaActionListener();
-    public static ArrayList<AbstractItem> unrestrictedBlocks;
+    public static ArrayList<AbstractItem> unrestrictedBlocks = new ArrayList<AbstractItem>();
     
     public void onEnable() {
         server = this.getServer();
