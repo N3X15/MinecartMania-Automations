@@ -11,6 +11,8 @@ import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 
 public class AutoFarmObserver extends BlockObserver {
     
+    private Random random;
+
     public AutoFarmObserver() {
         super("AutoFarm");
     }
@@ -23,6 +25,8 @@ public class AutoFarmObserver extends BlockObserver {
     @Override
     public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,
             int z) {
+        if (random == null)
+            random = new Random();
         if (minecart.getDataValue("AutoHarvest") == null && minecart.getDataValue("AutoTill") == null && minecart.getDataValue("AutoSeed") == null) {
             return false;
         }
@@ -70,7 +74,7 @@ public class AutoFarmObserver extends BlockObserver {
                 if (data == 0x7) {
                     minecart.addItem(Material.WHEAT.getId());
                     minecart.addItem(Material.SEEDS.getId());
-                    if ((new Random()).nextBoolean()) { //Randomly add second seed.
+                    if (random.nextBoolean()) { //Randomly add second seed.
                         minecart.addItem(Material.SEEDS.getId());
                     }
                     MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
