@@ -56,8 +56,8 @@ public class AutoMelonObserver extends BlockObserver {
             dirty = false;
         }
         int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
-        if (id == Material.MELON.getId() && belowId == Material.DIRT.getId()) {
-            if (minecart.addItem(Material.MELON.getId())) {
+        if (id == Material.MELON_BLOCK.getId() && belowId == Material.DIRT.getId()) {
+            if (minecart.addItem(Material.MELON_BLOCK.getId())) {
                 MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
                 gdirty = dirty = true;
             }
