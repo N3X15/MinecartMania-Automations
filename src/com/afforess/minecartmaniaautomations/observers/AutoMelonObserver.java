@@ -11,7 +11,8 @@ import com.afforess.minecartmaniacore.world.Item;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 
 public class AutoMelonObserver extends BlockObserver {
-    Random random = null;
+    
+    private Random random;
     
     public AutoMelonObserver() {
         super("AutoMelon");
@@ -20,61 +21,52 @@ public class AutoMelonObserver extends BlockObserver {
     public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,
             int z) {
         if (random == null) {
-            random = new Random(x * y);
+            random = new Random(x * y + z);
         }
-        //if(!minecart.isMoving()) return false;
         int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-        int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
-        int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 1, z);
-        int controlBlock = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
+        int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
         boolean dirty = false; //set when the data gets changed
         boolean gdirty = false;
         
         ////////////////////////////////////////////////////////
         // AUTOMAGIC FERTILIZATION
         ////////////////////////////////////////////////////////
-        {
-            // Grow stems via bonemeal, if the materials are present
-            if (minecart.getDataValue("AutoFertilize") != null) {
-                if (id == Item.MELON_STEM.getId()) {
-                    // NOT fully grown
-                    if (data != 0x7) {
-                        // Do we even HAVE bonemeal?
-                        if (minecart.amount(Item.BONEMEAL) > 0) {
-                            // Remove one bonemeal, use it on crop
-                            if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
-                                MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Item.MELON_STEM.getId(), x, y, z);
-                                MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), x, y, z, 0x7);
-                                gdirty = dirty = true;
-                            } else {
-                                // System.out.println("Can't remove bonemeal");
-                            }
-                        } else {
-                            // System.out.println("Can't find enough bonemeal");
+        // Grow stems via bonemeal, if the materials are present
+        if (minecart.getDataValue("AutoFertilize") != null) {
+            int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
+            if (id == Material.MELON_STEM.getId()) {
+                // NOT fully grown
+                if (data != 0x7) {
+                    // Do we even HAVE bonemeal?
+                    if (minecart.amount(Item.BONEMEAL) > 0) {
+                        // Remove one bonemeal, use it on crop
+                        if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
+                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.MELON_STEM.getId(), x, y, z);
+                            MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), x, y, z, 0x7);
+                            gdirty = dirty = true;
                         }
                     }
                 }
             }
-            //update data
-            if (dirty) {
-                id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-                data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
-                belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 1, z);
-                dirty = false;
-            }
         }
-        //Harvest fully grown crops first
+        //update data
+        if (dirty) {
+            id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
+            belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
+            dirty = false;
+        }
+        int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
         if (id == Material.MELON.getId() && belowId == Material.DIRT.getId()) {
-            minecart.addItem(Material.MELON.getId());
-            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
-            gdirty = dirty = true;
+            if (minecart.addItem(Material.MELON.getId())) {
+                MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
+                gdirty = dirty = true;
+            }
         }
         if (minecart.getDataValue("Stems Too") != null || minecart.getDataValue("SmartForest") != null) {
             //update data
             if (dirty) {
                 id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-                data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
-                belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 1, z);
+                belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
                 dirty = false;
             }
             if (id == Item.MELON_STEM.getId()) {
@@ -83,8 +75,8 @@ public class AutoMelonObserver extends BlockObserver {
                     removeStem = (data == 0x7); // Fully Grown
                 }
                 if (minecart.getDataValue("SmartForest") != null && !removeStem) {
-                    int controlBlockData = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y - 2, z);
-                    removeStem = !(controlBlock == Material.WOOL.getId() && controlBlockData == WoolColors.LIME.ordinal());
+                    int belowData = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y - 2, z);
+                    removeStem = !(belowId == Material.WOOL.getId() && belowData == WoolColors.LIME.ordinal());
                 }
                 if (removeStem) {
                     for (int i = 0; i < 3; i++) {
