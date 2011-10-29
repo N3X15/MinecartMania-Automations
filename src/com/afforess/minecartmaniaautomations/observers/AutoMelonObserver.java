@@ -2,7 +2,11 @@ package com.afforess.minecartmaniaautomations.observers;
 
 import java.util.Random;
 
+import net.minecraft.server.Block;
+
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import com.afforess.minecartmaniaautomations.BlockObserver;
 import com.afforess.minecartmaniaautomations.WoolColors;
@@ -57,10 +61,12 @@ public class AutoMelonObserver extends BlockObserver {
         }
         int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
         if (id == Material.MELON_BLOCK.getId() && belowId == Material.DIRT.getId()) {
-            if (minecart.addItem(Material.MELON_BLOCK.getId())) {
-                MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
-                gdirty = dirty = true;
+            ItemStack toAdd = new ItemStack(Material.MELON_BLOCK.getId());
+            if (!minecart.addItem(toAdd)) {
+                minecart.minecart.getWorld().dropItem(new Location(minecart.minecart.getWorld(),x,y,z), toAdd);
             }
+            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
+            gdirty = dirty = true;
         }
         if (minecart.getDataValue("Stems Too") != null || minecart.getDataValue("SmartForest") != null) {
             //update data
