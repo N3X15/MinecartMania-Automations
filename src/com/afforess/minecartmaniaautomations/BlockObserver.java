@@ -13,7 +13,7 @@ public abstract class BlockObserver {
     
     public BlockObserver(final String name) {
         this.name = name;
-        System.out.println("INIT BlockListener "+name);
+        //System.out.println("INIT BlockListener "+name);
     }
     
     public boolean lookingForBlock(int type, int data) {
