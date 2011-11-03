@@ -2,8 +2,6 @@ package com.afforess.minecartmaniaautomations.observers;
 
 import java.util.Random;
 
-import net.minecraft.server.Block;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -60,10 +58,10 @@ public class AutoMelonObserver extends BlockObserver {
             dirty = false;
         }
         int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
-        if (id == Material.MELON_BLOCK.getId() && belowId == Material.DIRT.getId()) {
+        if (id == Material.MELON_BLOCK.getId() && (belowId == Material.DIRT.getId() || belowId == Material.SOIL.getId() || belowId == Material.GRASS.getId())) {
             ItemStack toAdd = new ItemStack(Material.MELON_BLOCK.getId());
             if (!minecart.addItem(toAdd)) {
-                minecart.minecart.getWorld().dropItem(new Location(minecart.minecart.getWorld(),x,y,z), toAdd);
+                minecart.minecart.getWorld().dropItem(new Location(minecart.minecart.getWorld(), x, y, z), toAdd);
             }
             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
             gdirty = dirty = true;

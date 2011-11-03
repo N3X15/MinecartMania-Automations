@@ -55,7 +55,7 @@ public class AutoPumpkinObserver extends BlockObserver {
             dirty = false;
         }
         int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
-        if (id == Material.PUMPKIN.getId() && belowId == Material.DIRT.getId()) {
+        if (id == Material.PUMPKIN.getId() && (belowId == Material.DIRT.getId() || belowId == Material.SOIL.getId() || belowId == Material.GRASS.getId())) {
             minecart.addItem(Material.PUMPKIN.getId());
             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
             dirty = true;
