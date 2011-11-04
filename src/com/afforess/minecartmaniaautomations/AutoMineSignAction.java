@@ -16,6 +16,10 @@ public class AutoMineSignAction implements SignAction {
     public AbstractItem items[] = null;
     private Player player;
     
+    public AutoMineSignAction(Sign sign) {
+        this.valid(sign);
+    }
+    
     public AutoMineSignAction(Sign sign, Player player) {
         this.player = player;
     }
