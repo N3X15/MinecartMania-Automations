@@ -59,10 +59,7 @@ public class AutoMelonObserver extends BlockObserver {
         }
         int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
         if (id == Material.MELON_BLOCK.getId() && (belowId == Material.DIRT.getId() || belowId == Material.SOIL.getId() || belowId == Material.GRASS.getId())) {
-            ItemStack toAdd = new ItemStack(Material.MELON_BLOCK.getId());
-            if (!minecart.addItem(toAdd)) {
-                minecart.minecart.getWorld().dropItem(new Location(minecart.minecart.getWorld(), x, y, z), toAdd);
-            }
+            minecart.addItem(Material.MELON_BLOCK.getId());
             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
             gdirty = dirty = true;
         }

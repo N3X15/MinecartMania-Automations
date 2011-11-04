@@ -26,6 +26,7 @@ public class AutoPumpkinObserver extends BlockObserver {
         int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
         int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
         boolean dirty = false; //set when the data gets changed
+        boolean gdirty = false;
         
         ////////////////////////////////////////////////////////
         // AUTOMAGIC FERTILIZATION
@@ -42,7 +43,7 @@ public class AutoPumpkinObserver extends BlockObserver {
                         if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
                             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Item.PUMPKIN_STEM.getId(), x, y, z);
                             MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), x, y, z, 0x7);
-                            dirty = true;
+                            gdirty = dirty = true;
                         }
                     }
                 }
@@ -58,7 +59,7 @@ public class AutoPumpkinObserver extends BlockObserver {
         if (id == Material.PUMPKIN.getId() && (belowId == Material.DIRT.getId() || belowId == Material.SOIL.getId() || belowId == Material.GRASS.getId())) {
             minecart.addItem(Material.PUMPKIN.getId());
             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
-            dirty = true;
+            gdirty = dirty = true;
         }
         if (minecart.getDataValue("Stems Too") != null || minecart.getDataValue("SmartForest") != null) {
             //update data
@@ -83,11 +84,11 @@ public class AutoPumpkinObserver extends BlockObserver {
                         }
                     }
                     MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
-                    dirty = true;
+                    gdirty = dirty = true;
                 }
             }
         }
-        return dirty;
+        return gdirty;
     }
     
 }
