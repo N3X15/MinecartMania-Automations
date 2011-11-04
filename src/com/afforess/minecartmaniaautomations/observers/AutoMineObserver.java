@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import com.afforess.minecartmaniaautomations.AutomationsUtils;
 import com.afforess.minecartmaniaautomations.BlockObserver;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.world.AbstractItem;
@@ -54,11 +55,9 @@ public class AutoMineObserver extends BlockObserver {
         
         for (AbstractItem stack : mineMats) {
             if (stack.getId() == id && (stack.getData() == data || stack.getData() == -1)) {
-                int numDrops = net.minecraft.server.Block.byId[id].a(random);
-                int dropId = net.minecraft.server.Block.byId[id].a(0, random);
-                if (dropId > 0) {
-                    ItemStack in = new ItemStack(dropId, numDrops, (short) data);
-                    if (minecart.addItem(in)) {
+                ItemStack is = AutomationsUtils.getDropsForBlock(random,id,data,0);
+                if(is!=null) {
+                    if (minecart.addItem(is)) {
                         MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
                         dirty = true;
                     }

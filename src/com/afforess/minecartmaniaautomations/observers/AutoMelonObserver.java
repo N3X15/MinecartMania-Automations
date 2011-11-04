@@ -68,6 +68,7 @@ public class AutoMelonObserver extends BlockObserver {
         if (minecart.getDataValue("Stems Too") != null || minecart.getDataValue("SmartForest") != null) {
             //update data
             if (dirty) {
+                data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
                 id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
                 belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 1, z);
                 dirty = false;
