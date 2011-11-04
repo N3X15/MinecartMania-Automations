@@ -2,4 +2,4 @@ name: MinecartManiaAutomations
 main: com.afforess.minecartmaniaautomations.MinecartManiaAutomations
 version: 1.2.9
 authors: [Afforess,N3X15]
-depend: [MinecartManiaCore]
+depend: [MinecartManiaCore,MinecartManiaSignCommands]
