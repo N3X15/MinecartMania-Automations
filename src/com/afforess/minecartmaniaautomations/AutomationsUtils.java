@@ -20,12 +20,12 @@ public class AutomationsUtils {
             int miningWithTool) {
         Block b = net.minecraft.server.Block.byId[id];
         int numDrops = b.a(random);
-        int dropId = b.a(miningWithTool, random, 0);
+        int dropId = b.a(miningWithTool, random);
         int dropData = data;
         if (dropId <= 0)
             return null;
         try {
-            Method m = b.getClass().getMethod("c", int.class);
+            Method m = b.getClass().getMethod("a_", int.class);
             m.setAccessible(true);
             dropData = (Integer) m.invoke(b, miningWithTool);
         } catch (Exception e) {
