@@ -38,7 +38,7 @@ public class AutoTimberObserver extends BlockObserver {
             // Grow stems via bonemeal, if the materials are present
             if (minecart.getDataValue("AutoFertilize") != null) {
                 int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
-                if (id == Item.SAPLING.getId()) {
+                if (id == Material.SAPLING.getId()) {
                     // Do we even HAVE bonemeal?
                     if (minecart.amount(Item.BONEMEAL) > 0) {
                         // Remove one bonemeal, use it on crop
@@ -68,7 +68,7 @@ public class AutoTimberObserver extends BlockObserver {
                             }
                             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), 0, x, y, z);
                             if (!w.generateTree(new Location(w, x, y, z), t)) {
-                                MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Item.SAPLING.getId(), x, y, z);
+                                MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.SAPLING.getId(), x, y, z);
                                 MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), data, x, y, z);
                             }
                             gdirty = dirty = true;
@@ -82,14 +82,14 @@ public class AutoTimberObserver extends BlockObserver {
                 dirty = false;
             }
         }
-        if (id == Item.LOG.getId()) {
+        if (id == Material.LOG.getId()) {
             int down = 1;
-            while (MinecartManiaWorld.getBlockIdAt(w, x, y - down, z) == Item.LOG.getId()) {
+            while (MinecartManiaWorld.getBlockIdAt(w, x, y - down, z) == Material.LOG.getId()) {
                 down++;
             }
             int baseId = MinecartManiaWorld.getBlockIdAt(w, x, y - down, z);
             //base of tree
-            if (baseId == Material.DIRT.getId() || baseId == Material.GRASS.getId() || baseId == Item.LEAVES.getId()) {
+            if (baseId == Material.DIRT.getId() || baseId == Material.GRASS.getId() || baseId == Material.LEAVES.getId()) {
                 Item base = Item.getItem(w.getBlockAt(x, y - down + 1, z));
                 //Attempt to replant the tree
                 if (removeLogs(x, y - down + 1, z, w, minecart, false) && minecart.getDataValue("AutoForest") != null) {
@@ -122,7 +122,7 @@ public class AutoTimberObserver extends BlockObserver {
                     int z = posz + dz;
                     int id = MinecartManiaWorld.getBlockIdAt(w, x, y, z);
                     int data = MinecartManiaWorld.getBlockData(w, x, y, z);
-                    if (id == Item.LOG.getId()) {
+                    if (id == Material.LOG.getId()) {
                         ItemStack logstack = Item.getItem(id, data).toItemStack();
                         if (!inventory.addItem(logstack)) {
                             if (recursing)

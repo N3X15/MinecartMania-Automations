@@ -51,10 +51,10 @@ public class DefoliatorObserver extends BlockObserver {
             case YELLOW_FLOWER:
                 if (minecart.getDataValue("SmartForest") != null) {
                     int controlBlock=4;
-                    if (id == Item.RED_ROSE.getId()) {
-                        controlBlock = Item.COBBLESTONE.getId();
-                    } else if (id == Item.YELLOW_FLOWER.getId()) {
-                        controlBlock = Item.SANDSTONE.getId();
+                    if (id == Material.RED_ROSE.getId()) {
+                        controlBlock = Material.COBBLESTONE.getId();
+                    } else if (id == Material.YELLOW_FLOWER.getId()) {
+                        controlBlock = Material.SANDSTONE.getId();
                     }
                     remove = !(belowId == controlBlock);
                 }

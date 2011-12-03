@@ -2,10 +2,9 @@ package com.afforess.minecartmaniaautomations.observers;
 
 import java.util.Random;
 
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
+import com.afforess.minecartmaniaautomations.AutomationsUtils;
 import com.afforess.minecartmaniaautomations.BlockObserver;
 import com.afforess.minecartmaniaautomations.WoolColors;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
@@ -60,8 +59,8 @@ public class AutoMelonObserver extends BlockObserver {
             dirty = false;
         }
         int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
-        if (id == Item.MELON.getId() && (belowId == Material.DIRT.getId() || belowId == Material.SOIL.getId() || belowId == Material.GRASS.getId())) {
-            minecart.addItem(Item.MELON.getId());
+        if (id == Material.MELON.getId() && (belowId == Material.DIRT.getId() || belowId == Material.SOIL.getId() || belowId == Material.GRASS.getId())) {
+            minecart.addItem(AutomationsUtils.getDropsForBlock(random, id, data, 0));
             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
             gdirty = dirty = true;
         }
@@ -73,7 +72,7 @@ public class AutoMelonObserver extends BlockObserver {
                 belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 1, z);
                 dirty = false;
             }
-            if (id == Item.MELON_STEM.getId()) {
+            if (id == Material.MELON_STEM.getId()) {
                 boolean removeStem = false;
                 int controlBlock=MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
                 int controlBlockData=MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y - 2, z);
@@ -84,11 +83,8 @@ public class AutoMelonObserver extends BlockObserver {
                     removeStem = !(controlBlock == Material.WOOL.getId() && controlBlockData == WoolColors.LIME.ordinal());
                 }
                 if (removeStem) {
-                    for (int i = 0; i < 3; i++) {
-                        if (random.nextInt(15) <= data) {
-                            minecart.addItem(Item.MELON_SEED.getId());
-                        }
-                    }
+                            minecart.addItem(AutomationsUtils.getDropsForBlock(random, id, data, 0));
+                    
                     MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
                     gdirty = dirty = true;
                 }
