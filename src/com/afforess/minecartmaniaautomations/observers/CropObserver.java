@@ -92,4 +92,9 @@ public class CropObserver extends BlockObserver {
 		}
 	}
 
+	public BlockObserver setDrop(ItemStack is) {
+		drop=is;
+		return this;
+	}
+
 }
