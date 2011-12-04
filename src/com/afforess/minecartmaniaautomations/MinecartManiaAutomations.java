@@ -48,7 +48,7 @@ public class MinecartManiaAutomations extends JavaPlugin {
         listener.blockObservers.add(new AutoSugarObserver());
         listener.blockObservers.add(new SmartForestObserver());
         listener.blockObservers.add(new AutoMineObserver());
-        listener.blockObservers.add(new CropObserver("AutoWart",Material.NETHER_STALK.getId(),Material.NETHER_WARTS.getId(),Material.WOOL.getId()).setBase(Material.SOUL_SAND.getId()).setHeightRange(0, 3));
+        listener.blockObservers.add(new CropObserver("AutoWart",Material.NETHER_WARTS.getId(),Material.NETHER_STALK.getId(),Material.WOOL.getId()).setBase(Material.SOUL_SAND.getId()).setHeightRange(0, 3));
     }
     
     public void onDisable() {
