@@ -53,7 +53,7 @@ public class AutoPumpkinObserver extends BlockObserver {
                 }
             }
         }
-        if (id == Material.PUMPKIN.getId() && (belowId == Material.DIRT.getId() || belowId == Material.SOIL.getId() || belowId == Material.GRASS.getId())) {
+        if (id == Material.PUMPKIN.getId() && (baseId == Material.DIRT.getId() || baseId == Material.SOIL.getId() || baseId == Material.GRASS.getId())) {
             minecart.addItem(Material.PUMPKIN.getId());
             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y+1, z);
             return true;
