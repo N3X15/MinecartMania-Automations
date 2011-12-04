@@ -29,10 +29,6 @@ public class AutoPumpkinObserver extends BlockObserver {
         int baseId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
         int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-1, z);
         
-        if( baseId != Material.DIRT.getId()
-        		|| baseId != Material.GRASS.getId()
-        		|| baseId != Material.SOIL.getId())
-        	return false;
         ////////////////////////////////////////////////////////
         // AUTOMAGIC FERTILIZATION
         ////////////////////////////////////////////////////////
