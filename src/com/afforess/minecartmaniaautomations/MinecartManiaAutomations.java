@@ -55,11 +55,11 @@ public class MinecartManiaAutomations extends JavaPlugin {
 		listener.blockObservers.add(new SmartForestObserver());
 		listener.blockObservers.add(new AutoMineObserver());
 		listener.blockObservers.add(new CropObserver("AutoWart",
-				Material.NETHER_WARTS.getId(), Material.NETHER_STALK.getId(),
-				Material.WOOL.getId())
-		.setBase(Material.SOUL_SAND.getId())
-				.setHeightRange(0, 3)
-				.setDrop(new ItemStack(Material.NETHER_STALK, 3)));
+				Material.NETHER_WARTS, Material.NETHER_STALK,
+				Material.WOOL)
+					.setBase(Material.SOUL_SAND)
+					.setHeightRange(0, 3)
+					.setDrop(new ItemStack(Material.NETHER_STALK, 3)));
 	}
 
 	public void onDisable() {

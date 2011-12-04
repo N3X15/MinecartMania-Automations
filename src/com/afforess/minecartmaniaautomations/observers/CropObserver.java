@@ -24,19 +24,19 @@ public class CropObserver extends BlockObserver {
 	private Random random;
 	private int controlBlockId;
 
-	public CropObserver(String name, int crop, int seed, int controlBlockID) {
+	public CropObserver(String name, Material crop, Material seed, Material controlBlockID) {
 		super(name);
-		this.crop=crop;
-		this.seedType=seed;
+		this.crop=crop.getId();
+		this.seedType=seed.getId();
 		this.baseBlockType=Material.SOIL.getId();
 		this.minHeight=0;
 		this.maxHeight=7;
-		this.controlBlockId=controlBlockID;
+		this.controlBlockId=controlBlockID.getId();
 		random=new Random();
 	}
 	
-	public CropObserver setBase(int blockID) {
-		baseBlockType=blockID;
+	public CropObserver setBase(Material block) {
+		baseBlockType=block.getId();
 		return this;
 	}
 	
