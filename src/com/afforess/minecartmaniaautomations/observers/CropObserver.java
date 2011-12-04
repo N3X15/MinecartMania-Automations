@@ -2,6 +2,7 @@ package com.afforess.minecartmaniaautomations.observers;
 
 import java.util.Random;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -73,17 +74,10 @@ public class CropObserver extends BlockObserver {
 		}
 		
 		if(stalk==crop && stalkData==maxHeight) {
-			if(minecart.addItem(getDrop(w,stalkData))) {
-				if(minecart.removeItem(seedType)){
-					MinecartManiaWorld.setBlockAt(w, crop, x, y+1, z);
-					MinecartManiaWorld.setBlockData(w, minHeight, x, y+1, z);
-					return true;
-				} else {
-					MinecartManiaWorld.setBlockAt(w, 0, x, y+1, z);
-					MinecartManiaWorld.setBlockData(w, 0, x, y+1, z);
-					return true;
-				}
-			}
+			minecart.addItem(getDrop(w,stalkData));
+			MinecartManiaWorld.setBlockAt(w, 0, x, y+1, z);
+			MinecartManiaWorld.setBlockData(w, 0, x, y+1, z);
+			return true;
 		}
 		return true;
 	}
