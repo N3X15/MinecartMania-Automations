@@ -2,6 +2,7 @@ package com.afforess.minecartmaniaautomations;
 
 import java.util.ArrayList;
 
+import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
@@ -15,6 +16,7 @@ import com.afforess.minecartmaniaautomations.observers.AutoMineObserver;
 import com.afforess.minecartmaniaautomations.observers.AutoPumpkinObserver;
 import com.afforess.minecartmaniaautomations.observers.AutoSugarObserver;
 import com.afforess.minecartmaniaautomations.observers.AutoTimberObserver;
+import com.afforess.minecartmaniaautomations.observers.CropObserver;
 import com.afforess.minecartmaniaautomations.observers.DefoliatorObserver;
 import com.afforess.minecartmaniaautomations.observers.SmartForestObserver;
 import com.afforess.minecartmaniacore.MinecartManiaCore;
@@ -46,6 +48,7 @@ public class MinecartManiaAutomations extends JavaPlugin {
         listener.blockObservers.add(new AutoSugarObserver());
         listener.blockObservers.add(new SmartForestObserver());
         listener.blockObservers.add(new AutoMineObserver());
+        listener.blockObservers.add(new CropObserver("AutoWart",Material.NETHER_STALK.getId(),Material.NETHER_WARTS.getId(),Material.WOOL.getId()).setBase(Material.SOUL_SAND.getId()).setHeightRange(0, 4));
     }
     
     public void onDisable() {

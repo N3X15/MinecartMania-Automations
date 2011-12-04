@@ -34,6 +34,10 @@ public enum AutomationsSign {
     AutoMineSign(AutoMineSignAction.class),
     AutoMineOffSign(GenericAction.class, "Mining Off", "AutoMine", null),
     
+    // -- AUTOWART --
+    AutoWartSign(GenericAction.class, "AutoWart"),
+    AutoWartOffSign(GenericAction.class, "Wart Off", "AutoWart", null),
+    
     // -- DEBUGGING -- 
     DebugSign(GenericAction.class, "MMDebug"),
     DebugOffSign(GenericAction.class, "Debug Off", "MMDebug", null),
