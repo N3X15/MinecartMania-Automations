@@ -14,6 +14,8 @@ import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.signs.FailureReason;
 import com.afforess.minecartmaniacore.signs.Sign;
 import com.afforess.minecartmaniacore.signs.SignAction;
+import com.afforess.minecartmaniacore.utils.SignUtils;
+import com.afforess.minecartmaniacore.world.Item;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 import com.afforess.minecartmaniasigncommands.sign.SignType;
 
@@ -26,6 +28,7 @@ public class MinecartManiaActionListener extends MinecartManiaListener {
             MinecartManiaMinecart minecart = event.getMinecart();
             if (minecart.isStorageMinecart() && minecart.isMoving()) {
                 MinecartManiaStorageCart cart = (MinecartManiaStorageCart) minecart;
+                checkSigns(cart);
                 //Efficiency. Don't farm overlapping tiles repeatedly, waste of time
                 int interval = minecart.getDataValue("Farm Interval") == null ? -1 : (Integer) minecart.getDataValue("Farm Interval");
                 if (interval > 0) {
@@ -63,18 +66,13 @@ public class MinecartManiaActionListener extends MinecartManiaListener {
             }
         }
     }
-    
-    @Override
-    public void onMinecartManiaSignFoundEvent(MinecartManiaSignFoundEvent event) {
-        com.afforess.minecartmaniacore.signs.Sign sign = event.getSign();
-        for (AutomationsSign type : AutomationsSign.values()) {
-            SignAction action = type.getSignAction(sign);
-            if (action.valid(sign)) {
-                sign.addSignAction(action);
-            }
-            else if (action instanceof FailureReason && event.getPlayer() != null) {
-                if (((FailureReason)action).getReason() != null) {
-                    event.getPlayer().sendMessage(ChatColor.RED + ((FailureReason)action).getReason());
+
+    private void checkSigns(MinecartManiaStorageCart cart) {
+        for(Sign sign : SignUtils.getAdjacentMinecartManiaSignList(cart.getLocation(), 1)) {
+            for (AutomationsSign type : AutomationsSign.values()) {
+                SignAction action = type.getSignAction(sign);
+                if (action.valid(sign)) {
+                    sign.addSignAction(action);
                 }
             }
         }

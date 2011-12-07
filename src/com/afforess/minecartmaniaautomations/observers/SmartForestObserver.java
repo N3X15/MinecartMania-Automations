@@ -49,6 +49,12 @@ public class SmartForestObserver extends BlockObserver {
                                 case GREEN:
                                     sapling = Item.CACTUS;
                                     break;
+                                case RED:
+                                    sapling = Item.RED_ROSE;
+                                    break;
+                                case YELLOW:
+                                    sapling = Item.YELLOW_FLOWER;
+                                    break;
                                 default:
                                     sapling = Item.SPRUCE_SAPLING;
                                     break;
