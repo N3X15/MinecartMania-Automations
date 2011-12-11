@@ -38,7 +38,7 @@ public class AutoPumpkinObserver extends BlockObserver {
                 // NOT fully grown
                 if (data != 0x7) {
                     // Do we even HAVE bonemeal?
-                    if (minecart.amount(Item.BONEMEAL) > 0) {
+                    if (minecart.amount(Item.BONEMEAL.getId(),(short) Item.BONEMEAL.getData()) > 0) {
                         // Remove one bonemeal, use it on crop
                         if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
                             MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.PUMPKIN_STEM.getId(), x, y+1, z);

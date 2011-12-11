@@ -23,14 +23,14 @@ import com.afforess.minecartmaniaautomations.observers.SmartForestObserver;
 import com.afforess.minecartmaniacore.MinecartManiaCore;
 import com.afforess.minecartmaniacore.config.MinecartManiaConfigurationParser;
 import com.afforess.minecartmaniacore.debug.MinecartManiaLogger;
-import com.afforess.minecartmaniacore.world.AbstractItem;
+import com.afforess.minecartmaniacore.world.SpecificMaterial;
 
 public class MinecartManiaAutomations extends JavaPlugin {
 	public static MinecartManiaLogger log = MinecartManiaLogger.getInstance();
 	public static Server server;
 	public static PluginDescriptionFile description;
 	public static MinecartManiaActionListener listener = new MinecartManiaActionListener();
-	public static ArrayList<AbstractItem> unrestrictedBlocks = new ArrayList<AbstractItem>();
+	public static ArrayList<SpecificMaterial> unrestrictedBlocks = new ArrayList<SpecificMaterial>();
 
 	public void onEnable() {
 		server = this.getServer();

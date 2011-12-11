@@ -1,19 +1,22 @@
 package com.afforess.minecartmaniaautomations;
 
+import java.util.logging.Logger;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.afforess.minecartmaniacore.minecart.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.signs.Sign;
 import com.afforess.minecartmaniacore.signs.SignAction;
+import com.afforess.minecartmaniacore.utils.ItemMatcher;
 import com.afforess.minecartmaniacore.utils.ItemUtils;
-import com.afforess.minecartmaniacore.world.AbstractItem;
 import com.griefcraft.lwc.LWC;
 import com.griefcraft.model.Protection;
 
 public class AutoMineSignAction implements SignAction {
     
-    public AbstractItem items[] = null;
+    public ItemMatcher[] matchers = null;
     private Player player;
     
     public AutoMineSignAction(Sign sign) {
@@ -26,18 +29,7 @@ public class AutoMineSignAction implements SignAction {
     
     public boolean execute(MinecartManiaMinecart minecart) {
         if (minecart.getDataValue("AutoMine") == null) {
-            String stuff = "";
-            boolean first = true;
-            for (AbstractItem i : items) {
-                if (first) {
-                    first = false;
-                } else {
-                    stuff += ", ";
-                }
-                stuff += i.toMaterial().name();
-            }
-            player.sendMessage(ChatColor.GREEN + "Now mining for " + stuff);
-            minecart.setDataValue("AutoMine", items);
+            minecart.setDataValue("AutoMine", matchers);
         }
         return true;
     }
@@ -53,14 +45,14 @@ public class AutoMineSignAction implements SignAction {
                 Player pl = p.getBukkitOwner();
                 if (pl != null) {
                     player = pl;
-                    //Logger.getLogger("Minecraft").info("Located owner of sign "+sign.toString()+": "+player.getName());
+                    Logger.getLogger("Minecraft").info("Located owner of sign @"+sign.getLocation()+": "+player.getName());
                 }
             }
             if (player != null) {
                 sign.setLine(0, "[Mine Blocks]");
-                this.items = ItemUtils.getItemStringListToMaterial(sign.getLines());
+                this.matchers = ItemUtils.getItemStringListToMatchers(sign.getLines());
                 if (!checkItems()) {
-                    items = null;
+                    matchers = null;
                 }
                 return true;
             }
@@ -73,17 +65,19 @@ public class AutoMineSignAction implements SignAction {
         if (player != null)
             if (player.hasPermission("minecartmania.automine.everything"))
                 return true;
-        for (AbstractItem item : items) {
+        for (ItemMatcher item : matchers) {
             if (item == null)
                 continue;
+            ItemStack itemstack = item.toItemStack();
+            if(itemstack==null) continue;
             if (player != null) {
-                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item)) {
+                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item.toItemStack())) {
                     if (player != null)
-                        player.sendMessage(ChatColor.RED + "You don't have permission to automine " + item.toMaterial().name() + "!");
+                        player.sendMessage(ChatColor.RED + "You don't have permission to automine " + itemstack.getType().name() + "!");
                     return false;
                 }
             } else {
-                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item)) {
+                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item.toItemStack())) {
                     return false;
                 }
             }

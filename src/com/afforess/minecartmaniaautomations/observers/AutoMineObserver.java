@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import com.afforess.minecartmaniaautomations.AutomationsUtils;
 import com.afforess.minecartmaniaautomations.BlockObserver;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
-import com.afforess.minecartmaniacore.world.AbstractItem;
+import com.afforess.minecartmaniacore.utils.ItemMatcher;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 
 public class AutoMineObserver extends BlockObserver {
@@ -66,10 +66,10 @@ public class AutoMineObserver extends BlockObserver {
         }
         
         // Otherwise, if it's in the list, mine it.
-        AbstractItem[] mineMats = (AbstractItem[]) minecart.getDataValue("AutoMine");
+        ItemMatcher[] matchers = (ItemMatcher[]) minecart.getDataValue("AutoMine");
         
-        for (AbstractItem stack : mineMats) {
-            if (stack.getId() == id && (stack.getData() == data || stack.getData() == -1)) {
+        for (ItemMatcher matcher : matchers) {
+            if (matcher.match(new ItemStack(id,0,(short) data))) {
                 ItemStack is = AutomationsUtils.getDropsForBlock(random,id,data,0);
                 if(is!=null) {
                     if (minecart.addItem(is)) {

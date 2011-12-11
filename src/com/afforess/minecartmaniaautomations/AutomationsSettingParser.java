@@ -10,6 +10,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.bukkit.Material;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,7 +21,7 @@ import com.afforess.minecartmaniacore.config.MinecartManiaConfigurationParser;
 import com.afforess.minecartmaniacore.config.SettingParser;
 import com.afforess.minecartmaniacore.debug.MinecartManiaLogger;
 import com.afforess.minecartmaniacore.utils.ItemUtils;
-import com.afforess.minecartmaniacore.world.AbstractItem;
+import com.afforess.minecartmaniacore.world.SpecificMaterial;
 
 public class AutomationsSettingParser implements SettingParser {
     
@@ -111,10 +112,13 @@ public class AutomationsSettingParser implements SettingParser {
                 
                 setting = document.createElement("UnrestrictedBlocks");
                 Comment comment = document.createComment("Blocks that all users can AutoMine");
-                for (AbstractItem item : MinecartManiaAutomations.unrestrictedBlocks) {
+                for (SpecificMaterial item : MinecartManiaAutomations.unrestrictedBlocks) {
                     Element child = document.createElement("UnrestrictedBlock");
-                    child.appendChild(document.createTextNode(item.toMaterial().name()));
-                    setting.appendChild(child);
+                    Material mat = Material.getMaterial(item.getId());
+                    if (mat != null) {
+                        child.appendChild(document.createTextNode(mat.name()));
+                        setting.appendChild(child);
+                    }
                 }
                 rootElement.appendChild(setting);
                 rootElement.insertBefore(comment, setting);
