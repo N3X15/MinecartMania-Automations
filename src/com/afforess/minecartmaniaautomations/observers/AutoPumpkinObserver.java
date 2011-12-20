@@ -19,15 +19,15 @@ public class AutoPumpkinObserver extends BlockObserver {
         super("AutoPumpkin");
     }
     
-    public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,
-            int z) {
+    @Override
+    public boolean onBlockSeen(final MinecartManiaStorageCart minecart, final int x, final int y, final int z) {
         if (random == null) {
-            random = new Random(x * y + z);
+            random = new Random((x * y) + z);
         }
-        int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y+1, z);
-        int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y+1, z);
-        int baseId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-        int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y-1, z);
+        final int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y + 1, z);
+        final int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
+        final int baseId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
+        final int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 1, z);
         
         ////////////////////////////////////////////////////////
         // AUTOMAGIC FERTILIZATION
@@ -38,35 +38,35 @@ public class AutoPumpkinObserver extends BlockObserver {
                 // NOT fully grown
                 if (data != 0x7) {
                     // Do we even HAVE bonemeal?
-                    if (minecart.amount(Item.BONEMEAL.getId(),(short) Item.BONEMEAL.getData()) > 0) {
+                    if (minecart.amount(Item.BONEMEAL.getId(), (short) Item.BONEMEAL.getData()) > 0) {
                         // Remove one bonemeal, use it on crop
                         if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
-                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.PUMPKIN_STEM.getId(), x, y+1, z);
-                            MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), x, y+1, z, 0x7);
+                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.PUMPKIN_STEM.getId(), x, y + 1, z);
+                            MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), x, y + 1, z, 0x7);
                             return true;
                         }
                     }
                 }
             }
         }
-        if (id == Material.PUMPKIN.getId() && (baseId == Material.DIRT.getId() || baseId == Material.SOIL.getId() || baseId == Material.GRASS.getId())) {
+        if ((id == Material.PUMPKIN.getId()) && ((baseId == Material.DIRT.getId()) || (baseId == Material.SOIL.getId()) || (baseId == Material.GRASS.getId()))) {
             minecart.addItem(Material.PUMPKIN.getId());
-            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y+1, z);
+            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y + 1, z);
             return true;
         }
-        if (minecart.getDataValue("Stems Too") != null || minecart.getDataValue("SmartForest") != null) {
+        if ((minecart.getDataValue("Stems Too") != null) || (minecart.getDataValue("SmartForest") != null)) {
             if (id == Material.PUMPKIN_STEM.getId()) {
                 boolean removeStem = false;
                 if (minecart.getDataValue("Stems Too") != null) {
                     removeStem = (data == 0x7); // Fully Grown
                 }
-                if (minecart.getDataValue("SmartForest") != null && !removeStem) {
-                    int belowData = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y-1, z);
-                    removeStem = !(belowId == Material.WOOL.getId() && belowData == WoolColors.ORANGE.ordinal());
+                if ((minecart.getDataValue("SmartForest") != null) && !removeStem) {
+                    final int belowData = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y - 1, z);
+                    removeStem = !((belowId == Material.WOOL.getId()) && (belowData == WoolColors.ORANGE.ordinal()));
                 }
                 if (removeStem) {
                     minecart.addItem(AutomationsUtils.getDropsForBlock(random, id, data, 0));
-                    MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y+1, z);
+                    MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y + 1, z);
                     return true;
                 }
             }

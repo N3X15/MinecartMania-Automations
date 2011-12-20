@@ -12,24 +12,23 @@ import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 public class AutoFarmObserver extends BlockObserver {
     
     private Random random;
-
+    
     public AutoFarmObserver() {
         super("AutoFarm");
     }
     
     @Override
-    public boolean lookingForBlock(int type, int data) {
-        return (type == Material.CROPS.getId() || type == Material.AIR.getId());
+    public boolean lookingForBlock(final int type, final int data) {
+        return ((type == Material.CROPS.getId()) || (type == Material.AIR.getId()));
     }
     
     @Override
-    public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,
-            int z) {
-        if (random == null)
+    public boolean onBlockSeen(final MinecartManiaStorageCart minecart, final int x, final int y, final int z) {
+        if (random == null) {
             random = new Random();
-        if (minecart.getDataValue("AutoHarvest") == null && minecart.getDataValue("AutoTill") == null && minecart.getDataValue("AutoSeed") == null) {
-            return false;
         }
+        if ((minecart.getDataValue("AutoHarvest") == null) && (minecart.getDataValue("AutoTill") == null) && (minecart.getDataValue("AutoSeed") == null))
+            return false;
         int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
         //int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
         int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 1, z);
@@ -90,7 +89,7 @@ public class AutoFarmObserver extends BlockObserver {
         }
         //till soil
         if (minecart.getDataValue("AutoTill") != null) {
-            if (belowId == Material.GRASS.getId() || belowId == Material.DIRT.getId()) {
+            if ((belowId == Material.GRASS.getId()) || (belowId == Material.DIRT.getId())) {
                 if (id == Material.AIR.getId()) {
                     MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.SOIL.getId(), x, y - 1, z);
                     gdirty = dirty = true;

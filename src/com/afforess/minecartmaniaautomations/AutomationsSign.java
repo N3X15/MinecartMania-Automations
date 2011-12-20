@@ -49,7 +49,7 @@ public enum AutomationsSign {
     // -- STEMS --
     AutoStemsSign(GenericAction.class, "Stems Too"),
     AutoStemsOffSign(GenericAction.class, "No Stems", "Stems Too", null),
-
+    
     ;
     /////////////////////////////////////////////////////////////////
     // The following was stolen from SignType
@@ -57,20 +57,19 @@ public enum AutomationsSign {
     
     AutomationsSign(final Class<? extends SignAction> action) {
         this.action = action;
-        this.setting = null;
-        this.key = null;
-        this.value = null;
+        setting = null;
+        key = null;
+        value = null;
     }
     
-    AutomationsSign(final Class<? extends SignAction> action, String setting) {
+    AutomationsSign(final Class<? extends SignAction> action, final String setting) {
         this.action = action;
         this.setting = setting;
-        this.key = null;
-        this.value = null;
+        key = null;
+        value = null;
     }
     
-    AutomationsSign(final Class<? extends SignAction> action, String setting,
-            String key, Object value) {
+    AutomationsSign(final Class<? extends SignAction> action, final String setting, final String key, final Object value) {
         this.action = action;
         this.setting = setting;
         this.key = key;
@@ -86,25 +85,25 @@ public enum AutomationsSign {
         return action;
     }
     
-    public SignAction getSignAction(Sign sign) {
+    public SignAction getSignAction(final Sign sign) {
         try {
             
             Constructor<? extends SignAction> constructor;
             SignAction action;
-            if (this.setting == null) {
+            if (setting == null) {
                 constructor = this.action.getConstructor(Sign.class);
                 action = constructor.newInstance(sign);
-            } else if (this.key == null) {
+            } else if (key == null) {
                 constructor = this.action.getConstructor(String.class);
-                action = constructor.newInstance(this.setting);
+                action = constructor.newInstance(setting);
             } else {
                 constructor = this.action.getConstructor(String.class, String.class, Object.class);
-                action = constructor.newInstance(this.setting, this.key, this.value);
+                action = constructor.newInstance(setting, key, value);
             }
             return action;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             MinecartManiaLogger.getInstance().severe("Failed to read sign!");
-            MinecartManiaLogger.getInstance().severe("Sign was :" + this.action);
+            MinecartManiaLogger.getInstance().severe("Sign was :" + action);
             e.printStackTrace();
         }
         return null;

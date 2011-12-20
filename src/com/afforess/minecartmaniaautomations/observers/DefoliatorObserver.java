@@ -33,8 +33,7 @@ public class DefoliatorObserver extends BlockObserver {
      * @see com.afforess.minecartmaniaautomations.BlockObserver#onBlockSeen(com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart, int, int, int)
      */
     @Override
-    public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,
-            int z) {
+    public boolean onBlockSeen(final MinecartManiaStorageCart minecart, final int x, final int y, final int z) {
         if (minecart.getDataValue("Defoliate") == null)
             return false;
         if (random == null) {
@@ -42,15 +41,15 @@ public class DefoliatorObserver extends BlockObserver {
         }
         boolean dirty = false;
         //update data
-        int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
-        int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
+        final int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
+        final int belowId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y - 2, z);
         
         boolean remove = true;
         switch (Material.getMaterial(id)) {
             case RED_ROSE:
             case YELLOW_FLOWER:
                 if (minecart.getDataValue("SmartForest") != null) {
-                    int controlBlock=4;
+                    int controlBlock = 4;
                     if (id == Material.RED_ROSE.getId()) {
                         controlBlock = Material.COBBLESTONE.getId();
                     } else if (id == Material.YELLOW_FLOWER.getId()) {

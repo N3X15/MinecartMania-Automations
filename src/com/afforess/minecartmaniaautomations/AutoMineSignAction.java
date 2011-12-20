@@ -19,15 +19,15 @@ public class AutoMineSignAction implements SignAction {
     public ItemMatcher[] matchers = null;
     private Player player;
     
-    public AutoMineSignAction(Sign sign) {
-        this.valid(sign);
+    public AutoMineSignAction(final Sign sign) {
+        valid(sign);
     }
     
-    public AutoMineSignAction(Sign sign, Player player) {
+    public AutoMineSignAction(final Sign sign, final Player player) {
         this.player = player;
     }
     
-    public boolean execute(MinecartManiaMinecart minecart) {
+    public boolean execute(final MinecartManiaMinecart minecart) {
         if (minecart.getDataValue("AutoMine") == null) {
             minecart.setDataValue("AutoMine", matchers);
         }
@@ -38,19 +38,19 @@ public class AutoMineSignAction implements SignAction {
         return true;
     }
     
-    public boolean valid(Sign sign) {
+    public boolean valid(final Sign sign) {
         if (sign.getLine(0).toLowerCase().contains("mine blocks")) {
-            Protection p = LWC.getInstance().findProtection(sign.getBlock());
+            final Protection p = LWC.getInstance().findProtection(sign.getBlock());
             if (p != null) {
-                Player pl = p.getBukkitOwner();
+                final Player pl = p.getBukkitOwner();
                 if (pl != null) {
                     player = pl;
-                    Logger.getLogger("Minecraft").info("Located owner of sign @"+sign.getLocation()+": "+player.getName());
+                    Logger.getLogger("Minecraft").info("Located owner of sign @" + sign.getLocation() + ": " + player.getName());
                 }
             }
             if (player != null) {
                 sign.setLine(0, "[Mine Blocks]");
-                this.matchers = ItemUtils.getItemStringListToMatchers(sign.getLines());
+                matchers = ItemUtils.getItemStringListToMatchers(sign.getLines());
                 if (!checkItems()) {
                     matchers = null;
                 }
@@ -65,21 +65,24 @@ public class AutoMineSignAction implements SignAction {
         if (player != null)
             if (player.hasPermission("minecartmania.automine.everything"))
                 return true;
-        for (ItemMatcher item : matchers) {
-            if (item == null)
+        for (final ItemMatcher item : matchers) {
+            if (item == null) {
                 continue;
-            ItemStack itemstack = item.toItemStack();
-            if(itemstack==null) continue;
+            }
+            final ItemStack itemstack = item.toItemStack();
+            if (itemstack == null) {
+                continue;
+            }
             if (player != null) {
                 if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item.toItemStack())) {
-                    if (player != null)
+                    if (player != null) {
                         player.sendMessage(ChatColor.RED + "You don't have permission to automine " + itemstack.getType().name() + "!");
+                    }
                     return false;
                 }
             } else {
-                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item.toItemStack())) {
+                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item.toItemStack()))
                     return false;
-                }
             }
         }
         return true;

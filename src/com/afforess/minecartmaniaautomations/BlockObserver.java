@@ -16,7 +16,7 @@ public abstract class BlockObserver {
         //System.out.println("INIT BlockListener "+name);
     }
     
-    public boolean lookingForBlock(int type, int data) {
+    public boolean lookingForBlock(final int type, final int data) {
         return true;
     }
     
@@ -28,6 +28,5 @@ public abstract class BlockObserver {
      * @param z
      * @return Whether the block or anything else was changed (dirty flag)
      */
-    public abstract boolean onBlockSeen(MinecartManiaStorageCart minecart,
-            int x, int y, int z);
+    public abstract boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y, int z);
 }

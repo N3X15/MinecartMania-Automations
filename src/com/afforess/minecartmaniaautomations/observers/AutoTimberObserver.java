@@ -21,13 +21,11 @@ public class AutoTimberObserver extends BlockObserver {
     }
     
     @Override
-    public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,
-            int z) {
+    public boolean onBlockSeen(final MinecartManiaStorageCart minecart, final int x, final int y, final int z) {
         boolean gdirty = false;
-        if (minecart.getDataValue("AutoTimber") == null) {
+        if (minecart.getDataValue("AutoTimber") == null)
             return false;
-        }
-        World w = minecart.minecart.getWorld();
+        final World w = minecart.minecart.getWorld();
         int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
         
         ////////////////////////////////////////////////////////
@@ -37,15 +35,15 @@ public class AutoTimberObserver extends BlockObserver {
             boolean dirty = false;
             // Grow stems via bonemeal, if the materials are present
             if (minecart.getDataValue("AutoFertilize") != null) {
-                int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
+                final int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
                 if (id == Material.SAPLING.getId()) {
                     // Do we even HAVE bonemeal?
-                    if (minecart.amount(Item.BONEMEAL.getId(),(short) Item.BONEMEAL.getData()) > 0) {
+                    if (minecart.amount(Item.BONEMEAL.getId(), (short) Item.BONEMEAL.getData()) > 0) {
                         // Remove one bonemeal, use it on crop
                         if (minecart.removeItem(Item.BONEMEAL.getId(), 1, (short) Item.BONEMEAL.getData())) {
-                            int treeSubtype = data & 3;
+                            final int treeSubtype = data & 3;
                             // Remove 1 unit of bonemeal and try to dump a tree
-                            int rand = ((new Random()).nextInt(10));
+                            final int rand = ((new Random()).nextInt(10));
                             TreeType t = null;
                             switch (treeSubtype) {
                                 case 1:
@@ -87,20 +85,22 @@ public class AutoTimberObserver extends BlockObserver {
             while (MinecartManiaWorld.getBlockIdAt(w, x, y - down, z) == Material.LOG.getId()) {
                 down++;
             }
-            int baseId = MinecartManiaWorld.getBlockIdAt(w, x, y - down, z);
+            final int baseId = MinecartManiaWorld.getBlockIdAt(w, x, y - down, z);
             //base of tree
-            if (baseId == Material.DIRT.getId() || baseId == Material.GRASS.getId() || baseId == Material.LEAVES.getId()) {
-                Item base = Item.getItem(w.getBlockAt(x, y - down + 1, z));
+            if ((baseId == Material.DIRT.getId()) || (baseId == Material.GRASS.getId()) || (baseId == Material.LEAVES.getId())) {
+                final Item base = Item.getItem(w.getBlockAt(x, (y - down) + 1, z));
                 //Attempt to replant the tree
-                if (removeLogs(x, y - down + 1, z, w, minecart, false) && minecart.getDataValue("AutoForest") != null) {
+                if (removeLogs(x, (y - down) + 1, z, w, minecart, false) && (minecart.getDataValue("AutoForest") != null)) {
                     Item sapling = Item.SAPLING;
-                    if (base.getData() == 0x1)
+                    if (base.getData() == 0x1) {
                         sapling = Item.SPRUCE_SAPLING;
-                    if (base.getData() == 0x2)
+                    }
+                    if (base.getData() == 0x2) {
                         sapling = Item.BIRCH_SAPLING;
+                    }
                     if (minecart.contains(sapling)) {
                         minecart.removeItem(sapling.getId(), sapling.getData());
-                        w.getBlockAt(x, y - down + 1, z).setTypeIdAndData(sapling.getId(), (byte) sapling.getData(), true);
+                        w.getBlockAt(x, (y - down) + 1, z).setTypeIdAndData(sapling.getId(), (byte) sapling.getData(), true);
                         gdirty = true;
                     }
                 }
@@ -109,25 +109,24 @@ public class AutoTimberObserver extends BlockObserver {
         return gdirty;
     }
     
-    private boolean removeLogs(int posx, int posy, int posz, World w,
-            MinecartManiaInventory inventory, boolean recursing) {
-        boolean action = false;
-        int range = 1;
+    private boolean removeLogs(final int posx, final int posy, final int posz, final World w, final MinecartManiaInventory inventory, final boolean recursing) {
+        final boolean action = false;
+        final int range = 1;
         for (int dx = -(range); dx <= range; dx++) {
             for (int dy = -(range); dy <= range; dy++) {
                 for (int dz = -(range); dz <= range; dz++) {
                     //Setup data
-                    int x = posx + dx;
-                    int y = posy + dy;
-                    int z = posz + dz;
-                    int id = MinecartManiaWorld.getBlockIdAt(w, x, y, z);
-                    int data = MinecartManiaWorld.getBlockData(w, x, y, z);
+                    final int x = posx + dx;
+                    final int y = posy + dy;
+                    final int z = posz + dz;
+                    final int id = MinecartManiaWorld.getBlockIdAt(w, x, y, z);
+                    final int data = MinecartManiaWorld.getBlockData(w, x, y, z);
                     if (id == Material.LOG.getId()) {
-                        ItemStack logstack = Item.getItem(id, data).toItemStack();
+                        final ItemStack logstack = Item.getItem(id, data).toItemStack();
                         if (!inventory.addItem(logstack)) {
-                            if (recursing)
+                            if (recursing) {
                                 MinecartManiaWorld.spawnDrop(w, x, y, z, logstack);
-                            else
+                            } else
                                 return false;
                         }
                         MinecartManiaWorld.setBlockAt(w, 0, x, y, z);

@@ -18,11 +18,11 @@ public enum WoolColors {
     RED,
     BLACK;
     
-    public static WoolColors getWoolColor(byte type) {
-        WoolColors[] wc = values();
-        for(int i = 0;i<wc.length;i++) {
-            if(wc[i].ordinal() == type)
-                return wc[i];
+    public static WoolColors getWoolColor(final byte type) {
+        final WoolColors[] wc = values();
+        for (final WoolColors element : wc) {
+            if (element.ordinal() == type)
+                return element;
         }
         return WHITE;
     }

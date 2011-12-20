@@ -13,12 +13,10 @@ public class AutoSugarObserver extends BlockObserver {
     }
     
     @Override
-    public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,
-            int z) {
+    public boolean onBlockSeen(final MinecartManiaStorageCart minecart, final int x, final int y, final int z) {
         boolean gdirty = false;
-        if ((minecart.getDataValue("AutoSugar") == null) && (minecart.getDataValue("AutoPlant") == null)) {
+        if ((minecart.getDataValue("AutoSugar") == null) && (minecart.getDataValue("AutoPlant") == null))
             return false;
-        }
         
         int id = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z);
         int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
@@ -31,8 +29,8 @@ public class AutoSugarObserver extends BlockObserver {
             // Breaking sugar below the top will result in cane on the track which can stop the cart
             // until autocollection is turned back on.
             
-            if (id == Material.SUGAR_CANE_BLOCK.getId() && aboveId != Material.SUGAR_CANE_BLOCK.getId()) {
-                if (belowId == Material.GRASS.getId() || belowId == Material.DIRT.getId()) {
+            if ((id == Material.SUGAR_CANE_BLOCK.getId()) && (aboveId != Material.SUGAR_CANE_BLOCK.getId())) {
+                if ((belowId == Material.GRASS.getId()) || (belowId == Material.DIRT.getId())) {
                     if (minecart.getDataValue("AutoPlant") == null) {
                         minecart.addItem(Material.SUGAR_CANE.getId());
                         MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), Material.AIR.getId(), x, y, z);
@@ -51,27 +49,27 @@ public class AutoSugarObserver extends BlockObserver {
         
         //Replant cane
         if (minecart.getDataValue("AutoPlant") != null) {
-            if (id == Material.GRASS.getId() || id == Material.DIRT.getId()) {
+            if ((id == Material.GRASS.getId()) || (id == Material.DIRT.getId())) {
                 if (aboveId == Material.AIR.getId()) {
                     
                     // Need to check for water or the cane will not plant.
-                    int water1 = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x + 1, y, z);
-                    int water2 = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x - 1, y, z);
-                    int water3 = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z + 1);
-                    int water4 = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z - 1);
+                    final int water1 = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x + 1, y, z);
+                    final int water2 = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x - 1, y, z);
+                    final int water3 = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z + 1);
+                    final int water4 = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y, z - 1);
                     
                     boolean foundwater = false;
                     
-                    if (water1 == Material.WATER.getId() || water1 == Material.STATIONARY_WATER.getId()) {
+                    if ((water1 == Material.WATER.getId()) || (water1 == Material.STATIONARY_WATER.getId())) {
                         foundwater = true;
                     }
-                    if (water2 == Material.WATER.getId() || water2 == Material.STATIONARY_WATER.getId()) {
+                    if ((water2 == Material.WATER.getId()) || (water2 == Material.STATIONARY_WATER.getId())) {
                         foundwater = true;
                     }
-                    if (water3 == Material.WATER.getId() || water3 == Material.STATIONARY_WATER.getId()) {
+                    if ((water3 == Material.WATER.getId()) || (water3 == Material.STATIONARY_WATER.getId())) {
                         foundwater = true;
                     }
-                    if (water4 == Material.WATER.getId() || water4 == Material.STATIONARY_WATER.getId()) {
+                    if ((water4 == Material.WATER.getId()) || (water4 == Material.STATIONARY_WATER.getId())) {
                         foundwater = true;
                     }
                     

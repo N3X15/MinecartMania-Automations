@@ -23,28 +23,27 @@ public class SmartForestObserver extends BlockObserver {
     public static String SMARTFOREST_ON = "SmartForest";
     public static String SMARTFOREST_OFF = "Forest Off";
     
-    public boolean onBlockSeen(MinecartManiaStorageCart minecart, int x, int y,
-            int z) {
-        if ((minecart.getDataValue("SmartForest") == null)) {
+    @Override
+    public boolean onBlockSeen(final MinecartManiaStorageCart minecart, final int x, final int y, final int z) {
+        if ((minecart.getDataValue("SmartForest") == null))
             return false;
-        }
         
         boolean dirty = false;
         
-        World w = minecart.minecart.getWorld();
+        final World w = minecart.minecart.getWorld();
         
-        int id = MinecartManiaWorld.getBlockIdAt(w, x, y, z);
-        int aboveId = MinecartManiaWorld.getBlockIdAt(w, x, y + 1, z);
-        int belowId = MinecartManiaWorld.getBlockIdAt(w, x, y - 1, z);
+        final int id = MinecartManiaWorld.getBlockIdAt(w, x, y, z);
+        final int aboveId = MinecartManiaWorld.getBlockIdAt(w, x, y + 1, z);
+        final int belowId = MinecartManiaWorld.getBlockIdAt(w, x, y - 1, z);
         
         if (minecart.getDataValue("SmartForest") != null) {
-            Material mat = Material.getMaterial(belowId);
+            final Material mat = Material.getMaterial(belowId);
             Item sapling = null;
             if (aboveId == 0) {
-                if (id == Material.DIRT.getId() || id == Material.GRASS.getId()) {
+                if ((id == Material.DIRT.getId()) || (id == Material.GRASS.getId())) {
                     switch (mat) {
                         case WOOL:
-                            WoolColors data = WoolColors.getWoolColor((byte) MinecartManiaWorld.getBlockData(w, x, y - 1, z));
+                            final WoolColors data = WoolColors.getWoolColor(MinecartManiaWorld.getBlockData(w, x, y - 1, z));
                             switch (data) {
                                 case GREEN:
                                     sapling = Item.CACTUS;
@@ -77,7 +76,7 @@ public class SmartForestObserver extends BlockObserver {
                 if (id == Material.SOIL.getId()) {
                     switch (mat) {
                         case WOOL:
-                            WoolColors data = WoolColors.getWoolColor((byte) MinecartManiaWorld.getBlockData(w, x, y - 1, z));
+                            final WoolColors data = WoolColors.getWoolColor(MinecartManiaWorld.getBlockData(w, x, y - 1, z));
                             switch (data) {
                                 case LIME:
                                     sapling = Item.MELON_SEED;
@@ -92,7 +91,7 @@ public class SmartForestObserver extends BlockObserver {
                 if (id == Material.SAND.getId()) {
                     switch (mat) {
                         case WOOL:
-                            WoolColors data = WoolColors.getWoolColor((byte) MinecartManiaWorld.getBlockData(w, x, y - 1, z));
+                            final WoolColors data = WoolColors.getWoolColor(MinecartManiaWorld.getBlockData(w, x, y - 1, z));
                             switch (data) {
                                 case GREEN:
                                     sapling = Item.CACTUS;

@@ -26,45 +26,34 @@ import com.afforess.minecartmaniacore.debug.MinecartManiaLogger;
 import com.afforess.minecartmaniacore.world.SpecificMaterial;
 
 public class MinecartManiaAutomations extends JavaPlugin {
-	public static MinecartManiaLogger log = MinecartManiaLogger.getInstance();
-	public static Server server;
-	public static PluginDescriptionFile description;
-	public static MinecartManiaActionListener listener = new MinecartManiaActionListener();
-	public static ArrayList<SpecificMaterial> unrestrictedBlocks = new ArrayList<SpecificMaterial>();
-
-	public void onEnable() {
-		server = this.getServer();
-		description = this.getDescription();
-		MinecartManiaConfigurationParser.read(description.getName()
-				+ "Configuration.xml",
-				MinecartManiaCore.getDataDirectoryRelativePath(),
-				new AutomationsSettingParser());
-		getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT,
-				listener, Priority.Normal, this);
-		log.info(description.getName() + " version " + description.getVersion()
-				+ " is enabled!");
-
-		listener.blockObservers.clear();
-		listener.blockObservers.add(new AutoPumpkinObserver());
-		listener.blockObservers.add(new AutoMelonObserver());
-		listener.blockObservers.add(new DefoliatorObserver());
-		listener.blockObservers.add(new AutoFarmObserver());
-		listener.blockObservers.add(new AutoCactusObserver());
-		listener.blockObservers.add(new AutoTimberObserver());
-		listener.blockObservers.add(new AutoSugarObserver());
-		listener.blockObservers.add(new SmartForestObserver());
-		listener.blockObservers.add(new AutoMineObserver());
-		listener.blockObservers.add(new CropObserver("AutoWart",
-				Material.NETHER_WARTS, 
-				Material.NETHER_STALK,
-				Material.WOOL)
-					.setBase(Material.SOUL_SAND)
-					.setHeightRange(0, 3)
-					.setDrop(new ItemStack(Material.NETHER_STALK, 3)));
-	}
-
-	public void onDisable() {
-		listener.blockObservers.clear();
-	}
-
+    public static MinecartManiaLogger log = MinecartManiaLogger.getInstance();
+    public static Server server;
+    public static PluginDescriptionFile description;
+    public static MinecartManiaActionListener listener = new MinecartManiaActionListener();
+    public static ArrayList<SpecificMaterial> unrestrictedBlocks = new ArrayList<SpecificMaterial>();
+    
+    public void onEnable() {
+        server = getServer();
+        description = getDescription();
+        MinecartManiaConfigurationParser.read(description.getName() + "Configuration.xml", MinecartManiaCore.getDataDirectoryRelativePath(), new AutomationsSettingParser());
+        getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, listener, Priority.Normal, this);
+        log.info(description.getName() + " version " + description.getVersion() + " is enabled!");
+        
+        listener.blockObservers.clear();
+        listener.blockObservers.add(new AutoPumpkinObserver());
+        listener.blockObservers.add(new AutoMelonObserver());
+        listener.blockObservers.add(new DefoliatorObserver());
+        listener.blockObservers.add(new AutoFarmObserver());
+        listener.blockObservers.add(new AutoCactusObserver());
+        listener.blockObservers.add(new AutoTimberObserver());
+        listener.blockObservers.add(new AutoSugarObserver());
+        listener.blockObservers.add(new SmartForestObserver());
+        listener.blockObservers.add(new AutoMineObserver());
+        listener.blockObservers.add(new CropObserver("AutoWart", Material.NETHER_WARTS, Material.NETHER_STALK, Material.WOOL).setBase(Material.SOUL_SAND).setHeightRange(0, 3).setDrop(new ItemStack(Material.NETHER_STALK, 3)));
+    }
+    
+    public void onDisable() {
+        listener.blockObservers.clear();
+    }
+    
 }

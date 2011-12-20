@@ -28,10 +28,10 @@ public class AutomationsSettingParser implements SettingParser {
     private static final double version = 1.0;
     private static MinecartManiaLogger log = MinecartManiaLogger.getInstance();
     
-    public boolean isUpToDate(Document document) {
+    public boolean isUpToDate(final Document document) {
         try {
-            NodeList list = document.getElementsByTagName("version");
-            Double version = MinecartManiaConfigurationParser.toDouble(list.item(0).getChildNodes().item(0).getNodeValue(), 0);
+            final NodeList list = document.getElementsByTagName("version");
+            final Double version = MinecartManiaConfigurationParser.toDouble(list.item(0).getChildNodes().item(0).getNodeValue(), 0);
             log.debug("Automations Config read: version: " + list.item(0).getTextContent());
             if (version == 1.3) {
                 //Place the code to update to the next version here
@@ -42,12 +42,12 @@ public class AutomationsSettingParser implements SettingParser {
                 setDefaultConfiguration();
             }
             return version == AutomationsSettingParser.version;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return false;
         }
     }
     
-    public boolean read(Document document) {
+    public boolean read(final Document document) {
         NodeList list;
         try {
             list = document.getElementsByTagName("MinecartManiaConfiguration").item(0).getChildNodes(); //get the root nodes of the ConfigurationTree
@@ -55,14 +55,14 @@ public class AutomationsSettingParser implements SettingParser {
             String elementChildValue = ""; //holds the value of the node
             //loop through each of the child nodes of the document
             for (int idx = 0; idx < list.getLength(); idx++) {
-                Node elementChild = list.item(idx); //extract the node
+                final Node elementChild = list.item(idx); //extract the node
                 elementChildName = ""; //reset the child name
                 elementChildValue = null; //reset the child value
                 //do we have a valid element node
                 if (elementChild.getNodeType() == Node.ELEMENT_NODE) {
                     elementChildName = elementChild.getNodeName(); //get the node name
                     elementChildValue = elementChild.getTextContent(); //get the node value
-                    if (elementChildValue != null && elementChildValue != "") {
+                    if ((elementChildValue != null) && (elementChildValue != "")) {
                         //Handle the possible nodes we have at this level.
                         if (elementChildName == "version") {
                             if (elementChildValue != String.valueOf(version)) { /* documentUpgrade(document); */
@@ -76,7 +76,7 @@ public class AutomationsSettingParser implements SettingParser {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return false;
         }
         return true;
@@ -95,15 +95,15 @@ public class AutomationsSettingParser implements SettingParser {
         MinecartManiaAutomations.unrestrictedBlocks.add(ItemUtils.getFirstItemStringToMaterial("21"));
     }
     
-    public boolean write(File configuration, Document document) {
+    public boolean write(final File configuration, Document document) {
         try {
             if (document == null) {
-                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+                final DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                final DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
                 //root elements
                 document = docBuilder.newDocument();
                 document.setXmlStandalone(true);
-                Element rootElement = document.createElement("MinecartManiaConfiguration");
+                final Element rootElement = document.createElement("MinecartManiaConfiguration");
                 document.appendChild(rootElement);
                 
                 Element setting = document.createElement("version");
@@ -111,10 +111,10 @@ public class AutomationsSettingParser implements SettingParser {
                 rootElement.appendChild(setting);
                 
                 setting = document.createElement("UnrestrictedBlocks");
-                Comment comment = document.createComment("Blocks that all users can AutoMine");
-                for (SpecificMaterial item : MinecartManiaAutomations.unrestrictedBlocks) {
-                    Element child = document.createElement("UnrestrictedBlock");
-                    Material mat = Material.getMaterial(item.getId());
+                final Comment comment = document.createComment("Blocks that all users can AutoMine");
+                for (final SpecificMaterial item : MinecartManiaAutomations.unrestrictedBlocks) {
+                    final Element child = document.createElement("UnrestrictedBlock");
+                    final Material mat = Material.getMaterial(item.getId());
                     if (mat != null) {
                         child.appendChild(document.createTextNode(mat.name()));
                         setting.appendChild(child);
@@ -123,14 +123,14 @@ public class AutomationsSettingParser implements SettingParser {
                 rootElement.appendChild(setting);
                 rootElement.insertBefore(comment, setting);
             }
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
+            final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            final Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-            DOMSource source = new DOMSource(document);
-            StreamResult result = new StreamResult(configuration);
+            final DOMSource source = new DOMSource(document);
+            final StreamResult result = new StreamResult(configuration);
             transformer.transform(source, result);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
             return false;
         }
