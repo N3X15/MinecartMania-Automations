@@ -93,6 +93,9 @@ public class AutomationsSettingParser implements SettingParser {
         MinecartManiaAutomations.unrestrictedBlocks.add(ItemUtils.getFirstItemStringToMaterial("15"));
         MinecartManiaAutomations.unrestrictedBlocks.add(ItemUtils.getFirstItemStringToMaterial("16"));
         MinecartManiaAutomations.unrestrictedBlocks.add(ItemUtils.getFirstItemStringToMaterial("21"));
+        MinecartManiaAutomations.unrestrictedBlocks.add(ItemUtils.getFirstItemStringToMaterial("56"));
+        MinecartManiaAutomations.unrestrictedBlocks.add(ItemUtils.getFirstItemStringToMaterial("73"));
+        MinecartManiaAutomations.unrestrictedBlocks.add(ItemUtils.getFirstItemStringToMaterial("74"));
     }
     
     public boolean write(final File configuration, Document document) {

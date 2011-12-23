@@ -1,7 +1,5 @@
 package com.afforess.minecartmaniaautomations;
 
-import java.util.logging.Logger;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -45,7 +43,7 @@ public class AutoMineSignAction implements SignAction {
                 final Player pl = p.getBukkitOwner();
                 if (pl != null) {
                     player = pl;
-                    Logger.getLogger("Minecraft").info("Located owner of sign @" + sign.getLocation() + ": " + player.getName());
+                    //Logger.getLogger("Minecraft").info("Located owner of sign @" + sign.getLocation() + ": " + player.getName());
                 }
             }
             if (player != null) {

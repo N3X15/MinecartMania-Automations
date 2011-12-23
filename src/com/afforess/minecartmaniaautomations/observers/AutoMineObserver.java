@@ -42,18 +42,50 @@ public class AutoMineObserver extends BlockObserver {
         final int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
         final int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
         
+        ItemStack staticReplacement = null;
+        // Don't remove sand or gravel if we don't have anything solid (in case there's rails on top)
+        if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId())) {
+            for (final ItemStack slot : minecart.getContents().clone()) {
+                if (slot.getType().isBlock() && !((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId()))) {
+                    staticReplacement = slot.clone();
+                    break;
+                }
+            }
+            if (staticReplacement == null)
+                return false;
+        }
         // Don't mess with stuff underneath rails or redstone wire
-        if ((aboveId == Material.RAILS.getId()) || (aboveId == Material.POWERED_RAIL.getId()) || (aboveId == Material.DETECTOR_RAIL.getId()) || (aboveId == Material.REDSTONE_WIRE.getId()))
+        if ((aboveId == Material.RAILS.getId()) || (aboveId == Material.POWERED_RAIL.getId()) || (aboveId == Material.DETECTOR_RAIL.getId()) || (aboveId == Material.REDSTONE_WIRE.getId())) {
+            // ... Unless we're on top of sand or gravel.  Then
+            // remove it and replace with a solid block, if possible.
+            if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId())) {
+                if (minecart.removeItem(staticReplacement.getTypeId(), 1, staticReplacement.getDurability())) {
+                    final ItemStack is = AutomationsUtils.getDropsForBlock(random, id, data, 0);
+                    if (is != null) {
+                        if (minecart.addItem(is)) {
+                            MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), staticReplacement.getTypeId(), x, y, z);
+                            MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), x, y, z, staticReplacement.getDurability());
+                            return true;
+                        }
+                    } else {
+                        MinecartManiaWorld.setBlockAt(minecart.minecart.getWorld(), staticReplacement.getTypeId(), x, y, z);
+                        MinecartManiaWorld.setBlockData(minecart.minecart.getWorld(), x, y, z, staticReplacement.getDurability());
+                        return true;
+                    }
+                } else
+                    return false;
+                
+            }
             return false;
+        }
         
         final List<Integer> blocks = getAdjacentBlockTypes(minecart, x, y, z);
         for (final int type : blocks) {
-            if ((type == Material.WALL_SIGN.getId()) || (type == Material.TORCH.getId()) || (type == Material.REDSTONE_TORCH_ON.getId()) || (type == Material.REDSTONE_TORCH_OFF.getId()) || (type == Material.STONE_BUTTON.getId()) || (type == Material.LEVER.getId()))
+            if ((type == Material.SIGN.getId()) || (type == Material.WALL_SIGN.getId()) || (type == Material.TORCH.getId()) || (type == Material.REDSTONE_TORCH_ON.getId()) || (type == Material.REDSTONE_TORCH_OFF.getId()) || (type == Material.STONE_BUTTON.getId()) || (type == Material.LEVER.getId()) || (type == Material.WATER.getId()) || (type == Material.STATIONARY_WATER.getId()) || (type == Material.LAVA.getId()) || (type == Material.STATIONARY_LAVA.getId()))
                 return false;
         }
-        if ((id == Material.BEDROCK.getId()) || (id == Material.RAILS.getId()))
+        if ((id == Material.BEDROCK.getId()) || (id == Material.RAILS.getId()) || (id == Material.LAVA.getId()) || (id == Material.STATIONARY_LAVA.getId()) || (id == Material.WATER.getId()) || (id == Material.STATIONARY_WATER.getId()))
             return false;
-        
         // Otherwise, if it's in the list, mine it.
         final ItemMatcher[] matchers = (ItemMatcher[]) minecart.getDataValue("AutoMine");
         
