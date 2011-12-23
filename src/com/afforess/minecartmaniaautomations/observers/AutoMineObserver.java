@@ -46,9 +46,11 @@ public class AutoMineObserver extends BlockObserver {
         // Don't remove sand or gravel if we don't have anything solid (in case there's rails on top)
         if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId())) {
             for (final ItemStack slot : minecart.getContents().clone()) {
-                if (slot.getType().isBlock() && !((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId()))) {
-                    staticReplacement = slot.clone();
-                    break;
+                if (slot != null) {
+                    if (slot.getType().isBlock() && !((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId()))) {
+                        staticReplacement = slot.clone();
+                        break;
+                    }
                 }
             }
             if (staticReplacement == null)
