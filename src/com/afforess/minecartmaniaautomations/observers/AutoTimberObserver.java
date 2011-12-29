@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import com.afforess.minecartmaniaautomations.BlockObserver;
@@ -88,19 +89,13 @@ public class AutoTimberObserver extends BlockObserver {
             final int baseId = MinecartManiaWorld.getBlockIdAt(w, x, y - down, z);
             //base of tree
             if ((baseId == Material.DIRT.getId()) || (baseId == Material.GRASS.getId()) || (baseId == Material.LEAVES.getId())) {
-                final Item base = Item.getItem(w.getBlockAt(x, (y - down) + 1, z));
+                final Block base = w.getBlockAt(x, (y - down) + 1, z);
                 //Attempt to replant the tree
                 if (removeLogs(x, (y - down) + 1, z, w, minecart, false) && (minecart.getDataValue("AutoForest") != null)) {
-                    Item sapling = Item.SAPLING;
-                    if (base.getData() == 0x1) {
-                        sapling = Item.SPRUCE_SAPLING;
-                    }
-                    if (base.getData() == 0x2) {
-                        sapling = Item.BIRCH_SAPLING;
-                    }
-                    if (minecart.contains(sapling)) {
-                        minecart.removeItem(sapling.getId(), sapling.getData());
-                        w.getBlockAt(x, (y - down) + 1, z).setTypeIdAndData(sapling.getId(), (byte) sapling.getData(), true);
+                    short saplingType = (short) (base.getData() & 8);
+                    if (minecart.contains(Material.SAPLING.getId(), saplingType)) {
+                        minecart.removeItem(Material.SAPLING.getId(), saplingType);
+                        w.getBlockAt(x, (y - down) + 1, z).setTypeIdAndData(Material.SAPLING.getId(), (byte) saplingType, true);
                         gdirty = true;
                     }
                 }

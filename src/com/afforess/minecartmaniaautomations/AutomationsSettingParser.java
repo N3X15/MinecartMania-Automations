@@ -64,10 +64,10 @@ public class AutomationsSettingParser implements SettingParser {
                     elementChildValue = elementChild.getTextContent(); //get the node value
                     if ((elementChildValue != null) && (elementChildValue != "")) {
                         //Handle the possible nodes we have at this level.
-                        if (elementChildName == "version") {
-                            if (elementChildValue != String.valueOf(version)) { /* documentUpgrade(document); */
+                        if (elementChildName.equals("version")) {
+                            if (elementChildName.equals(String.valueOf(version))) { /* documentUpgrade(document); */
                             }
-                        } else if (elementChildName == "UnrestrictedBlock") {
+                        } else if (elementChildName.equals("UnrestrictedBlock")) {
                             MinecartManiaAutomations.unrestrictedBlocks.add(ItemUtils.getFirstItemStringToMaterial(elementChildValue));
                             log.debug("Automations Config added unrestricted block: " + elementChildValue);
                         } else {
