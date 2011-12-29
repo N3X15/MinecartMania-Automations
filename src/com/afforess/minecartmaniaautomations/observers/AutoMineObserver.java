@@ -44,15 +44,17 @@ public class AutoMineObserver extends BlockObserver {
         final int data = MinecartManiaWorld.getBlockData(minecart.minecart.getWorld(), x, y, z);
         final int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
         
-        ItemStack staticReplacement = null;
+        ItemStack staticReplacement = (ItemStack) minecart.getDataValue("StaticReplacer");
         // Don't remove sand or gravel if we don't have anything solid (in case there's rails on top)
         if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId())) {
-            for (final ItemStack slot : minecart.getContents().clone()) {
-                if (slot != null) {
-                    if (isStaticBlock(slot.getType())) {
-                        staticReplacement = slot.clone();
-                        MinecartManiaLogger.getInstance().info(String.format("[AutoMine] Static replacement set to %s", slot.getType().name()));
-                        break;
+            if (staticReplacement == null) {
+                for (final ItemStack slot : minecart.getContents().clone()) {
+                    if (slot != null) {
+                        if (isStaticBlock(slot.getType())) {
+                            staticReplacement = slot.clone();
+                            MinecartManiaLogger.getInstance().info(String.format("[AutoMine] Static replacement set to %s", slot.getType().name()));
+                            break;
+                        }
                     }
                 }
             }

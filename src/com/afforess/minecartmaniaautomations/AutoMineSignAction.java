@@ -9,6 +9,7 @@ import com.afforess.minecartmaniacore.signs.Sign;
 import com.afforess.minecartmaniacore.signs.SignAction;
 import com.afforess.minecartmaniacore.utils.ItemMatcher;
 import com.afforess.minecartmaniacore.utils.ItemUtils;
+import com.afforess.minecartmaniacore.world.SpecificMaterial;
 import com.griefcraft.lwc.LWC;
 import com.griefcraft.model.Protection;
 
@@ -16,6 +17,7 @@ public class AutoMineSignAction implements SignAction {
     
     public ItemMatcher[] matchers = null;
     private Player player;
+    private ItemStack solidReplacer = null;
     
     public AutoMineSignAction(final Sign sign) {
         valid(sign);
@@ -26,9 +28,8 @@ public class AutoMineSignAction implements SignAction {
     }
     
     public boolean execute(final MinecartManiaMinecart minecart) {
-        if (minecart.getDataValue("AutoMine") == null) {
-            minecart.setDataValue("AutoMine", matchers);
-        }
+        minecart.setDataValue("AutoMine", matchers);
+        minecart.setDataValue("StaticReplacer", solidReplacer);
         return true;
     }
     
@@ -37,6 +38,8 @@ public class AutoMineSignAction implements SignAction {
     }
     
     public boolean valid(final Sign sign) {
+        solidReplacer = null;
+        matchers = null;
         if (sign.getLine(0).toLowerCase().contains("mine blocks")) {
             final Protection p = LWC.getInstance().findProtection(sign.getBlock());
             if (p != null) {
@@ -48,6 +51,12 @@ public class AutoMineSignAction implements SignAction {
             }
             if (player != null) {
                 sign.setLine(0, "[Mine Blocks]");
+                if (sign.getLine(1).startsWith("solid:")) {
+                    SpecificMaterial[] mats = ItemUtils.getItemStringToMaterial(sign.getLine(1).substring(6));
+                    if (mats.length == 1) {
+                        solidReplacer = new ItemStack(mats[0].getId(), 1, (short) mats[0].getData());
+                    }
+                }
                 matchers = ItemUtils.getItemStringListToMatchers(sign.getLines());
                 if (!checkItems()) {
                     matchers = null;
@@ -87,12 +96,10 @@ public class AutoMineSignAction implements SignAction {
     }
     
     public String getName() {
-        // TODO Auto-generated method stub
         return "autominesign";
     }
     
     public String getFriendlyName() {
-        // TODO Auto-generated method stub
         return "Automatic Mining Sign";
     }
     
