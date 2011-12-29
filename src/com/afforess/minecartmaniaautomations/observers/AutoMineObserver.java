@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.afforess.minecartmaniaautomations.AutomationsUtils;
 import com.afforess.minecartmaniaautomations.BlockObserver;
-import com.afforess.minecartmaniacore.debug.MinecartManiaLogger;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.utils.ItemMatcher;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
@@ -52,7 +51,7 @@ public class AutoMineObserver extends BlockObserver {
                     if (slot != null) {
                         if (isStaticBlock(slot.getType())) {
                             staticReplacement = slot.clone();
-                            MinecartManiaLogger.getInstance().info(String.format("[AutoMine] Static replacement set to %s", slot.getType().name()));
+                            //MinecartManiaLogger.getInstance().info(String.format("[AutoMine] Static replacement set to %s", slot.getType().name()));
                             break;
                         }
                     }
