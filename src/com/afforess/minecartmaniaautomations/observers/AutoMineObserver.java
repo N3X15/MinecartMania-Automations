@@ -155,6 +155,7 @@ public class AutoMineObserver extends BlockObserver {
             case MYCEL:
             case NETHER_BRICK:
             case ENDER_STONE:
+            case SMOOTH_BRICK:
                 return true;
         }
         return false;
