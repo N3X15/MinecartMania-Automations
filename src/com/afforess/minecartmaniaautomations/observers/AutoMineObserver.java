@@ -64,9 +64,8 @@ public class AutoMineObserver extends BlockObserver {
         if ((aboveId == Material.RAILS.getId()) || (aboveId == Material.POWERED_RAIL.getId()) || (aboveId == Material.DETECTOR_RAIL.getId()) || (aboveId == Material.REDSTONE_WIRE.getId())) {
             // ... Unless we're on top of sand or gravel.  Then
             // remove it and replace with a solid block, if possible.
-            if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId())) {
+            if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId()))
                 return fixLooseBlocks(minecart, minecart.minecart.getWorld(), id, data, x, y, z, staticReplacement);
-            }
             return false;
         }
         
@@ -75,9 +74,8 @@ public class AutoMineObserver extends BlockObserver {
             if (isTypeGnome(type)) {
                 // ... Unless we're on top of sand or gravel.  Then
                 // remove it and replace with a solid block, if possible.
-                if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId())) {
+                if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId()))
                     return fixLooseBlocks(minecart, minecart.minecart.getWorld(), id, data, x, y, z, staticReplacement);
-                }
                 return false;
             }
         }
@@ -104,7 +102,7 @@ public class AutoMineObserver extends BlockObserver {
         return dirty;
     }
     
-    private boolean isTypeGnome(Material type) {
+    private boolean isTypeGnome(final Material type) {
         switch (type) {
             case SIGN:
             case WALL_SIGN:
@@ -122,7 +120,7 @@ public class AutoMineObserver extends BlockObserver {
         return false;
     }
     
-    private boolean isStaticBlock(Material type) {
+    private boolean isStaticBlock(final Material type) {
         switch (type) {
             case STONE:
             case DIRT:
@@ -179,16 +177,14 @@ public class AutoMineObserver extends BlockObserver {
         return l;
     }
     
-    private boolean fixLooseBlocks(MinecartManiaStorageCart cart, World world, int id, int data, int x, int y, int z, ItemStack staticReplacement) {
-        ItemStack drop = AutomationsUtils.getDropsForBlock(random, id, data, 0);
+    private boolean fixLooseBlocks(final MinecartManiaStorageCart cart, final World world, final int id, final int data, final int x, final int y, final int z, final ItemStack staticReplacement) {
+        final ItemStack drop = AutomationsUtils.getDropsForBlock(random, id, data, 0);
         staticReplacement.setAmount(1);
-        if (!cart.removeItem(staticReplacement.getTypeId(), 1, staticReplacement.getDurability())) {
+        if (!cart.removeItem(staticReplacement.getTypeId(), 1, staticReplacement.getDurability()))
             return false;
-        }
         if (drop != null) {
-            if (!cart.addItem(drop)) {
+            if (!cart.addItem(drop))
                 return false;
-            }
         }
         MinecartManiaWorld.setBlockAt(world, staticReplacement.getTypeId(), x, y, z);
         MinecartManiaWorld.setBlockData(world, staticReplacement.getDurability(), x, y, z);

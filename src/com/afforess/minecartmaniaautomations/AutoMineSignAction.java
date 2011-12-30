@@ -52,7 +52,7 @@ public class AutoMineSignAction implements SignAction {
             if (player != null) {
                 sign.setLine(0, "[Mine Blocks]");
                 if (sign.getLine(1).startsWith("solid:")) {
-                    SpecificMaterial[] mats = ItemUtils.getItemStringToMaterial(sign.getLine(1).substring(6));
+                    final SpecificMaterial[] mats = ItemUtils.getItemStringToMaterial(sign.getLine(1).substring(6));
                     if (mats.length == 1) {
                         solidReplacer = new ItemStack(mats[0].getId(), 1, (short) mats[0].getData());
                     }

@@ -92,7 +92,7 @@ public class AutoTimberObserver extends BlockObserver {
                 final Block base = w.getBlockAt(x, (y - down) + 1, z);
                 //Attempt to replant the tree
                 if (removeLogs(x, (y - down) + 1, z, w, minecart, false) && (minecart.getDataValue("AutoForest") != null)) {
-                    short saplingType = (short) (base.getData() & 8);
+                    final short saplingType = (short) (base.getData() & 8);
                     if (minecart.contains(Material.SAPLING.getId(), saplingType)) {
                         minecart.removeItem(Material.SAPLING.getId(), saplingType);
                         w.getBlockAt(x, (y - down) + 1, z).setTypeIdAndData(Material.SAPLING.getId(), (byte) saplingType, true);
