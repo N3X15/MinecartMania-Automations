@@ -169,6 +169,8 @@ public class AutoMineObserver extends BlockObserver {
         types[1] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x - 1, y, z).getType();
         types[2] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x, y + 1, z).getType();
         types[3] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x, y - 1, z).getType();
+        types[4] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x, y, z + 1).getType();
+        types[5] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x, y, z - 1).getType();
         for (final Material type : types) {
             if (!l.contains(type)) {
                 l.add(type);
