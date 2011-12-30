@@ -162,7 +162,7 @@ public class AutoMineObserver extends BlockObserver {
     
     private List<Material> getAdjacentBlockTypes(final MinecartManiaStorageCart minecart, final int x, final int y, final int z) {
         final ArrayList<Material> l = new ArrayList<Material>();
-        final Material types[] = new Material[4];
+        final Material types[] = new Material[6];
         types[0] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x + 1, y, z).getType();
         types[1] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x - 1, y, z).getType();
         types[2] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x, y + 1, z).getType();
