@@ -18,7 +18,7 @@ public class AutomationsUtils {
     
     public static ItemStack getDropsForBlock(final Random random, final int id, final int data, final int miningWithTool) {
         final Block b = net.minecraft.server.Block.byId[id];
-        final int numDrops = b.a(random);
+        final int numDrops = b.getDropCount(0, random);
         final int dropId = b.getDropType(miningWithTool, random, 0);
         int dropData = data;
         if (dropId <= 0)
