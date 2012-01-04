@@ -25,7 +25,7 @@ import com.afforess.minecartmaniacore.world.SpecificMaterial;
 
 public class MinecartManiaAutomations extends JavaPlugin {
     public static MinecartManiaLogger log = MinecartManiaLogger.getInstance();
-    public static MinecartManiaActionListener listener = new MinecartManiaActionListener();
+    private static MinecartManiaActionListener listener = new MinecartManiaActionListener();
     public static ArrayList<SpecificMaterial> unrestrictedBlocks = new ArrayList<SpecificMaterial>();
     
     public void onEnable() {
