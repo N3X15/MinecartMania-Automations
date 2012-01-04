@@ -20,9 +20,6 @@ public class DefoliatorObserver extends BlockObserver {
     
     private Random random;
     
-    /**
-     * @param name
-     */
     public DefoliatorObserver() {
         super("Defoliate");
     }

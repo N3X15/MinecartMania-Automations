@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import com.afforess.minecartmaniaautomations.AutomationsUtils;
@@ -134,9 +135,35 @@ public class AutoMineObserver extends BlockObserver {
             
             final List<Material> blocks = getAdjacentBlockTypes(w, x, y, z);
             for (final Material type : blocks) {
-                if (isTypeGnome(type))
+                if (isTypeGnome(type)) {
+                    if (isTypeTorch(type) && !attachedToTorch(w, x, y, z)) {
+                        continue;
+                    }
+                    if (isTypeSign(type) && !attachedToSign(w, x, y, z)) {
+                        continue;
+                    }
                     return fixLooseBlocks(cart, w, id, data, x, y, z, replacement);
+                }
             }
+        }
+        return false;
+    }
+    
+    private boolean isTypeSign(final Material type) {
+        switch (type) {
+            case SIGN:
+            case WALL_SIGN:
+                return true;
+        }
+        return false;
+    }
+    
+    private boolean isTypeTorch(final Material type) {
+        switch (type) {
+            case TORCH:
+            case REDSTONE_TORCH_ON:
+            case REDSTONE_TORCH_OFF:
+                return true;
         }
         return false;
     }
@@ -228,5 +255,54 @@ public class AutoMineObserver extends BlockObserver {
         MinecartManiaWorld.setBlockAt(world, staticReplacement.getTypeId(), x, y, z);
         MinecartManiaWorld.setBlockData(world, staticReplacement.getDurability(), x, y, z);
         return true;
+    }
+    
+    /**
+     * Ensure we're not leaving bits of block hanging around torches that don't need to be there.
+     * @param player
+     * @param block
+     */
+    protected boolean attachedToTorch(final World w, final int x, final int y, final int z) {
+        final ArrayList<Integer> torchTypes = new ArrayList<Integer>();
+        torchTypes.add(50); // Torch
+        torchTypes.add(75); // Redstone torch (on)
+        torchTypes.add(76); // Redstone torch (off)
+        
+        final Block torchTop = w.getBlockAt(x, y + 1, z);
+        if (torchTypes.contains(torchTop.getTypeId()) && (torchTop.getData() == 5))
+            return true;
+        final Block torchNorth = w.getBlockAt(x + 1, y, z);
+        if (torchTypes.contains(torchNorth.getTypeId()) && (torchNorth.getData() == 1))
+            return true;
+        final Block torchSouth = w.getBlockAt(x - 1, y, z);
+        if (torchTypes.contains(torchSouth.getTypeId()) && (torchSouth.getData() == 2))
+            return true;
+        final Block torchEast = w.getBlockAt(x, y, z + 1);
+        if (torchTypes.contains(torchEast.getTypeId()) && (torchEast.getData() == 3))
+            return true;
+        final Block torchWest = w.getBlockAt(x, y, z - 1);
+        if (torchTypes.contains(torchWest.getTypeId()) && (torchWest.getData() == 4))
+            return true;
+        return false;
+    }
+    
+    protected boolean attachedToSign(final World w, final int x, final int y, final int z) {
+        
+        final Block top = w.getBlockAt(x, y + 1, z);
+        if (top.getTypeId() == 63)
+            return true;
+        final Block north = w.getBlockAt(x + 1, y, z);
+        if ((north.getTypeId() == 68) && (north.getData() == 5))
+            return true;
+        final Block south = w.getBlockAt(x - 1, y, z);
+        if ((south.getTypeId() == 68) && (south.getData() == 4))
+            return true;
+        final Block east = w.getBlockAt(x, y, z + 1);
+        if ((east.getTypeId() == 68) && (east.getData() == 3))
+            return true;
+        final Block west = w.getBlockAt(x, y, z - 1);
+        if ((west.getTypeId() == 68) && (west.getData() == 2))
+            return true;
+        return false;
     }
 }
