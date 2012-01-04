@@ -81,14 +81,14 @@ public class AutoMineSignAction implements SignAction {
                 continue;
             }
             if (player != null) {
-                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item.toItemStack())) {
+                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item.toSpecificMaterial())) {
                     if (player != null) {
                         player.sendMessage(ChatColor.RED + "You don't have permission to automine " + itemstack.getType().name() + "!");
                     }
                     return false;
                 }
             } else {
-                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item.toItemStack()))
+                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item.toSpecificMaterial()))
                     return false;
             }
         }
