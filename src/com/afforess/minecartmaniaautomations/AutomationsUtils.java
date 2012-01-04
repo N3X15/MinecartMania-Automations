@@ -28,6 +28,8 @@ public class AutomationsUtils {
             m.setAccessible(true);
             dropData = (Integer) m.invoke(b, miningWithTool);
         } catch (final Exception e) {
+            // Probably not going to happen.
+            e.printStackTrace();
         }
         return new ItemStack(dropId, numDrops, (short) dropData);
     }
