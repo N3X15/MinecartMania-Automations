@@ -44,6 +44,7 @@ public class AutoMineObserver extends BlockObserver {
         final int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
         
         ItemStack staticReplacement = (ItemStack) minecart.getDataValue("StaticReplacer");
+        
         // Don't remove sand or gravel if we don't have anything solid (in case there's rails on top)
         if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId())) {
             if (staticReplacement == null) {
@@ -61,7 +62,7 @@ public class AutoMineObserver extends BlockObserver {
                 return false;
         }
         // Don't mess with stuff underneath rails or redstone wire
-        if ((aboveId == Material.RAILS.getId()) || (aboveId == Material.POWERED_RAIL.getId()) || (aboveId == Material.DETECTOR_RAIL.getId()) || (aboveId == Material.REDSTONE_WIRE.getId())) {
+        if (!isTypeGnome(Material.getMaterial(aboveId))) {
             // ... Unless we're on top of sand or gravel.  Then
             // remove it and replace with a solid block, if possible.
             if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId()))
@@ -69,7 +70,7 @@ public class AutoMineObserver extends BlockObserver {
             return false;
         }
         
-        final List<Material> blocks = getAdjacentBlockTypes(minecart, x, y, z);
+        final List<Material> blocks = getAdjacentBlockTypes(minecart.getWorld(), x, y, z);
         for (final Material type : blocks) {
             if (isTypeGnome(type)) {
                 // ... Unless we're on top of sand or gravel.  Then
@@ -86,6 +87,12 @@ public class AutoMineObserver extends BlockObserver {
         
         for (final ItemMatcher matcher : matchers) {
             if (matcher.match(new ItemStack(id, 0, (short) data))) {
+                if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId())) {
+                    raytraceThruPhysblock(minecart.getWorld(), minecart, x, y, z, staticReplacement);
+                }
+                if ((aboveId == Material.SAND.getId()) || (aboveId == Material.GRAVEL.getId())) {
+                    raytraceThruPhysblock(minecart.getWorld(), minecart, x, y + 1, z, staticReplacement);
+                }
                 final ItemStack is = AutomationsUtils.getDropsForBlock(random, id, data, 0);
                 if (is != null) {
                     if (minecart.addItem(is)) {
@@ -100,6 +107,38 @@ public class AutoMineObserver extends BlockObserver {
         }
         
         return dirty;
+    }
+    
+    /**
+     * Iterate through blocks until we either hit a solid block or until we hit a gnome.
+     * 
+     * Used for avoiding mining creating falling blocks that fuck with water flow or signs.
+     * @param w World
+     * @param cart Cart making changes
+     * @param x
+     * @param initial_y Where to start the search
+     * @param z
+     * @param replacement What to replace matching blocks with
+     * @return Stuff changed
+     */
+    private boolean raytraceThruPhysblock(final World w, final MinecartManiaStorageCart cart, final int x, final int initial_y, final int z, final ItemStack replacement) {
+        
+        for (int y = initial_y; y < 128; y++) {
+            //update data
+            final int id = MinecartManiaWorld.getBlockIdAt(w, x, y, z);
+            final int data = MinecartManiaWorld.getBlockData(w, x, y, z);
+            final int aboveId = MinecartManiaWorld.getBlockIdAt(w, x, y + 1, z);
+            
+            if ((aboveId == 0) || isStaticBlock(Material.getMaterial(aboveId)))
+                return false;
+            
+            final List<Material> blocks = getAdjacentBlockTypes(w, x, y, z);
+            for (final Material type : blocks) {
+                if (isTypeGnome(type))
+                    return fixLooseBlocks(cart, w, id, data, x, y, z, replacement);
+            }
+        }
+        return false;
     }
     
     private boolean isTypeGnome(final Material type) {
@@ -160,15 +199,15 @@ public class AutoMineObserver extends BlockObserver {
         return false;
     }
     
-    private List<Material> getAdjacentBlockTypes(final MinecartManiaStorageCart minecart, final int x, final int y, final int z) {
+    private List<Material> getAdjacentBlockTypes(final World world, final int x, final int y, final int z) {
         final ArrayList<Material> l = new ArrayList<Material>();
         final Material types[] = new Material[6];
-        types[0] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x + 1, y, z).getType();
-        types[1] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x - 1, y, z).getType();
-        types[2] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x, y + 1, z).getType();
-        types[3] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x, y - 1, z).getType();
-        types[4] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x, y, z + 1).getType();
-        types[5] = MinecartManiaWorld.getBlockAt(minecart.getWorld(), x, y, z - 1).getType();
+        types[0] = MinecartManiaWorld.getBlockAt(world, x + 1, y, z).getType();
+        types[1] = MinecartManiaWorld.getBlockAt(world, x - 1, y, z).getType();
+        types[2] = MinecartManiaWorld.getBlockAt(world, x, y + 1, z).getType();
+        types[3] = MinecartManiaWorld.getBlockAt(world, x, y - 1, z).getType();
+        types[4] = MinecartManiaWorld.getBlockAt(world, x, y, z + 1).getType();
+        types[5] = MinecartManiaWorld.getBlockAt(world, x, y, z - 1).getType();
         for (final Material type : types) {
             if (!l.contains(type)) {
                 l.add(type);
