@@ -24,7 +24,7 @@ public class AutomationsUtils {
         if (dropId <= 0)
             return null;
         try {
-            final Method m = b.getClass().getMethod("getDropData", int.class);
+            final Method m = b.getClass().getDeclaredMethod("getDropData", int.class);
             m.setAccessible(true);
             dropData = (Integer) m.invoke(b, miningWithTool);
         } catch (final Exception e) {
