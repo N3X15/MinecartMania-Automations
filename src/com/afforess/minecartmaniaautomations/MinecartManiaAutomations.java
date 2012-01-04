@@ -3,11 +3,9 @@ package com.afforess.minecartmaniaautomations;
 import java.util.ArrayList;
 
 import org.bukkit.Material;
-import org.bukkit.Server;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.afforess.minecartmaniaautomations.observers.AutoCactusObserver;
@@ -27,17 +25,13 @@ import com.afforess.minecartmaniacore.world.SpecificMaterial;
 
 public class MinecartManiaAutomations extends JavaPlugin {
     public static MinecartManiaLogger log = MinecartManiaLogger.getInstance();
-    public static Server server;
-    public static PluginDescriptionFile description;
     public static MinecartManiaActionListener listener = new MinecartManiaActionListener();
     public static ArrayList<SpecificMaterial> unrestrictedBlocks = new ArrayList<SpecificMaterial>();
     
     public void onEnable() {
-        server = getServer();
-        description = getDescription();
-        MinecartManiaConfigurationParser.read(description.getName() + "Configuration.xml", MinecartManiaCore.getDataDirectoryRelativePath(), new AutomationsSettingParser());
+        MinecartManiaConfigurationParser.read(getDescription().getName() + "Configuration.xml", MinecartManiaCore.getDataDirectoryRelativePath(), new AutomationsSettingParser());
         getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, listener, Priority.Normal, this);
-        log.info(description.getName() + " version " + description.getVersion() + " is enabled!");
+        log.info(getDescription().getName() + " version " + getDescription().getVersion() + " is enabled!");
         
         listener.blockObservers.clear();
         listener.blockObservers.add(new AutoPumpkinObserver());
