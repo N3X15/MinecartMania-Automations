@@ -89,10 +89,14 @@ public class AutoMineObserver extends BlockObserver {
         for (final ItemMatcher matcher : matchers) {
             if (matcher.match(new ItemStack(id, 0, (short) data))) {
                 if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId())) {
-                    raytraceThruPhysblock(minecart.getWorld(), minecart, x, y, z, staticReplacement);
+                    if (raytraceThruPhysblock(minecart.getWorld(), minecart, x, y, z, staticReplacement)) {
+                        return true;
+                    }
                 }
                 if ((aboveId == Material.SAND.getId()) || (aboveId == Material.GRAVEL.getId())) {
-                    raytraceThruPhysblock(minecart.getWorld(), minecart, x, y + 1, z, staticReplacement);
+                    if (raytraceThruPhysblock(minecart.getWorld(), minecart, x, y + 1, z, staticReplacement)) {
+                        return true;
+                    }
                 }
                 final ItemStack is = AutomationsUtils.getDropsForBlock(random, id, data, 0);
                 if (is != null) {
