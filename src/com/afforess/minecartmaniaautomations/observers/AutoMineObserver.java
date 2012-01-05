@@ -72,6 +72,13 @@ public class AutoMineObserver extends BlockObserver {
             return false;
         }
         
+        if (attachedToTorch(minecart.getWorld(), x, y, z)) {
+            return false;
+        }
+        if (attachedToSign(minecart.getWorld(), x, y, z)) {
+            return false;
+        }
+        
         final List<Material> blocks = getAdjacentBlockTypes(minecart.getWorld(), x, y, z);
         for (final Material type : blocks) {
             if (isTypeGnome(type)) {
@@ -148,15 +155,16 @@ public class AutoMineObserver extends BlockObserver {
             if ((aboveId == 0) || isStaticBlock(Material.getMaterial(aboveId)))
                 return false;
             
+            if (attachedToTorch(w, x, y, z)) {
+                return fixLooseBlocks(cart, w, id, data, x, y, z, replacement);
+            }
+            if (attachedToSign(w, x, y, z)) {
+                return fixLooseBlocks(cart, w, id, data, x, y, z, replacement);
+            }
+            
             final List<Material> blocks = getAdjacentBlockTypes(w, x, y, z);
             for (final Material type : blocks) {
                 if (isTypeGnome(type)) {
-                    if (isTypeTorch(type) && !attachedToTorch(w, x, y, z)) {
-                        continue;
-                    }
-                    if (isTypeSign(type) && !attachedToSign(w, x, y, z)) {
-                        continue;
-                    }
                     return fixLooseBlocks(cart, w, id, data, x, y, z, replacement);
                 }
             }
@@ -185,11 +193,11 @@ public class AutoMineObserver extends BlockObserver {
     
     private boolean isTypeGnome(final Material type) {
         switch (type) {
+        //            case TORCH:
+        //            case REDSTONE_TORCH_ON:
+        //            case REDSTONE_TORCH_OFF:
             case SIGN:
             case WALL_SIGN:
-            case TORCH:
-            case REDSTONE_TORCH_ON:
-            case REDSTONE_TORCH_OFF:
             case STONE_BUTTON:
             case LEVER:
             case WATER:
