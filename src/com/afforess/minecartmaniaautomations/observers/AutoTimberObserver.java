@@ -93,10 +93,11 @@ public class AutoTimberObserver extends BlockObserver {
                 //Attempt to replant the tree
                 if (removeLogs(x, (y - down) + 1, z, w, minecart, false) && (minecart.getDataValue("AutoForest") != null)) {
                     final short saplingType = (short) (base.getData() & 8);
-                    if (minecart.contains(Material.SAPLING.getId(), saplingType)) {
-                        minecart.removeItem(Material.SAPLING.getId(), saplingType);
-                        w.getBlockAt(x, (y - down) + 1, z).setTypeIdAndData(Material.SAPLING.getId(), (byte) saplingType, true);
-                        gdirty = true;
+                    if (minecart.amount(Material.SAPLING.getId(), saplingType) > 0) {
+                        if (minecart.removeItem(Material.SAPLING.getId(), saplingType)) {
+                            w.getBlockAt(x, (y - down) + 1, z).setTypeIdAndData(Material.SAPLING.getId(), (byte) saplingType, true);
+                            gdirty = true;
+                        }
                     }
                 }
             }

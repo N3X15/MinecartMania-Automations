@@ -9,6 +9,7 @@ import com.afforess.minecartmaniacore.signs.Sign;
 import com.afforess.minecartmaniacore.signs.SignAction;
 import com.afforess.minecartmaniacore.utils.ItemMatcher;
 import com.afforess.minecartmaniacore.utils.ItemUtils;
+import com.afforess.minecartmaniacore.utils.StringUtils;
 import com.afforess.minecartmaniacore.world.SpecificMaterial;
 import com.griefcraft.lwc.LWC;
 import com.griefcraft.model.Protection;
@@ -40,7 +41,11 @@ public class AutoMineSignAction implements SignAction {
     public boolean valid(final Sign sign) {
         solidReplacer = null;
         matchers = null;
-        if (sign.getLine(0).toLowerCase().contains("mine blocks")) {
+        String[] lines = sign.getLines();
+        for (int li = 0; li < lines.length; li++) {
+            lines[li] = StringUtils.removeBrackets(lines[li]);
+        }
+        if (lines[0].toLowerCase().contains("mine blocks")) {
             final Protection p = LWC.getInstance().findProtection(sign.getBlock());
             if (p != null) {
                 final Player pl = p.getBukkitOwner();
@@ -51,13 +56,14 @@ public class AutoMineSignAction implements SignAction {
             }
             if (player != null) {
                 sign.setLine(0, "[Mine Blocks]");
-                if (sign.getLine(1).startsWith("solid:")) {
-                    final SpecificMaterial[] mats = ItemUtils.getItemStringToMaterial(sign.getLine(1).substring(6));
+                if (lines[1].startsWith("solid:")) {
+                    final SpecificMaterial[] mats = ItemUtils.getItemStringToMaterial(lines[1].substring(6));
                     if (mats.length == 1) {
                         solidReplacer = new ItemStack(mats[0].getId(), 1, (short) mats[0].getData());
                     }
+                    lines[1] = "";
                 }
-                matchers = ItemUtils.getItemStringListToMatchers(sign.getLines());
+                matchers = ItemUtils.getItemStringListToMatchers(lines);
                 if (!checkItems()) {
                     matchers = null;
                 }
