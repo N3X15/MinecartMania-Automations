@@ -3,6 +3,7 @@
  */
 package com.afforess.minecartmaniaautomations;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Random;
 
@@ -23,12 +24,27 @@ public class AutomationsUtils {
         int dropData = data;
         if (dropId <= 0)
             return null;
+        Method m = null;
         try {
-            final Method m = b.getClass().getDeclaredMethod("getDropData", int.class);
-            m.setAccessible(true);
+            m = b.getClass().getDeclaredMethod("getDropData", int.class);
+        } catch (final NoSuchMethodException e) {
+            try {
+                m = b.getClass().getMethod("getDropData", int.class);
+            } catch (final NoSuchMethodException e2) {
+                return null;
+            }
+        }
+        m.setAccessible(true);
+        try {
             dropData = (Integer) m.invoke(b, miningWithTool);
-        } catch (final Exception e) {
-            // Probably not going to happen.
+        } catch (IllegalArgumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return new ItemStack(dropId, numDrops, (short) dropData);
