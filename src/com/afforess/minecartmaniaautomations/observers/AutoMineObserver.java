@@ -63,7 +63,7 @@ public class AutoMineObserver extends BlockObserver {
                 return false;
         }
         // Don't mess with stuff underneath rails or redstone wire
-        if (isTypeGnome(Material.getMaterial(aboveId))) {
+        if (isTypeRails(Material.getMaterial(aboveId))) {
             // ... Unless we're on top of sand or gravel.  Then
             // remove it and replace with a solid block, if possible.
             if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId()))
@@ -108,6 +108,16 @@ public class AutoMineObserver extends BlockObserver {
         }
         
         return dirty;
+    }
+    
+    private boolean isTypeRails(Material material) {
+        switch (material) {
+            case RAILS:
+            case DETECTOR_RAIL:
+            case POWERED_RAIL:
+            case REDSTONE_WIRE:
+        }
+        return false;
     }
     
     /**
