@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.inventory.ItemStack;
 
 import com.afforess.minecartmaniaautomations.AutomationsUtils;
 import com.afforess.minecartmaniaautomations.BlockObserver;
@@ -53,8 +54,11 @@ public class AutoMelonObserver extends BlockObserver {
             }
         }
         if ((id == Material.MELON_BLOCK.getId()) && ((baseId == Material.DIRT.getId()) || (baseId == Material.SOIL.getId()) || (baseId == Material.GRASS.getId()))) {
-            w.dropItemNaturally(new Location(w, x, y + 1, z), AutomationsUtils.getDropsForBlock(random, id, data, 0));
-            MinecartManiaWorld.setBlockAt(w, Material.AIR.getId(), x, y + 1, z);
+            ItemStack drop = AutomationsUtils.getDropsForBlock(random, id, data, 0);
+            if (drop != null) {
+                w.dropItemNaturally(new Location(w, x, y + 1, z), drop);
+                MinecartManiaWorld.setBlockAt(w, Material.AIR.getId(), x, y + 1, z);
+            }
             return true;
         }
         if ((minecart.getDataValue("Stems Too") != null) || (minecart.getDataValue("SmartForest") != null)) {
@@ -76,5 +80,4 @@ public class AutoMelonObserver extends BlockObserver {
         }
         return false;
     }
-    
 }

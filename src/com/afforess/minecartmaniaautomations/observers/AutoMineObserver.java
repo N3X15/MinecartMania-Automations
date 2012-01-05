@@ -63,7 +63,7 @@ public class AutoMineObserver extends BlockObserver {
                 return false;
         }
         // Don't mess with stuff underneath rails or redstone wire
-        if (isTypeRails(Material.getMaterial(aboveId))) {
+        if ((aboveId == Material.RAILS.getId()) || (aboveId == Material.POWERED_RAIL.getId()) || (aboveId == Material.DETECTOR_RAIL.getId()) || (aboveId == Material.REDSTONE_WIRE.getId())) {
             // ... Unless we're on top of sand or gravel.  Then
             // remove it and replace with a solid block, if possible.
             if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId()))

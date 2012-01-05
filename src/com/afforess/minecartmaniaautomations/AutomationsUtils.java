@@ -31,6 +31,12 @@ public class AutomationsUtils {
             try {
                 m = b.getClass().getMethod("getDropData", int.class);
             } catch (final NoSuchMethodException e2) {
+                e.printStackTrace();
+                for (Method method : b.getClass().getMethods()) {
+                    if (method.getName().startsWith("get") && method.getReturnType().equals(int.class)) {
+                        System.out.println(" * " + method);
+                    }
+                }
                 return null;
             }
         }
