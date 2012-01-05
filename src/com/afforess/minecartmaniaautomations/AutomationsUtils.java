@@ -17,32 +17,41 @@ import org.bukkit.inventory.ItemStack;
  */
 public class AutomationsUtils {
     
-    public static ItemStack getDropsForBlock(final Random random, final int id, final int data, final int miningWithTool) {
+    public static ItemStack getDropsForBlock(final Random random, final int id, final int data, final int fortune) {
         final Block b = net.minecraft.server.Block.byId[id];
         final int numDrops = b.getDropCount(0, random);
-        final int dropId = b.getDropType(miningWithTool, random, 0);
-        int dropData = data;
+        final int dropId = b.getDropType(fortune, random, 0);
+        int dropData = getDropData(b.getClass(), random, id, data, fortune);
         if (dropId <= 0)
             return null;
+        return new ItemStack(dropId, numDrops, (short) dropData);
+    }
+    
+    /**
+     * Get the getDropData method (if it's declared) and invoke it.
+     * @param b
+     * @param random
+     * @param id
+     * @param data
+     * @param fortune
+     * @return
+     */
+    private static int getDropData(Class<? extends Block> b, Random random, int id, int data, int fortune) {
         Method m = null;
         try {
-            m = b.getClass().getDeclaredMethod("getDropData", int.class);
+            m = b.getDeclaredMethod("getDropData", int.class);
         } catch (final NoSuchMethodException e) {
-            try {
-                m = b.getClass().getMethod("getDropData", int.class);
-            } catch (final NoSuchMethodException e2) {
-                e.printStackTrace();
-                for (Method method : b.getClass().getMethods()) {
-                    if (method.getName().startsWith("get") && method.getReturnType().equals(int.class)) {
-                        System.out.println(" * " + method);
-                    }
-                }
-                return null;
+            // If not declared, try the super class.
+            if (b.getSuperclass().equals(Block.class)) {
+                // High as we can go; Since Block just returns 0, do the same.
+                return 0;
+            } else {
+                return getDropData((Class<? extends Block>) b.getSuperclass(), random, id, data, fortune);
             }
         }
         m.setAccessible(true);
         try {
-            dropData = (Integer) m.invoke(b, miningWithTool);
+            return (Integer) m.invoke(b, fortune);
         } catch (IllegalArgumentException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -53,7 +62,6 @@ public class AutomationsUtils {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return new ItemStack(dropId, numDrops, (short) dropData);
+        return 0;
     }
-    
 }
