@@ -41,7 +41,7 @@ public class AutoMineSignAction implements SignAction {
     public boolean valid(final Sign sign) {
         solidReplacer = null;
         matchers = null;
-        String[] lines = sign.getLines();
+        final String[] lines = sign.getLines();
         for (int li = 0; li < lines.length; li++) {
             lines[li] = StringUtils.removeBrackets(lines[li]);
         }

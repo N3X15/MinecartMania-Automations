@@ -14,10 +14,10 @@ public class TestUtils {
     
     @Test
     public void test_getDropsForBlocks() {
-        Random rand = new Random();
+        final Random rand = new Random();
         AchievementList.a(); //REQUIRED for successful test.
-        int isid = Item.INK_SACK.id;
-        ItemStack results = AutomationsUtils.getDropsForBlock(rand, 21, 0, 0); // Lapis Ore
+        final int isid = Item.INK_SACK.id;
+        final ItemStack results = AutomationsUtils.getDropsForBlock(rand, 21, 0, 0); // Lapis Ore
         assertEquals("getDropsForBlocks: Failed to return correct ID", isid, results.getTypeId());
         assertEquals("getDropsForBlocks: Failed to return correct Data", 4, results.getDurability());
     }

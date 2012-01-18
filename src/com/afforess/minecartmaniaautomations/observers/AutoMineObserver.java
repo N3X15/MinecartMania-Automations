@@ -72,12 +72,10 @@ public class AutoMineObserver extends BlockObserver {
             return false;
         }
         
-        if (attachedToTorch(minecart.getWorld(), x, y, z)) {
+        if (attachedToTorch(minecart.getWorld(), x, y, z))
             return false;
-        }
-        if (attachedToSign(minecart.getWorld(), x, y, z)) {
+        if (attachedToSign(minecart.getWorld(), x, y, z))
             return false;
-        }
         
         final List<Material> blocks = getAdjacentBlockTypes(minecart.getWorld(), x, y, z);
         for (final Material type : blocks) {
@@ -97,14 +95,12 @@ public class AutoMineObserver extends BlockObserver {
         for (final ItemMatcher matcher : matchers) {
             if (matcher.match(new ItemStack(id, 0, (short) data))) {
                 if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId())) {
-                    if (raytraceThruPhysblock(minecart.getWorld(), minecart, x, y, z, staticReplacement)) {
+                    if (raytraceThruPhysblock(minecart.getWorld(), minecart, x, y, z, staticReplacement))
                         return true;
-                    }
                 }
                 if ((aboveId == Material.SAND.getId()) || (aboveId == Material.GRAVEL.getId())) {
-                    if (raytraceThruPhysblock(minecart.getWorld(), minecart, x, y + 1, z, staticReplacement)) {
+                    if (raytraceThruPhysblock(minecart.getWorld(), minecart, x, y + 1, z, staticReplacement))
                         return true;
-                    }
                 }
                 final ItemStack is = AutomationsUtils.getDropsForBlock(random, id, data, 0);
                 if (is != null) {
@@ -120,16 +116,6 @@ public class AutoMineObserver extends BlockObserver {
         }
         
         return dirty;
-    }
-    
-    private boolean isTypeRails(Material material) {
-        switch (material) {
-            case RAILS:
-            case DETECTOR_RAIL:
-            case POWERED_RAIL:
-            case REDSTONE_WIRE:
-        }
-        return false;
     }
     
     /**
@@ -155,38 +141,16 @@ public class AutoMineObserver extends BlockObserver {
             if ((aboveId == 0) || isStaticBlock(Material.getMaterial(aboveId)))
                 return false;
             
-            if (attachedToTorch(w, x, y, z)) {
+            if (attachedToTorch(w, x, y, z))
                 return fixLooseBlocks(cart, w, id, data, x, y, z, replacement);
-            }
-            if (attachedToSign(w, x, y, z)) {
+            if (attachedToSign(w, x, y, z))
                 return fixLooseBlocks(cart, w, id, data, x, y, z, replacement);
-            }
             
             final List<Material> blocks = getAdjacentBlockTypes(w, x, y, z);
             for (final Material type : blocks) {
-                if (isTypeGnome(type)) {
+                if (isTypeGnome(type))
                     return fixLooseBlocks(cart, w, id, data, x, y, z, replacement);
-                }
             }
-        }
-        return false;
-    }
-    
-    private boolean isTypeSign(final Material type) {
-        switch (type) {
-            case SIGN:
-            case WALL_SIGN:
-                return true;
-        }
-        return false;
-    }
-    
-    private boolean isTypeTorch(final Material type) {
-        switch (type) {
-            case TORCH:
-            case REDSTONE_TORCH_ON:
-            case REDSTONE_TORCH_OFF:
-                return true;
         }
         return false;
     }

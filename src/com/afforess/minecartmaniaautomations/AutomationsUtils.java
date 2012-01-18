@@ -21,7 +21,7 @@ public class AutomationsUtils {
         final Block b = net.minecraft.server.Block.byId[id];
         final int numDrops = b.getDropCount(0, random);
         final int dropId = b.getDropType(fortune, random, 0);
-        int dropData = getDropData(b.getClass(), b, random, id, data, fortune);
+        final int dropData = getDropData(b.getClass(), b, random, id, data, fortune);
         if (dropId <= 0)
             return null;
         return new ItemStack(dropId, numDrops, (short) dropData);
@@ -36,29 +36,28 @@ public class AutomationsUtils {
      * @param fortune
      * @return
      */
-    private static int getDropData(Class<? extends Block> b, Block block, Random random, int id, int data, int fortune) {
+    private static int getDropData(final Class<? extends Block> b, final Block block, final Random random, final int id, final int data, final int fortune) {
         Method m = null;
         try {
             m = b.getDeclaredMethod("getDropData", int.class);
         } catch (final NoSuchMethodException e) {
             // If not declared, try the super class.
-            if (b.getSuperclass().equals(Block.class)) {
+            if (b.getSuperclass().equals(Block.class))
                 // High as we can go; Since Block just returns 0, do the same.
                 return 0;
-            } else {
+            else
                 return getDropData((Class<? extends Block>) b.getSuperclass(), block, random, id, data, fortune);
-            }
         }
         m.setAccessible(true);
         try {
             return (Integer) m.invoke(block, fortune);
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (final InvocationTargetException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

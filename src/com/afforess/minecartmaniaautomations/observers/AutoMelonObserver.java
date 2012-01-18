@@ -54,7 +54,7 @@ public class AutoMelonObserver extends BlockObserver {
             }
         }
         if ((id == Material.MELON_BLOCK.getId()) && ((baseId == Material.DIRT.getId()) || (baseId == Material.SOIL.getId()) || (baseId == Material.GRASS.getId()))) {
-            ItemStack drop = AutomationsUtils.getDropsForBlock(random, id, data, 0);
+            final ItemStack drop = AutomationsUtils.getDropsForBlock(random, id, data, 0);
             if (drop != null) {
                 w.dropItemNaturally(new Location(w, x, y + 1, z), drop);
                 MinecartManiaWorld.setBlockAt(w, Material.AIR.getId(), x, y + 1, z);
