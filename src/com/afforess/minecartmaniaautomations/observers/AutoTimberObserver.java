@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
 import com.afforess.minecartmaniaautomations.BlockObserver;
@@ -88,11 +89,14 @@ public class AutoTimberObserver extends BlockObserver {
             }
             final int baseId = MinecartManiaWorld.getBlockIdAt(w, x, y - down, z);
             //base of tree
+            
             if ((baseId == Material.DIRT.getId()) || (baseId == Material.GRASS.getId()) || (baseId == Material.LEAVES.getId())) {
                 final Block base = w.getBlockAt(x, (y - down) + 1, z);
+                final short saplingType = (short) (base.getData() & 8);
+                // Have saplings OR AutoForest is off
+                boolean shouldCutTree = minecart.amount(Material.SAPLING.getId(), saplingType) > 0 || !(minecart.getDataValue("AutoForest") != null);
                 //Attempt to replant the tree
-                if (removeLogs(x, (y - down) + 1, z, w, minecart, false) && (minecart.getDataValue("AutoForest") != null)) {
-                    final short saplingType = (short) (base.getData() & 8);
+                if (shouldCutTree && removeLogs(x, (y - down) + 1, z, w, minecart, false) && (minecart.getDataValue("AutoForest") != null)) {
                     if (minecart.amount(Material.SAPLING.getId(), saplingType) > 0) {
                         if (minecart.removeItem(Material.SAPLING.getId(), saplingType)) {
                             w.getBlockAt(x, (y - down) + 1, z).setTypeIdAndData(Material.SAPLING.getId(), (byte) saplingType, true);
@@ -118,7 +122,7 @@ public class AutoTimberObserver extends BlockObserver {
                     final int id = MinecartManiaWorld.getBlockIdAt(w, x, y, z);
                     final int data = MinecartManiaWorld.getBlockData(w, x, y, z);
                     if (id == Material.LOG.getId()) {
-                        final ItemStack logstack = Item.getItem(id, data).toItemStack();
+                        final ItemStack logstack = new CraftItemStack(id, 1, (short) data);
                         if (!inventory.addItem(logstack)) {
                             if (recursing) {
                                 MinecartManiaWorld.spawnDrop(w, x, y, z, logstack);
