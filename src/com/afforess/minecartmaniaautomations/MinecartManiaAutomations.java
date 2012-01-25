@@ -3,8 +3,6 @@ package com.afforess.minecartmaniaautomations;
 import java.util.ArrayList;
 
 import org.bukkit.Material;
-import org.bukkit.event.Event;
-import org.bukkit.event.Event.Priority;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -30,7 +28,7 @@ public class MinecartManiaAutomations extends JavaPlugin {
     
     public void onEnable() {
         MinecartManiaConfigurationParser.read(getDescription().getName() + "Configuration.xml", MinecartManiaCore.getDataDirectoryRelativePath(), new AutomationsSettingParser());
-        getServer().getPluginManager().registerEvent(Event.Type.CUSTOM_EVENT, listener, Priority.Normal, this);
+        getServer().getPluginManager().registerEvents(listener, this);
         log.info(getDescription().getName() + " version " + getDescription().getVersion() + " is enabled!");
         
         listener.blockObservers.clear();
