@@ -28,7 +28,9 @@ public class MinecartManiaAutomations extends JavaPlugin {
     
     public void onEnable() {
         MinecartManiaConfigurationParser.read(getDescription().getName() + "Configuration.xml", MinecartManiaCore.getDataDirectoryRelativePath(), new AutomationsSettingParser());
+        
         getServer().getPluginManager().registerEvents(listener, this);
+        
         log.info(getDescription().getName() + " version " + getDescription().getVersion() + " is enabled!");
         
         listener.blockObservers.clear();
