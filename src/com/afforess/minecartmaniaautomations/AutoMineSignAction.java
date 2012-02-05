@@ -74,7 +74,6 @@ public class AutoMineSignAction implements SignAction {
     }
     
     private boolean checkItems() {
-        
         if (player != null)
             if (player.hasPermission("minecartmania.automine.everything"))
                 return true;
@@ -87,10 +86,8 @@ public class AutoMineSignAction implements SignAction {
                 continue;
             }
             if (player != null) {
-                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item.toSpecificMaterial())) {
-                    if (player != null) {
-                        player.sendMessage(ChatColor.RED + "You don't have permission to automine " + itemstack.getType().name() + "!");
-                    }
+                if (!MinecartManiaAutomations.unrestrictedBlocks.contains(item.toSpecificMaterial()) && !player.hasPermission("minecartmania.automine." + itemstack.getTypeId())) {
+                    player.sendMessage(ChatColor.RED + "You don't have permission to automine " + itemstack.getType().name() + "!");
                     return false;
                 }
             } else {

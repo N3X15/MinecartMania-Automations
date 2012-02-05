@@ -52,7 +52,7 @@ public class MinecartManiaActionListener extends MinecartManiaListener {
                                 final int data = MinecartManiaWorld.getBlockData(minecart.getWorld(), x, y, z);
                                 for (final BlockObserver bo : blockObservers) {
                                     if (bo.lookingForBlock(type, data)) {
-                                        if (bo.onBlockSeen(cart, x, y, z)) {
+                                        if (bo.blockSeen(cart, x, y, z)) {
                                             type = MinecartManiaWorld.getBlockIdAt(minecart.getWorld(), x, y, z);
                                         }
                                     }
