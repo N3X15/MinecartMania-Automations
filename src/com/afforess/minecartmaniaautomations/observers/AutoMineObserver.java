@@ -45,7 +45,7 @@ public class AutoMineObserver extends BlockObserver {
         final int aboveId = MinecartManiaWorld.getBlockIdAt(minecart.minecart.getWorld(), x, y + 1, z);
         
         ItemStack staticReplacement = (ItemStack) minecart.getDataValue("StaticReplacer");
-        
+        boolean forcedStatic = true;
         // Don't remove sand or gravel if we don't have anything solid (in case there's rails on top)
         
         if (staticReplacement == null) {
@@ -53,6 +53,7 @@ public class AutoMineObserver extends BlockObserver {
                 if (slot != null) {
                     if (isStaticBlock(slot.getType())) {
                         staticReplacement = slot.clone();
+                        forcedStatic = false;
                         //MinecartManiaLogger.getInstance().info(String.format("[AutoMine] Static replacement set to %s", slot.getType().name()));
                         break;
                     }
@@ -67,15 +68,17 @@ public class AutoMineObserver extends BlockObserver {
         if ((aboveId == Material.RAILS.getId()) || (aboveId == Material.POWERED_RAIL.getId()) || (aboveId == Material.DETECTOR_RAIL.getId()) || (aboveId == Material.REDSTONE_WIRE.getId())) {
             // ... Unless we're on top of sand or gravel.  Then
             // remove it and replace with a solid block, if possible.
-            if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId()))
-                return fixLooseBlocks(minecart, minecart.minecart.getWorld(), id, data, x, y, z, staticReplacement);
+            if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId()) || shouldReplaceBlock(id, data, forcedStatic, staticReplacement))
+                return replaceBlock(minecart, minecart.minecart.getWorld(), id, data, x, y, z, staticReplacement);
             return false;
         }
         
-        if (attachedToTorch(minecart.getWorld(), x, y, z))
+        if (attachedToTorch(minecart.getWorld(), x, y, z) || attachedToSign(minecart.getWorld(), x, y, z)) {
+            if (shouldReplaceBlock(id, data, forcedStatic, staticReplacement)) {
+                return replaceBlock(minecart, minecart.getWorld(), id, data, x, y, z, staticReplacement);
+            }
             return false;
-        if (attachedToSign(minecart.getWorld(), x, y, z))
-            return false;
+        }
         
         final List<Material> blocks = getAdjacentBlockTypes(minecart.getWorld(), x, y, z);
         for (final Material type : blocks) {
@@ -83,7 +86,7 @@ public class AutoMineObserver extends BlockObserver {
                 // ... Unless we're on top of sand or gravel.  Then
                 // remove it and replace with a solid block, if possible.
                 if ((id == Material.SAND.getId()) || (id == Material.GRAVEL.getId()))
-                    return fixLooseBlocks(minecart, minecart.minecart.getWorld(), id, data, x, y, z, staticReplacement);
+                    return replaceBlock(minecart, minecart.minecart.getWorld(), id, data, x, y, z, staticReplacement);
                 return false;
             }
         }
@@ -118,6 +121,10 @@ public class AutoMineObserver extends BlockObserver {
         return dirty;
     }
     
+    private boolean shouldReplaceBlock(int id, int data, boolean forcedStatic, ItemStack staticReplacement) {
+        return id != staticReplacement.getTypeId() && data != staticReplacement.getDurability() && forcedStatic;
+    }
+    
     /**
      * Iterate through blocks until we either hit a solid block or until we hit a gnome.
      * 
@@ -142,14 +149,14 @@ public class AutoMineObserver extends BlockObserver {
                 return false;
             
             if (attachedToTorch(w, x, y, z))
-                return fixLooseBlocks(cart, w, id, data, x, y, z, replacement);
+                return replaceBlock(cart, w, id, data, x, y, z, replacement);
             if (attachedToSign(w, x, y, z))
-                return fixLooseBlocks(cart, w, id, data, x, y, z, replacement);
+                return replaceBlock(cart, w, id, data, x, y, z, replacement);
             
             final List<Material> blocks = getAdjacentBlockTypes(w, x, y, z);
             for (final Material type : blocks) {
                 if (isTypeGnome(type))
-                    return fixLooseBlocks(cart, w, id, data, x, y, z, replacement);
+                    return replaceBlock(cart, w, id, data, x, y, z, replacement);
             }
         }
         return false;
@@ -230,7 +237,7 @@ public class AutoMineObserver extends BlockObserver {
         return l;
     }
     
-    private boolean fixLooseBlocks(final MinecartManiaStorageCart cart, final World world, final int id, final int data, final int x, final int y, final int z, final ItemStack staticReplacement) {
+    private boolean replaceBlock(final MinecartManiaStorageCart cart, final World world, final int id, final int data, final int x, final int y, final int z, final ItemStack staticReplacement) {
         final ItemStack drop = AutomationsUtils.getDropsForBlock(random, id, data, 0);
         staticReplacement.setAmount(1);
         if (!cart.removeItem(staticReplacement.getTypeId(), 1, staticReplacement.getDurability()))
