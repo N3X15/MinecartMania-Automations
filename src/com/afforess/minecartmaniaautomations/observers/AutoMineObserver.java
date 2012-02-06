@@ -122,6 +122,8 @@ public class AutoMineObserver extends BlockObserver {
     }
     
     private boolean shouldReplaceBlock(int id, int data, boolean forcedStatic, ItemStack staticReplacement) {
+        if (staticReplacement == null)
+            return false;
         return id != staticReplacement.getTypeId() && data != staticReplacement.getDurability() && forcedStatic;
     }
     
