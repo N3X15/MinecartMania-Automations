@@ -1,14 +1,7 @@
-<!--
-  Maven build file for Minecart Mania Automations
-
-  Copyright (c) 2010-2011 Afforess <http://www.afforess.com>
-  Minecart Mania Automations is licensed under Creative Commons Attribution 3.0 Unported (CC BY 3.0)
--->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Project information -->
+    
     <groupId>com.afforess</groupId>
     <artifactId>minecartmaniaautomations</artifactId>
     <version>2.0-SNAPSHOT</version>
@@ -19,7 +12,7 @@
     Automations Plus adds additional farming systems and a faster engine.
     </description>
 
-    <!-- License -->
+    
     <licenses>
         <license>
             <name>Creative Commons Attribution 3.0 Unported (CC BY 3.0)</name>
@@ -28,20 +21,15 @@
         </license>
     </licenses>
 
-    <!-- Repository locations -->
+    
     <repositories>
 		<repository>
 			<id>bukkit-repo</id>
 			<url>http://repo.bukkit.org/content/groups/public</url>
 		</repository>
-<!-- Never works :/
-		<repository>
-			<id>craftfire-repo</id>
-			<url>http://repo.craftfire.com/repo</url>
-		</repository>
--->
+
 		
-        <!-- For BigBrother integration -->
+        
         <repository>
             <id>nexisonline-repo</id>
             <url>http://repo.nexisonline.net:8080/nexus/content/groups/public/</url>
@@ -49,21 +37,21 @@
     </repositories>
 
     <dependencies>
-        <!-- Required component -->
+        
         <dependency>
             <groupId>com.afforess</groupId>
             <artifactId>minecartmaniacore</artifactId>
             <version>2.0-SNAPSHOT</version>
         </dependency>
 
-		<!-- Bukkit -->
+		
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>1.2.3-R0.2-SNAPSHOT</version>
 		</dependency>
 
-		<!-- CraftBukkit -->
+		
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
@@ -87,7 +75,7 @@
         <sourceDirectory>${basedir}/src/</sourceDirectory>
         <testSourceDirectory>${basedir}/src-test/</testSourceDirectory>
 
-        <!-- Resources -->
+        
         <resources>
             <resource>
                 <targetPath>.</targetPath>
@@ -100,17 +88,17 @@
             </resource>
         </resources>
 
-        <!-- Plugins -->
+        
         <plugins>
 
-            <!-- Compile plugin -->
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
             </plugin>
 
-            <!-- JAR creation plugin -->
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
