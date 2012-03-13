@@ -6,9 +6,9 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 
 import com.afforess.minecartmaniacore.event.MinecartActionEvent;
-import com.afforess.minecartmaniacore.event.MinecartManiaListener;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaMinecart;
 import com.afforess.minecartmaniacore.minecart.MinecartManiaStorageCart;
 import com.afforess.minecartmaniacore.signs.Sign;
@@ -16,11 +16,10 @@ import com.afforess.minecartmaniacore.signs.SignAction;
 import com.afforess.minecartmaniacore.utils.SignUtils;
 import com.afforess.minecartmaniacore.world.MinecartManiaWorld;
 
-public class MinecartManiaActionListener extends MinecartManiaListener {
+public class MinecartManiaActionListener implements Listener {
     
     public List<BlockObserver> blockObservers = new ArrayList<BlockObserver>();
     
-    @Override
     @EventHandler(priority = EventPriority.MONITOR)
     public void onMinecartActionEvent(final MinecartActionEvent event) {
         if (!event.isActionTaken()) {

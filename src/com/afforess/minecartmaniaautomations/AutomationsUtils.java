@@ -36,6 +36,7 @@ public class AutomationsUtils {
      * @param fortune
      * @return
      */
+    @SuppressWarnings("unchecked")
     private static int getDropData(final Class<? extends Block> b, final Block block, final Random random, final int id, final int data, final int fortune) {
         Method m = null;
         try {
