@@ -22,37 +22,38 @@ public class MinecartManiaActionListener implements Listener {
     
     @EventHandler(priority = EventPriority.MONITOR)
     public void onMinecartActionEvent(final MinecartActionEvent event) {
-        //if (!event.isActionTaken()) {
-        final MinecartManiaMinecart minecart = event.getMinecart();
-        if (minecart.isStorageMinecart() && minecart.isMoving()) {
-            final MinecartManiaStorageCart cart = (MinecartManiaStorageCart) minecart;
-            checkSigns(cart);
-            //Efficiency. Don't farm overlapping tiles repeatedly, waste of time
-            final int interval = minecart.getDataValue("Farm Interval") == null ? -1 : (Integer) minecart.getDataValue("Farm Interval");
-            if (interval > 0) {
-                minecart.setDataValue("Farm Interval", interval - 1);
-            } else {
-                minecart.setDataValue("Farm Interval", minecart.getRange() / 2);
-                
-                if (minecart.getRange() < 1)
-                    return;
-                
-                final Location loc = minecart.minecart.getLocation().clone();
-                final int range = minecart.getRange();
-                final int rangeY = minecart.getRangeY();
-                for (int dx = -(range); dx <= range; dx++) {
-                    for (int dy = -(rangeY); dy <= rangeY; dy++) {
-                        for (int dz = -(range); dz <= range; dz++) {
-                            //Setup data
-                            final int x = loc.getBlockX() + dx;
-                            final int y = loc.getBlockY() + dy;
-                            final int z = loc.getBlockZ() + dz;
-                            int type = MinecartManiaWorld.getBlockIdAt(minecart.getWorld(), x, y, z);
-                            final int data = MinecartManiaWorld.getBlockData(minecart.getWorld(), x, y, z);
-                            for (final BlockObserver bo : blockObservers) {
-                                if (bo.lookingForBlock(type, data)) {
-                                    if (bo.blockSeen(cart, x, y, z)) {
-                                        type = MinecartManiaWorld.getBlockIdAt(minecart.getWorld(), x, y, z);
+        if (!event.isActionTaken()) {
+            final MinecartManiaMinecart minecart = event.getMinecart();
+            if (minecart.isStorageMinecart()/* && minecart.isMoving() */) {
+                final MinecartManiaStorageCart cart = (MinecartManiaStorageCart) minecart;
+                checkSigns(cart);
+                //Efficiency. Don't farm overlapping tiles repeatedly, waste of time
+                final int interval = minecart.getDataValue("Farm Interval") == null ? -1 : (Integer) minecart.getDataValue("Farm Interval");
+                if (interval > 0) {
+                    minecart.setDataValue("Farm Interval", interval - 1);
+                } else {
+                    minecart.setDataValue("Farm Interval", minecart.getRange() / 2);
+                    
+                    if (minecart.getRange() < 1)
+                        return;
+                    
+                    final Location loc = minecart.minecart.getLocation().clone();
+                    final int range = minecart.getRange();
+                    final int rangeY = minecart.getRangeY();
+                    for (int dx = -(range); dx <= range; dx++) {
+                        for (int dy = -(rangeY); dy <= rangeY; dy++) {
+                            for (int dz = -(range); dz <= range; dz++) {
+                                //Setup data
+                                final int x = loc.getBlockX() + dx;
+                                final int y = loc.getBlockY() + dy;
+                                final int z = loc.getBlockZ() + dz;
+                                int type = MinecartManiaWorld.getBlockIdAt(minecart.getWorld(), x, y, z);
+                                final int data = MinecartManiaWorld.getBlockData(minecart.getWorld(), x, y, z);
+                                for (final BlockObserver bo : blockObservers) {
+                                    if (bo.lookingForBlock(type, data)) {
+                                        if (bo.blockSeen(cart, x, y, z)) {
+                                            type = MinecartManiaWorld.getBlockIdAt(minecart.getWorld(), x, y, z);
+                                        }
                                     }
                                 }
                             }
@@ -61,7 +62,6 @@ public class MinecartManiaActionListener implements Listener {
                 }
             }
         }
-        //}
     }
     
     private void checkSigns(final MinecartManiaStorageCart cart) {
