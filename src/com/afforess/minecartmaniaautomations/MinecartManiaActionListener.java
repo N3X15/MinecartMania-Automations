@@ -22,11 +22,16 @@ public class MinecartManiaActionListener implements Listener {
     
     @EventHandler(priority = EventPriority.MONITOR)
     public void onMinecartActionEvent(final MinecartActionEvent event) {
+        // Has something already happened?  Then don't do squat.
         if (!event.isActionTaken()) {
+            // get our storage minecart.
             final MinecartManiaMinecart minecart = event.getMinecart();
             if (minecart.isStorageMinecart()/* && minecart.isMoving() */) {
                 final MinecartManiaStorageCart cart = (MinecartManiaStorageCart) minecart;
+                
+                // Parse signs.
                 checkSigns(cart);
+                
                 //Efficiency. Don't farm overlapping tiles repeatedly, waste of time
                 final int interval = minecart.getDataValue("Farm Interval") == null ? -1 : (Integer) minecart.getDataValue("Farm Interval");
                 if (interval > 0) {
@@ -40,6 +45,7 @@ public class MinecartManiaActionListener implements Listener {
                     final Location loc = minecart.minecart.getLocation().clone();
                     final int range = minecart.getRange();
                     final int rangeY = minecart.getRangeY();
+                    
                     for (int dx = -(range); dx <= range; dx++) {
                         for (int dy = -(rangeY); dy <= rangeY; dy++) {
                             for (int dz = -(range); dz <= range; dz++) {
